@@ -1,0 +1,12 @@
+Create a virt env:
+	cd my_projct_folder
+	virtualenv my_project
+
+To use the virtualenv:
+	source my_project/bin/activate
+
+To know all packages on the environment:
+	pip freeze > requirements.txt
+
+Then to install on a new pip place:
+	pip install -r requirements.txt
