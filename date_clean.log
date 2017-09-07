@@ -4,4 +4,6 @@ INFO:root:Creating new DataFrame with only site (filters), date (filters) and re
 INFO:root:Calculating daily mean and index by date
 INFO:root:Reindexing by full date range
 INFO:root:Reindexing by full date range
+INFO:root:Reindexing by full date range
+INFO:root:Reindexing by full date range
 INFO:root:Finished MAIN

@@ -138,15 +138,25 @@ def calc_daily_mean(df):
 
 	return pd.DataFrame({'site': sitenum, 'dailyMean': calc_mean}, index=date)
 
-def reindex_by_date(df):
+def reindex_by_date(df, start_year, end_year):
 	logging.info('Reindexing by full date range')
-	dates = pd.to_datetime(pd.date_range('2013-01', '2015-12-31', freq='D').date) # keeps only the date part
+	print start_year, end_year
+	dates = pd.to_datetime(pd.date_range(start_year +'-01', end_year + '-12-31', freq='D').date) # keeps only the date part
 	return df.reindex(dates)
+
+def fill_site_column(df):
+	df['site'] = df['site'].ffill() # forward fill
+	df['site'] = df['site'].bfill() # backward fill
+	return
 
 @timeit
 def main():
 	logging.info('Started MAIN')
-	my_file = open('48/029/2013-2015/43206.csv')
+	parameter = '44201'
+	start_year = '2013'
+	end_year = '2013'
+
+	my_file = open('48/029/' + start_year + '-'+ end_year +'/' + parameter + '.csv')
 
 	# put the data inside a pandas dataframe
 	df = pd.read_csv(my_file, skipfooter=1, engine='python')
@@ -154,25 +164,27 @@ def main():
 	temp_drop_columns(df)
 	# --------- substitute de values from columns datetime and site, becomes date and site
 	df = clean_datetime_site(df)
+	# TODO: need to remove the outliers!! so it doesnt polute the mean calculation.
 	# --------- calculates the mean for each day
 	df = calc_daily_mean(df)
 	# --------- reindex the date and fills with the full range
-	new_df = df.groupby('site').apply(reindex_by_date).reset_index(0, drop=True)
+	print 'number of rows BEFORE reindex: ', len(df.index)
+	new_df = df.groupby('site').apply(reindex_by_date, start_year, end_year).reset_index(0, drop=True)
+	print 'number of rows AFTER reindex: ', len(new_df.index)
 	# --------- changes the order the columns are displayed
 	new_df = new_df[['site', 'dailyMean']]
-
-	new_df['site'] = new_df['site'].ffill() # fills the site column with the correct site (extends)
-	new_df['site'] = new_df['site'].bfill()
+	# --------- fills the site column with the right site number
+	fill_site_column(new_df)
 	
-	print len(new_df[new_df.isnull().any(axis=1)])
-
+	# --------- interpolate method
+	print 'missing data BEFORE interpolate: ', len(new_df[new_df.isnull().any(axis=1)])
 	new_df['dailyMean'] = new_df['dailyMean'].interpolate(method='time') # interpolates the data
+	print 'missing data AFTER interpolate: ', len(new_df[new_df.isnull().any(axis=1)])
 
+	# --------- renames the index column to: 'date' (no name before)
 	new_df.index.rename('date', inplace=True)
-
-	new_df.to_csv('44201.out')
-
-	print len(new_df[new_df.isnull().any(axis=1)])
+	# --------- writes to csv
+	new_df.to_csv(parameter + '.out')
 
 	logging.info('Finished MAIN')
 
