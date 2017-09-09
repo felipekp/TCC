@@ -8,7 +8,7 @@ pd.set_option('display.max_rows', 200000)
 
 # --- logging
 import logging
-logging.basicConfig(filename='date_clean.log', filemode='w', level=logging.INFO)
+logging.basicConfig(filename='data_clean.log', filemode='w', level=logging.INFO)
 
 # --- measuring time
 import time                                                
@@ -141,12 +141,17 @@ def calc_daily_mean(df):
 def reindex_by_date(df, start_year, end_year):
 	logging.info('Reindexing by full date range')
 	print start_year, end_year
+	# TODO: check if I have to sue df.sort_values(['datetime']) before reindexing...
 	dates = pd.to_datetime(pd.date_range(start_year +'-01', end_year + '-12-31', freq='D').date) # keeps only the date part
 	return df.reindex(dates)
 
 def fill_site_column(df):
 	df['site'] = df['site'].ffill() # forward fill
 	df['site'] = df['site'].bfill() # backward fill
+	return
+
+def handle_outliers(df):
+	print df['value'].value_counts()
 	return
 
 @timeit
@@ -161,10 +166,13 @@ def main():
 	# put the data inside a pandas dataframe
 	df = pd.read_csv(my_file, skipfooter=1, engine='python')
 	# --------- drop columns
-	temp_drop_columns(df)
+	df = df[['site','value','datetime']]# temp_drop_columns(df)
 	# --------- substitute de values from columns datetime and site, becomes date and site
 	df = clean_datetime_site(df)
-	# TODO: need to remove the outliers!! so it doesnt polute the mean calculation.
+	# --------- handling outliers:
+	df = handle_outliers(df)
+	# print df
+	exit()
 	# --------- calculates the mean for each day
 	df = calc_daily_mean(df)
 	# --------- reindex the date and fills with the full range
