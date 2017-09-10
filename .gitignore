@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# virtual environment
+virtenv_tcc/
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

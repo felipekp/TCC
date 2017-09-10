@@ -1,9 +1,0 @@
-INFO:root:Started MAIN
-INFO:root:Dropping columns for the main file
-INFO:root:Creating new DataFrame with only site (filters), date (filters) and repeating the value
-INFO:root:Calculating daily mean and index by date
-INFO:root:Reindexing by full date range
-INFO:root:Reindexing by full date range
-INFO:root:Reindexing by full date range
-INFO:root:Reindexing by full date range
-INFO:root:Finished MAIN

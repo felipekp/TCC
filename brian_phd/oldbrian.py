@@ -8,17 +8,14 @@ import matplotlib.pyplot as plt
 from pandas import read_csv
 import pandas as pd
 import math
+# import easygui
 from pandas import ExcelWriter
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import Flatten
 from keras.layers import LSTM
-from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.metrics import mean_squared_error
 import time
-
 
 # convert an array of values into a dataset matrix
 def TensorForm(data, look_back):
@@ -37,41 +34,64 @@ def TensorForm(data, look_back):
             threeD[sample_num,:,:] = data[sample_num:sample_num+(look_back),:]
     
     return threeD
-
 	
 # fix random seed for reproducibility
 np.random.seed(7)
 
 # load the dataset
+title = 'Choose a data file...'
 data_file_name = 'brian_dataset.csv'
 df = read_csv(data_file_name, engine='python', skipfooter=3)
 
+a = list(df)
+
+for i in range (len(a)):
+    print i, a[i]
+
 last_col = np.shape(df)[1] - 1
 
-target_col = last_col # last column is the target column
+# pick column to predict
+try:
+    target_col = int(raw_input("Select the column number to predict (default = " + a[last_col] + "): "))
+except ValueError:
+    target_col = last_col   #choose last column as default
 
-lead_time = 24
+# choose look-ahead to predict   
+try:
+    lead_time =  int(raw_input("How many hours ahead to predict (default = 24)?: "))
+except ValueError:
+    lead_time = 24
     
 #convert to floating numpy arrays
 dataset1 = df.fillna(0).values
 dataset1 = dataset1.astype('float32')
 dataplot1 = dataset1[lead_time:,target_col]  #shift training data
 dataplot1 = dataplot1.reshape(-1,1)
-
-# normalize the dataset
-scalerX = MinMaxScaler(feature_range=(0, 1))
-scalerY = MinMaxScaler(feature_range=(0, 1))
-
-dataset = scalerX.fit_transform(dataset1)
-dataplot = scalerY.fit_transform(dataplot1)
     
+# normalize the dataset
+try:
+    process = raw_input("Does the data need to be pre-preprocessed Y/N? (default = y) ")
+except ValueError:
+    process = 'y'
+    
+if process == 'Y' or 'y':
+    scalerX = MinMaxScaler(feature_range=(0, 1))
+    scalerY = MinMaxScaler(feature_range=(0, 1))
+    
+    dataset = scalerX.fit_transform(dataset1)
+    dataplot = scalerY.fit_transform(dataplot1)
+    
+    print'\nData processed using MinMaxScaler'
+else:
+    print'\nData not processed'
+
 # split into train and test sets
-train_size = int(len(dataset) * 0.7)
+train_size = int(len(dataset) * 0.8)
 test_size = len(dataset) - train_size
 train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 
 # prepare output arrays
-trainY, testY = dataplot[0:train_size], dataplot[train_size:len(dataplot)]
+trainY, testY = dataplot[0:train_size], dataplot[train_size:len(dataset)]
 
 n,p = np.shape(trainY)
 if n < p:
@@ -82,17 +102,20 @@ if n < p:
 trainX1 = train[:len(trainY),]
 testX1 = test[:len(testY),]
   
-# number of epochs
-n_epochs = 10
+# get number of epochs
+try:
+    n_epochs = int(raw_input("Number of epochs? (Default = 10)? "))
+except ValueError:
+    n_epochs = 10
     
 # prepare input Tensors
-look_back = 8
-
-# number of neuros / input_nodes
-input_node = 50
-
+try:
+    look_back = int(raw_input("Number of recurrent (look-back) units? (Default = 8)? "))
+except ValueError:
+    look_back = 8
 trainX = TensorForm(trainX1, look_back)
 testX = TensorForm(testX1, look_back)
+input_nodes = trainX.shape[2]
 
 # trim target arrays to match input lengths
 if len(trainX) < len(trainY):
@@ -101,27 +124,13 @@ if len(trainX) < len(trainY):
 if len(testX) < len(testY):
     testY = np.asmatrix(testY[:len(testX)])
 
-# start creating the model
+# create and fit the LSTM network
 model = Sequential()
-
-# has input_nodes which is = to neurons, size here is = 26 by default
-model.add(LSTM(input_node, activation='sigmoid', recurrent_activation='tanh', 
-                input_shape=(trainX.shape[1], trainX.shape[2])))
-
-# 1 neuron on the output layer
+model.add(LSTM(input_nodes, activation='sigmoid', recurrent_activation='tanh', 
+                input_shape=(testX.shape[1], trainX.shape[2])))
 model.add(Dense(1))
-
-# compiles the model
 model.compile(loss='mean_squared_error', optimizer='nadam')
-
-# trains the model
-history = model.fit(trainX, trainY, epochs=n_epochs, batch_size=72, validation_data=(testX, testY), shuffle=False)
-
-# test loss and training loss graph
-plt.plot(history.history['loss'], label='train')
-plt.plot(history.history['val_loss'], label='test')
-plt.legend()
-plt.show()
+model.fit(trainX, trainY, epochs=n_epochs, batch_size=1, verbose=2)
 
 # make predictions
 trainPredict = model.predict(trainX)
@@ -133,13 +142,6 @@ trainY = scalerY.inverse_transform(trainY)
 testPredict = scalerY.inverse_transform(testPredict)
 testY = scalerY.inverse_transform(testY)
 
-# calculate mean absolute error
-print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
-trainScore = mean_absolute_error(trainY, trainPredict)
-print('Train Score: %.2f MAE' % (trainScore))
-testScore = mean_absolute_error(testY, testPredict)
-print('Test Score: %.2f MAE' % (testScore))
-
 # calculate root mean squared error
 print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
 trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
@@ -147,24 +149,23 @@ print('Train Score: %.2f RMSE' % (trainScore))
 testScore = math.sqrt(mean_squared_error(testY, testPredict))
 print('Test Score: %.2f RMSE' % (testScore))
 
-
 # make timestamp for unique filname
 stamp = str(time.clock())  #add timestamp for unique name
 stamp = stamp[0:2] 
 
 # generate filename and remove extra periods
-filename = 'NEWFinErr_lstm_'+ str(n_epochs) + str(lead_time) + '_' + stamp + '.csv'    #example output file
+filename = 'FinErr_lstm_'+ str(n_epochs) + str(lead_time) + '_' + stamp + '.xlsx'    #example output file
 if filename.count('.') == 2:
     filename = filename.replace(".", "",1)
 
-# START: write results to csv file (TODO: verify if itś writing exactly what it was writing)
-df_trainPredict = pd.DataFrame(trainPredict, columns=['trainPredict']) #save prediction output
-df_obsTrain = pd.DataFrame(trainY, columns=['obsTrain']) #save observed output
-df_testPredict = pd.DataFrame(testPredict, columns=['testPredict']) #save output training data
-df_obsTest = pd.DataFrame(testY, columns=['obsTest'])
-pd.concat([df_trainPredict, df_obsTrain, df_testPredict, df_obsTest], axis=1).to_csv(filename, index=False)
+#write results to file    
+writer = ExcelWriter(filename)
+pd.DataFrame(trainPredict).to_excel(writer,'Train-predict') #save prediction output
+pd.DataFrame(trainY).to_excel(writer,'obs-train') #save observed output
+pd.DataFrame(testPredict).to_excel(writer,'Test-predict') #save output training data
+pd.DataFrame(testY).to_excel(writer,'obs_test') 
+writer.save()
 print'File saved in ', filename
-# END: write results to csv file
 
 # plot baseline and predictions
 plt.close('all')
