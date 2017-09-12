@@ -148,11 +148,31 @@ def reindex_by_date(df, start_year, end_year):
 def fill_site_column(df):
 	df['site'] = df['site'].ffill() # forward fill
 	df['site'] = df['site'].bfill() # backward fill
-	return
+	return df
 
 def handle_outliers(df):
-	print df['value'].value_counts()
-	return
+	'''
+		MUST REMOVE NEGATIVE VALUES??
+
+		Data must be on a scale of 0 to 1 already
+	'''
+	new_df = df.groupby(['site'])
+	# TODO remove negative readings
+
+	# identifies the 95th percentile and median for a site
+	statBefore = pd.DataFrame({'median': new_df['value'].median(), 'p95': new_df['value'].quantile(.95)})
+	
+	print statBefore
+
+	exit()
+
+	for leftf, rightf in new_df:
+		calc_mean.append(rightf['value'].mean())
+		sitenum.append(leftf[0])
+		date.append(leftf[1])
+	# if row.Value > (median + (1.5* iq_range)) or row.Value < (median - (1.5* iq_range)):
+	# df['outlier'] = 
+	return df
 
 @timeit
 def main():
@@ -171,7 +191,7 @@ def main():
 	df = clean_datetime_site(df)
 	# --------- handling outliers:
 	df = handle_outliers(df)
-	# print df
+	print df['value'].value_counts()
 	exit()
 	# --------- calculates the mean for each day
 	df = calc_daily_mean(df)
