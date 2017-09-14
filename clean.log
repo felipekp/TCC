@@ -1,0 +1,340 @@
+14-09 19:49:10 root                         main() INFO     Started MAIN
+14-09 19:49:10 __main__                     main() INFO     DO:DataFrame in file: 42401.csv will be modified
+14-09 19:49:10 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:11 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:11 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:11 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:11 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:11 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:11 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/42401.csv was modified
+14-09 19:49:12 __main__                     main() INFO     DO:DataFrame in file: 42603.csv will be modified
+14-09 19:49:12 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:13 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/42603.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43205.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43205.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43206.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43206.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43218.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43218.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43233.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43233.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43801.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43801.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43802.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43802.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43803.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43803.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43804.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43804.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43811.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43811.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43813.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43813.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43814.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43814.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43815.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43815.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43817.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43817.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43818.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43818.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43819.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43819.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43820.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43820.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43823.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43823.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43824.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43824.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43826.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43826.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43829.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43829.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43830.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43830.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43831.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43831.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43843.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:14 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:14 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:14 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:14 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:14 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43843.csv was modified
+14-09 19:49:14 __main__                     main() INFO     DO:DataFrame in file: 43860.csv will be modified
+14-09 19:49:14 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:14 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:15 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:15 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:15 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:15 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:15 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/43860.csv was modified
+14-09 19:49:15 __main__                     main() INFO     DO:DataFrame in file: 44201.csv will be modified
+14-09 19:49:15 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/44201.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45109.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45109.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45201.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45201.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45202.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45202.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45203.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45203.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45204.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45204.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45207.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45207.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45208.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45208.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45220.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45220.csv was modified
+14-09 19:49:18 __main__                     main() INFO     DO:DataFrame in file: 45801.csv will be modified
+14-09 19:49:18 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:18 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:18 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:18 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:18 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:18 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:18 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/45801.csv was modified
+14-09 19:49:19 __main__                     main() INFO     DO:DataFrame in file: 61103.csv will be modified
+14-09 19:49:19 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:25 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:26 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:26 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:26 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:26 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:26 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/61103.csv was modified
+14-09 19:49:26 __main__                     main() INFO     DO:DataFrame in file: 61104.csv will be modified
+14-09 19:49:26 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:32 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:33 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:33 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:33 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:33 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:33 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/61104.csv was modified
+14-09 19:49:33 __main__                     main() WARNING  DataFrame with file: 48/029/2013-2013/62201.csv is empty. Passing
+14-09 19:49:33 __main__                     main() INFO     DO:DataFrame in file: 63301.csv will be modified
+14-09 19:49:33 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:34 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:34 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:34 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:34 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:34 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:34 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/63301.csv was modified
+14-09 19:49:34 __main__                     main() INFO     DO:DataFrame in file: 68105.csv will be modified
+14-09 19:49:34 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:34 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:34 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:34 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:34 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:34 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:34 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/68105.csv was modified
+14-09 19:49:34 __main__                     main() INFO     DO:DataFrame in file: 68108.csv will be modified
+14-09 19:49:34 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:34 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:34 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:34 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:34 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:34 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:34 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/68108.csv was modified
+14-09 19:49:34 __main__                     main() WARNING  DataFrame with file: 48/029/2013-2013/68110.csv is empty. Passing
+14-09 19:49:34 __main__                     main() INFO     DO:DataFrame in file: 88101.csv will be modified
+14-09 19:49:34 root          clean_datetime_site() INFO     Creating new DataFrame with only site, date filters and repeating the value
+14-09 19:49:34 root              calc_daily_mean() INFO     Calculating daily mean and index by date
+14-09 19:49:34 root                separate_site() INFO     Separating the sites into new columns
+14-09 19:49:34 root              reindex_by_date() INFO     Reindexing by full date range
+14-09 19:49:34 root                   calc_stats() INFO     Calculating statistcs about the columns
+14-09 19:49:34 root                write_new_csv() INFO     Saving file into new folder
+14-09 19:49:34 __main__                     main() INFO     DONE:DataFrame in file: 48/029/2013-2013/88101.csv was modified
+14-09 19:49:34 root                         main() INFO     Finished MAIN

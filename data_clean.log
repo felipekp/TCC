@@ -1,1 +1,2 @@
 INFO:root:Started MAIN
+INFO:root:Creating new DataFrame with only site (filters), date (filters) and repeating the value
