@@ -8,19 +8,10 @@ import os
 pd.set_option('display.max_rows', 200000) 
 
 # --- Start CODE
-def merge_files(df):
-	'''
-		Clears data in the datetime and site field.
-		site becomes: 'site' containing only the site code
-		datetime becomes: 'date' containing only year-month-day
-	'''
-	pass
-
 def reindex_by_date(df, start_year, end_year):
 	'''
 		Reindexes the data by daily data! So, if a day was missing now it will be added and have nan value
 	'''
-	# logging.info('Reindexing by full date range')
 	# TODO: check if I have to use df.sort_values(['datetime']) before reindexing...
 	dates = pd.to_datetime(pd.date_range(start_year + '-01-01', end_year + '-12-31', freq='D').date) # keeps only the date part
 	
