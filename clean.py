@@ -73,6 +73,7 @@ def calc_daily_mean(df):
 
 def reindex_by_date(df, start_year, end_year):
 	'''
+		Reindexes the data by daily data! So, if a day was missing now it will be added and have nan value
 	'''
 	logging.info('Reindexing by full date range')
 	# TODO: check if I have to use df.sort_values(['datetime']) before reindexing...
@@ -90,7 +91,7 @@ def handle_outliers(df):
 
 		Data must be on a scale of 0 to 1 already
 	'''
-	logging.info('Handling outliers')
+	logging.critical('NOT IMPLEMENTED!!! EXIT')
 	new_df = df.groupby(['site'])
 	# TODO remove negative readings
 
@@ -110,11 +111,13 @@ def handle_outliers(df):
 	return df
 
 
-def separate_site(df):
+def separate_site(df, parameter):
 	logging.info('Separating the sites into new columns')
 	
 	new_df = df.unstack(level=1)
 	new_df.columns = new_df.columns.droplevel()
+	# TODO: rename columns. Adds the parameter as a prefix
+	new_df.columns = [str(parameter) + '_' + str(col) for col in new_df.columns]
 	
 	return new_df
 
@@ -168,7 +171,7 @@ def main():
 		# --------- calculates the mean for each day
 		df = calc_daily_mean(df)
 		# --------- separates the site column into new features
-		df = separate_site(df)
+		df = separate_site(df, parameter)
 		# --------- reindex the date and fills with the full range. 
 		df = reindex_by_date(df, start_year, end_year)
 		# --------- calculate statistics about the data
