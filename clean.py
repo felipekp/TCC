@@ -114,19 +114,30 @@ def handle_outliers(df):
 def separate_site(df, parameter):
 	logging.info('Separating the sites into new columns')
 	
+	# 'unstacks' the site values from the site column and creates the new columns
 	new_df = df.unstack(level=1)
+	# need to 'droplevel' because before that each site was a sub column of a newly created column
 	new_df.columns = new_df.columns.droplevel()
-	# TODO: rename columns. Adds the parameter as a prefix
+	# renames each column to contain the parameter as the prefix
 	new_df.columns = [str(parameter) + '_' + str(col) for col in new_df.columns]
 	
 	return new_df
 
+def calc_missing(row):
+	#TODO: make it calculate given the years.... 2555 is for 7 years (365*7=2555)
+	return (float(row)/2555)
 
 def calc_stats(df):
 	logging.info('Calculating statistcs about the columns')
-	stats = df.isnull().sum().to_frame('missing')
+	missing = df.isnull().sum().to_frame('missing').apply(calc_missing, axis=1)
 
-	return stats
+	# print missing
+	print missing
+
+	# exit()
+
+def get_number_stations(df, parameter):
+	print 'Number of stations for parameter: ' + str(parameter) + ' is: ' + str(len(df.columns))
 
 
 def write_new_csv(df, filename, start_year, end_year):
@@ -141,10 +152,10 @@ def write_new_csv(df, filename, start_year, end_year):
 @timeit
 def main():
 	logging.info('Started MAIN')
-	# temp_parameter = '43860'
+	# temp_parameter = '44201'
 	# to select folder:
-	start_year = '2013'
-	end_year = '2013'
+	start_year = '2008'
+	end_year = '2014'
 	root_dir = str('48/029/' + start_year + '-'+ end_year + '/')
 
 	# iterate over files inside a folder
@@ -175,6 +186,7 @@ def main():
 		# --------- reindex the date and fills with the full range. 
 		df = reindex_by_date(df, start_year, end_year)
 		# --------- calculate statistics about the data
+		get_number_stations(df, parameter)
 		calc_stats(df)
 		# --------- writes file to new folder with prefix: 'clean-'
 		write_new_csv(df, filename, start_year, end_year)

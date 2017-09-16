@@ -190,7 +190,7 @@ def main():
 	# --------- substitute de values from columns datetime and site, becomes date and site
 	df = clean_datetime_site(df)
 	# --------- handling outliers:
-	df = handle_outliers(df)
+	# df = handle_outliers(df)
 	print df['value'].value_counts()
 	exit()
 	# --------- calculates the mean for each day
