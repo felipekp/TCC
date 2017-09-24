@@ -48,7 +48,13 @@ def clean_datetime_site(df):
 		sitenum.append(str(leftf[0])[8:])
 		date.append(pd.Timestamp(DT.datetime(int(str(leftf[1])[0:4]), int(str(leftf[1])[4:6]), int(str(leftf[1])[6:8]))))
 
-	return pd.DataFrame({'site': sitenum, 'date': date, 'value': df.value})
+	temp_df = pd.DataFrame()
+	temp_df['site'] = sitenum
+	temp_df['date'] = date
+	temp_df['value'] = df.value
+
+	# return pd.DataFrame({'site': sitenum, 'date': date, 'value': df.value})
+	return temp_df
 
 
 def calc_daily_mean(df):
@@ -124,8 +130,10 @@ def separate_site(df, parameter):
 	return new_df
 
 def calc_missing(row):
-	#TODO: make it calculate given the years.... 2555 is for 7 years (365*7=2555)
-	return (float(row)/2555)
+	# TODO: FINISH number of days in the given years
+	# CANT I DO THIS JUST BY GETTING THE LENGTH OF THAT DATA FRAME??
+	num_days = ((2016 - 2000) + 1) * 365
+	return (float(row)/num_days)
 
 def calc_stats(df):
 	logging.info('Calculating statistcs about the columns')
@@ -140,9 +148,9 @@ def get_number_stations(df, parameter):
 	print 'Number of stations for parameter: ' + str(parameter) + ' is: ' + str(len(df.columns))
 
 
-def write_new_csv(df, filename, start_year, end_year):
+def write_new_csv(df, filename, county, start_year, end_year):
 	logging.info('Saving file into new folder')
-	newpath = '48/029/clean-'+ start_year + '-'+ end_year
+	newpath = '48/' + county + '/clean-'+ start_year + '-'+ end_year
 	if not os.path.exists(newpath):
 		os.makedirs(newpath)
 
@@ -152,11 +160,12 @@ def write_new_csv(df, filename, start_year, end_year):
 @timeit
 def main():
 	logging.info('Started MAIN')
-	# temp_parameter = '44201'
+	# temp_parameter = '43205'
 	# to select folder:
-	start_year = '2008'
-	end_year = '2014'
-	root_dir = str('48/029/' + start_year + '-'+ end_year + '/')
+	start_year = '2000'
+	end_year = '2016'
+	county = '113'
+	root_dir = str('48/' + county + '/' + start_year + '-'+ end_year + '/')
 
 	# iterate over files inside a folder
 	for filename in os.listdir(root_dir):
@@ -165,11 +174,12 @@ def main():
 		df = pd.read_csv(complete_path, skipfooter=1, engine='python')
 
 		if df.empty:
-			logger.warning('DataFrame with file: %s is empty. Passing', complete_path)
+			logger.warning('DataFrame with file: %s is empty. Continue to the next param', complete_path)
 			continue
 
 		parameter = filename.split('.')[0] # sets the parameter
 		# if parameter != temp_parameter: #### TEMPORARY FOR TESTING
+		# 	logger.warning('Using temp_parameter: %s . Continue to the next param', temp_parameter)
 		# 	continue ### TEMPORARY FOR TESTING
 
 		logger.info('DO:DataFrame in file: %s will be modified', complete_path)
@@ -189,7 +199,7 @@ def main():
 		get_number_stations(df, parameter)
 		calc_stats(df)
 		# --------- writes file to new folder with prefix: 'clean-'
-		write_new_csv(df, filename, start_year, end_year)
+		write_new_csv(df, filename, county, start_year, end_year)
 		
 
 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)

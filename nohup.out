@@ -1,0 +1,9 @@
+--2017-09-21 19:24:26--  https://aqs.epa.gov/api/rawData?user=felipe.kpereira@live.com&pw=rubyheron82&format=AQCSV&param=42401&bdate=20000101&edate=20001231&state=48&county=113
+Resolving aqs.epa.gov (aqs.epa.gov)... 134.67.21.26
+Connecting to aqs.epa.gov (aqs.epa.gov)|134.67.21.26|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/plain]
+Saving to: ‘48/113/2000-2000/42401.csv’
+
+     0K .......... .......... .......... .......... .......... 71.3K
+    50K ........

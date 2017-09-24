@@ -1,0 +1,448 @@
+24-09 00:46:54 root                         main() INFO     Started MAIN
+24-09 00:46:54 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/42401.csv will be modified
+24-09 00:46:54 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:54 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:54 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:54 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:55 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:55 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/42401.csv was modified
+24-09 00:46:55 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/42603.csv will be modified
+24-09 00:46:55 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:55 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:55 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:55 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:55 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:55 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:55 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:55 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:56 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:56 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:56 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/42603.csv was modified
+24-09 00:46:56 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43205.csv will be modified
+24-09 00:46:56 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:56 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:56 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:56 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:56 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:56 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:56 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:56 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:56 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43205.csv was modified
+24-09 00:46:56 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43206.csv will be modified
+24-09 00:46:56 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:56 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:56 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:56 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:56 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:57 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:57 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:57 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:57 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43206.csv was modified
+24-09 00:46:57 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43218.csv will be modified
+24-09 00:46:57 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:57 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:57 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:57 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:57 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:57 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:57 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:57 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:57 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43218.csv was modified
+24-09 00:46:57 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43233.csv will be modified
+24-09 00:46:57 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:57 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:57 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:57 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:57 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:58 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:58 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:58 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:58 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43233.csv was modified
+24-09 00:46:58 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43801.csv will be modified
+24-09 00:46:58 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:58 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:58 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:58 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:58 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:58 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:58 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43801.csv was modified
+24-09 00:46:58 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43802.csv will be modified
+24-09 00:46:58 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:58 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:58 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:58 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:58 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:59 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:59 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:59 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:59 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43802.csv was modified
+24-09 00:46:59 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43803.csv will be modified
+24-09 00:46:59 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:59 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:59 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:59 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:59 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:46:59 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:59 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:59 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:46:59 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43803.csv was modified
+24-09 00:46:59 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43804.csv will be modified
+24-09 00:46:59 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:46:59 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:46:59 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:46:59 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:46:59 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:00 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43804.csv was modified
+24-09 00:47:00 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43811.csv will be modified
+24-09 00:47:00 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:00 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:00 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:00 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43811.csv was modified
+24-09 00:47:00 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43813.csv will be modified
+24-09 00:47:00 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:00 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:00 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:01 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:01 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:01 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43813.csv was modified
+24-09 00:47:01 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43814.csv will be modified
+24-09 00:47:01 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:01 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:01 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:01 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:01 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:01 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:01 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:01 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:01 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43814.csv was modified
+24-09 00:47:01 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43815.csv will be modified
+24-09 00:47:01 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:01 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:01 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:01 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:01 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:02 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:02 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:02 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:02 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43815.csv was modified
+24-09 00:47:02 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43817.csv will be modified
+24-09 00:47:02 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:02 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:02 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:02 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:02 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:02 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:02 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:02 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:02 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43817.csv was modified
+24-09 00:47:02 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43818.csv will be modified
+24-09 00:47:02 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:02 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:02 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:02 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:02 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:03 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:03 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:03 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:03 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43818.csv was modified
+24-09 00:47:03 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43819.csv will be modified
+24-09 00:47:03 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:03 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:03 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:03 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:03 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:03 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:03 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:03 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:03 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43819.csv was modified
+24-09 00:47:03 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43820.csv will be modified
+24-09 00:47:03 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:03 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:03 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:03 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:03 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:04 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43820.csv was modified
+24-09 00:47:04 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43823.csv will be modified
+24-09 00:47:04 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:04 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:04 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43823.csv was modified
+24-09 00:47:04 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43824.csv will be modified
+24-09 00:47:04 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:04 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:04 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:04 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:04 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43824.csv was modified
+24-09 00:47:04 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43826.csv will be modified
+24-09 00:47:04 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:04 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:05 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:05 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:05 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:05 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:05 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:05 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:05 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43826.csv was modified
+24-09 00:47:05 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43829.csv will be modified
+24-09 00:47:05 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:05 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:05 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:05 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:05 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:05 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:06 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:06 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:06 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43829.csv was modified
+24-09 00:47:06 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43830.csv will be modified
+24-09 00:47:06 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:06 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:06 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:06 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:06 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:06 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:06 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:06 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:06 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43830.csv was modified
+24-09 00:47:06 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43831.csv will be modified
+24-09 00:47:06 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:06 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:06 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:06 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:06 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:06 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:07 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:07 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:07 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43831.csv was modified
+24-09 00:47:07 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43843.csv will be modified
+24-09 00:47:07 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:07 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:07 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:07 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:07 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:07 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:07 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:07 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:07 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43843.csv was modified
+24-09 00:47:07 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/43860.csv will be modified
+24-09 00:47:07 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:07 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:07 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:07 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:07 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:07 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:08 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:08 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:08 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/43860.csv was modified
+24-09 00:47:08 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/44201.csv will be modified
+24-09 00:47:08 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:08 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:08 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:08 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:08 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:08 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:08 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:08 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:09 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:09 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:09 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/44201.csv was modified
+24-09 00:47:09 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45109.csv will be modified
+24-09 00:47:09 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:09 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:09 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:09 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:09 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:09 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:09 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:09 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:09 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45109.csv was modified
+24-09 00:47:09 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45201.csv will be modified
+24-09 00:47:09 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:09 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:09 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:09 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:09 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:10 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:10 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:10 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:10 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45201.csv was modified
+24-09 00:47:10 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45202.csv will be modified
+24-09 00:47:10 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:10 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:10 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:10 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:10 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:10 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:10 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:10 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:10 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45202.csv was modified
+24-09 00:47:10 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45203.csv will be modified
+24-09 00:47:10 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:10 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:10 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:10 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:10 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:11 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:11 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:11 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:11 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45203.csv was modified
+24-09 00:47:11 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45204.csv will be modified
+24-09 00:47:11 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:11 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:11 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:11 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:11 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:11 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:11 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:11 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:11 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45204.csv was modified
+24-09 00:47:11 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45207.csv will be modified
+24-09 00:47:11 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:11 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:11 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:12 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:12 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:12 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:12 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:12 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:12 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45207.csv was modified
+24-09 00:47:12 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45208.csv will be modified
+24-09 00:47:12 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:12 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:12 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:12 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:12 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:12 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:12 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:12 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:12 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45208.csv was modified
+24-09 00:47:12 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45220.csv will be modified
+24-09 00:47:12 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:12 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:13 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:13 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:13 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:13 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:13 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:13 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:13 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45220.csv was modified
+24-09 00:47:13 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/45801.csv will be modified
+24-09 00:47:13 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:13 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:13 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:13 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:13 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:13 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:14 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:14 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:14 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/45801.csv was modified
+24-09 00:47:14 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/61103.csv will be modified
+24-09 00:47:14 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:14 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:14 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:14 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:14 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:14 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:14 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:14 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:14 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:14 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:15 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:15 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:15 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:15 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:15 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:15 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/61103.csv was modified
+24-09 00:47:15 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/61104.csv will be modified
+24-09 00:47:15 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:15 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:15 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:15 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:15 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:15 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:15 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:15 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:16 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:16 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:16 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:16 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:16 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:16 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:16 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:16 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/61104.csv was modified
+24-09 00:47:16 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/62201.csv will be modified
+24-09 00:47:16 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:16 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:16 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:16 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:16 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/62201.csv was modified
+24-09 00:47:16 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/63301.csv will be modified
+24-09 00:47:16 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:16 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:16 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:16 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:17 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:17 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:17 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:17 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/63301.csv was modified
+24-09 00:47:17 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/68105.csv will be modified
+24-09 00:47:17 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:17 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:17 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:17 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:17 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:17 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:17 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:17 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:18 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:18 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:18 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:18 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/68105.csv was modified
+24-09 00:47:18 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/68108.csv will be modified
+24-09 00:47:18 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:18 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:18 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:18 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:18 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:18 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:18 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:18 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:18 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:19 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:19 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:19 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:19 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/68108.csv was modified
+24-09 00:47:19 __main__                     main() INFO     DO:DataFrame in file: 48/113/clean-2000-2016/88101.csv will be modified
+24-09 00:47:19 root              handle_outliers() WARNING  Removing outliers (negative values and putting 0)
+24-09 00:47:19 __main__       handle_interpolate() INFO     Handling interpolate
+24-09 00:47:19 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:19 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:19 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:19 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:19 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:19 __main__     calc_dispersion_missing() WARNING  SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear
+24-09 00:47:19 __main__     calc_dispersion_missing() WARNING  MEDIUM. Using mean from previous and next year to fill this gap
+24-09 00:47:20 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:20 __main__     calc_dispersion_missing() CRITICAL Cannot interpolate using linear method because max size is over 365
+24-09 00:47:20 root                write_new_csv() INFO     Saving file into new folder
+24-09 00:47:20 __main__                     main() INFO     DONE:DataFrame in file: 48/113/clean-2000-2016/88101.csv was modified
+24-09 00:47:20 root                         main() INFO     Finished MAIN
