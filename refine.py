@@ -84,7 +84,7 @@ def calc_dispersion_missing(df):
 	if new_df.max().astype(int) > 365:
 		# print new_df.max()
 		logger.critical('Cannot interpolate using linear method because max size is over 365')
-		return df, flag
+		return df, True
 	logger.warning('SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear')
 	df = df.interpolate(limit_direction='both', limit=30)
 	
@@ -100,16 +100,16 @@ def calc_dispersion_missing(df):
 	# print df
 
 
-	return df
+	return df, False
 
 def workaround_interpolate(df, parameter):
 	'''
 		One idea: based on this: https://stackoverflow.com/questions/32850185/change-value-if-consecutive-number-of-certain-condition-is-achieved-in-pandas
 	'''
 	for col in df.columns:
-		df[col], flag = calc_dispersion_missing(df[col])
-			
-
+		df[col], delete_col = calc_dispersion_missing(df[col])
+		if delete_col:
+			del df[col]
 	return df
 
 def handle_interpolate(df, parameter):
@@ -136,7 +136,7 @@ def handle_interpolate(df, parameter):
 @timeit
 def main():
 	logging.info('Started MAIN')
-	temp_parameter = '43205'
+	# temp_parameter = '43205'
 	# to select folder:
 	start_year = '2000'
 	end_year = '2016'
@@ -157,8 +157,8 @@ def main():
 
 		parameter = filename.split('.')[0] # sets the parameter
 
-		if parameter != temp_parameter: #### TEMPORARY FOR TESTING
-			continue ### TEMPORARY FOR TESTING
+		# if parameter != temp_parameter: #### TEMPORARY FOR TESTING
+		# 	continue ### TEMPORARY FOR TESTING
 
 		logger.info('DO:DataFrame in file: %s will be modified', complete_path)
 
