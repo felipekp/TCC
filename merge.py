@@ -5,16 +5,16 @@ import os
 pd.set_option('display.max_rows', 200000) 
 
 # --- Start CODE
-# def reindex_by_date(df, start_year, end_year):
-# 	'''
-# 		Reindexes the data by daily data! So, if a day was missing now it will be added and have nan value
-# 	'''
-# 	dates = pd.to_datetime(pd.date_range(start_year + '-01-01', end_year + '-12-31', freq='D').date) # keeps only the date part
+def reindex_by_date(df, start_year, end_year):
+	'''
+		Reindexes the data by daily data! So, if a day was missing now it will be added and have nan value
+	'''
+	dates = pd.to_datetime(pd.date_range(start_year + '-01-01', end_year + '-12-31', freq='D').date) # keeps only the date part
 	
-# 	df['date'] = dates
-# 	df = df.set_index('date')
+	df['date'] = dates
+	df = df.set_index('date')
 	
-# 	return df
+	return df
 
 def main():
 	# to select folder:
