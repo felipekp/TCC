@@ -17,6 +17,8 @@ from sklearn import utils
 from IPython.display import Image
 import pydotplus
 
+
+# np.set_printoptions(threshold=np.nan)
 pd.set_option('display.max_rows', 200000) 
 
 # --- logging
@@ -73,8 +75,6 @@ def main():
 	for i in range (len(a)):
 	    print i, a[i]
 
-	last_col = 23
-
 	# pick column to predict
 	try:
 		target_col = int(raw_input("Select the column number to predict (default = 23): "))
@@ -86,6 +86,15 @@ def main():
 	dataplot1 = dataplot1.reshape(-1,1) # reshapes data
 	dataset1 = np.delete(dataset1, target_col, axis=1) # deletes target_column data
 	dataset1 = dataset1.astype('float32')
+
+	newdataset = np.where(df[df.columns[23]]>=0.07, 1, 0).astype('int')
+
+	# print '---------------'
+	# print newdataset
+	# print '-------'
+	# print dataset1
+
+	# exit()
 
 	# scalerX = MinMaxScaler(feature_range=(0, 1))
 	# scalerY = MinMaxScaler(feature_range=(0, 1))
@@ -109,11 +118,13 @@ def main():
 	# exit()
 	lab_enc = preprocessing.LabelEncoder()
 	# encoded_dataset1 = lab_enc.fit_transform(dataset1)
-	encoded_dataplot1 = lab_enc.fit_transform(dataplot1.ravel())
+	# encoded_dataplot1 = lab_enc.fit_transform(dataplot1.ravel())
+	# encoded_dataplot1 = lab_enc.fit_transform(newdataset)
 	# print(utils.multiclass.type_of_target(encoded_dataplot1))
 
+
 	model = tree.DecisionTreeClassifier()
-	model.fit(dataset1, encoded_dataplot1)
+	model.fit(dataset1, newdataset)
 
 	dot_data = StringIO()
 	tree.export_graphviz(model, out_file=dot_data)
