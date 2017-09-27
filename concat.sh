@@ -11,7 +11,7 @@ for county in "${F_COUNTIES[@]}"; do
         cd ${F_STATE}/${county}/
         sed '$d' ${F_START_YEAR}'-'${F_START_YEAR}/${param}.csv > "${F_START_YEAR}-${F_END_YEAR}/${param}.csv"
         for ((i=${F_START_YEAR}+1;i<=${F_END_YEAR};i++)); do
-            # delete first and last lines here
+            # delete first and last lines with sed and concatenates it with >> into the respective file
             sed '1d;$d' ${i}'-'${i}/${param}.csv >> "${F_START_YEAR}-${F_END_YEAR}/${param}.csv"
         done
         cd ../..

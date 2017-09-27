@@ -31,19 +31,88 @@ def timeit(method):
 
     return timed
 
-# --- Start CODE
-def calc_stats(df):
-	'''
-		Need these stats to know which method to apply
-		large or small spaced.
-	'''
-	logging.info('Calculating statistcs about the columns')
-	# stats = df.isnull().sum().to_frame('missing')
+# --- global variables
+global start_year
+global end_year
 
-	# return stats
+# --- START Functions
+def handle_outliers(df):
+	"""
+		There are no silver bullets for this issue...
+		Removes negative values from readings that should not have negative values
+	"""
+	logging.warning('Removing outliers (negative values and putting 0)')
+
+	df = df.clip_lower(0)
+
+	return df
 
 
-def write_new_csv(df, filename, county, start_year, end_year):
+def calc_dispersion_missing(df):
+	"""
+		Calculates dispersion of missing data and interpolates for small and medium gaps (small 0 to 30 days, medium 30 to 365 days, large 365+ days). Also sets True to a flag if it was not possible to fill missing values with small and medium methods (large gaps not being handled).
+		:param df: pandas dataframe with date and other values from parameters
+		:return: tuple with: modified dataframe or not and a flag saying if the given column/dataframe should be deleted or not (True deletes the column because there is not enough data for interpolate and False means the column contains data for all days)
+	"""
+	new_df = df.isnull().astype(int).groupby(df.notnull().astype(int).cumsum()).sum()
+
+	# maximum consecutive days without readings
+	if new_df.max().astype(int) > 365:
+		# print new_df.max()
+		logger.critical('LARGE. Cannot interpolate because max size is over 365')
+		return df, True
+
+	logger.warning('SMALL. Maximum size is under one year. So, we can interpolate some parts using a 30 days limit for linear')
+	df = df.interpolate(limit_direction='both', limit=30)
+	
+	logger.warning('MEDIUM. Using mean from previous and next year to fill this gap')
+	years = 2 # size of window to look for values (2 means 2 years ahead and 2 years behind)
+	gap = 365 # for year gap (takes values from next and previous year) (if it was 30, would use values from previous and next month)
+	df[df.isnull()] = np.nanmean([df.shift(x).values for x in range(-gap*years,gap*(years+1),gap)], axis=0 )
+
+	new_df = df.isnull().astype(int).groupby(df.notnull().astype(int).cumsum()).sum()
+	if new_df.max().astype(int) > 0: # means that there is not enough data from previous or next year to help fit this point, thus there is still nan values in the dataframe (will return with True because this column will be dropped!)
+		logger.critical('Cannot interpolate with medium nor small methods because there is not enough data from previous or next years!')
+		return df, True
+	# print new_df.max()
+	# print df
+
+	return df, False
+
+
+def workaround_interpolate(df):
+	"""
+		Loops over all columns and substitutes or deletes it based if the calc_dispersion_missing function was able to interpolate the gaps
+		Based on this: https://stackoverflow.com/questions/32850185/change-value-if-consecutive-number-of-certain-condition-is-achieved-in-pandas
+		:param df: pandas dataframe with date and other values from parameters
+		:return: modified dataframe with all columns that were interpolated (only complete data gets returned here)
+	"""
+	for col in df.columns:
+		df[col], delete_col = calc_dispersion_missing(df[col])
+		if delete_col:
+			del df[col]
+	return df
+
+
+def handle_interpolate(df):
+	"""
+		Calls a workaround function
+		:return: modified dataframe from workaround_interpolate
+	"""
+	logger.info('Handling interpolate')
+
+	return workaround_interpolate(df)
+
+
+def write_new_csv(df, filename, county):
+	"""
+		Saves the dataframe inside a new file in a new path (a folder with 'clean-' as prefix)
+		:param df: dataframe with the modified data
+		:param filename: filename from file being read (file name will stay the same)
+		:param county: county number
+		:return:
+	"""
+	global start_year, end_year
 	logging.info('Saving file into new folder')
 	newpath = '48/' + county + '/refine-'+ start_year + '-'+ end_year
 	if not os.path.exists(newpath):
@@ -51,100 +120,20 @@ def write_new_csv(df, filename, county, start_year, end_year):
 
 	df.to_csv(os.path.join(newpath, filename))
 
-def handle_outliers(df):
-	'''
-		There are no silver bullets for this issue...
-		Removes negative values from readings that should not have negative values
-	'''
-	logging.warning('Removing outliers (negative values and putting 0)')
-
-	df = df.clip_lower(0)
-
-	return df
-
-def normalize_scaller(df):
-	pass
-
-# def verify_lowerzero(df, parameter):
-# 	for x in (df < 0).any(): 
-# 		if x == True:
-# 			print parameter
-
-def calc_dispersion_missing(df):
-	'''
-		Calculates the dispersion of missing data
-	'''
-	new_df = df.isnull().astype(int).groupby(df.notnull().astype(int).cumsum()).sum()
-
-	# for item in new_df:
-	# 	if item > 2000:
-	# 		print item
-
-	# maximum consecutive days without readings
-	if new_df.max().astype(int) > 365:
-		# print new_df.max()
-		logger.critical('Cannot interpolate using linear method because max size is over 365')
-		return df, True
-	logger.warning('SMALL. Maximum size is under one year then we can interpolate some parts using a 30 days limit for linear')
-	df = df.interpolate(limit_direction='both', limit=30)
-	
-	# df = df.fillna()
-	logger.warning('MEDIUM. Using mean from previous and next year to fill this gap')
-	window = 2 # size of window to look for value
-	gap = 365 # for year gap (takes values from next and previous year) (if it was 30, would use values from previous and next months)
-	df[df.isnull()] = np.nanmean([df.shift(x).values for x in range(-gap*window,gap*(window+1),gap)], axis=0 )
-
-	new_df = df.isnull().astype(int).groupby(df.notnull().astype(int).cumsum()).sum()
-
-	# print new_df.max()
-	# print df
-
-
-	return df, False
-
-def workaround_interpolate(df, parameter):
-	'''
-		One idea: based on this: https://stackoverflow.com/questions/32850185/change-value-if-consecutive-number-of-certain-condition-is-achieved-in-pandas
-	'''
-	for col in df.columns:
-		df[col], delete_col = calc_dispersion_missing(df[col])
-		if delete_col:
-			del df[col]
-	return df
-
-def handle_interpolate(df, parameter):
-	'''
-		
-	'''
-	#classify every collumn into: large or small gap (small will be handled with interpolate and large not)
-	logger.info('Handling interpolate')
-
-	return workaround_interpolate(df, parameter)
-
-	# for col in df.columns:
-	# 	print col
-	# 	if calc_dispersion_missing(df[col]) < 0.3:
-	# 		print 'small'
-	# 	else:
-	# 		print 'large'
-
-	# 	print '-----'
-
-	# return df
-
 
 @timeit
 def main():
 	logging.info('Started MAIN')
 	# temp_parameter = '43205'
 	# to select folder:
+	global start_year, end_year
 	start_year = '2000'
 	end_year = '2016'
 	county = '113'
 	root_dir = str('48/' + county + '/clean-' + start_year + '-'+ end_year + '/')
-	not_remove_param_outlier = ['68105'] # parameters that will not go thought outlier removal
+	not_remove_outlier = ['68105'] # parameters that will not go throught outlier removal
 
-	# iterate over files inside a folder
+	# iterate over files inside folder
 	for filename in os.listdir(root_dir):
 		complete_path = os.path.join(root_dir, filename)
 
@@ -163,12 +152,12 @@ def main():
 		logger.info('DO:DataFrame in file: %s will be modified', complete_path)
 
 		# --------- handling outliers:
-		if parameter not in not_remove_param_outlier:
+		if parameter not in not_remove_outlier:
 			df = handle_outliers(df)
 		# --------- handling interpolate:
-		df = handle_interpolate(df, parameter)
-		# --------- writes file to new folder with prefix: 'clean-'
-		write_new_csv(df, filename, county, start_year, end_year)
+		df = handle_interpolate(df)
+		# --------- writes file to new folder with prefix: 'refine-'
+		write_new_csv(df, filename, county)
 
 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)
 

@@ -117,16 +117,8 @@ def main():
 
 	dot_data = StringIO()
 	tree.export_graphviz(model, out_file=dot_data)
-	# graph = pydotplus.graphviz.graph_from_dot_data(dot_data.getvalue())
 	graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-	# Image(graph.create_png())
-	graph.write_pdf("new.pdf")
-
-	# plot_tree(model)
-	# plt.show()
-
-
-	# print dataplot
+	graph.write_pdf("newnew.pdf")
 	# --------- create tree
 
 	

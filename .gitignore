@@ -39,3 +39,6 @@ target/
 
 # DATASET!!
 # 48/
+
+# Log files
+# *.log
