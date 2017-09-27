@@ -71,7 +71,7 @@ def calc_daily_mean(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: pandas dataframe reindexed with date and sitenum and daily mean in the value column
 	"""
-	logging.info('Calculating daily mean and index by date and site')
+	logging.info('Calculating daily MEAN and index by date and site')
 
 	new_df = df.groupby(['site', 'date'])
 	calc_mean = list()
@@ -93,7 +93,7 @@ def calc_daily_max(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: pandas dataframe reindexed with date and sitenum and daily max in the value column
 	"""
-	logging.info('Calculating daily max and index by date and sitenum')
+	logging.info('Calculating daily MAX and index by date and sitenum')
 
 	new_df = df.groupby(['site', 'date'])
 	calc_max = list()
@@ -101,12 +101,12 @@ def calc_daily_max(df):
 	sitenum = list()
 
 	for leftf, rightf in new_df:
-		calc_mean.append(rightf['value'].max())
+		calc_max.append(rightf['value'].max())
 		sitenum.append(leftf[0])
 		date.append(leftf[1])
 
 	# multi-indexing necessary for unstacking later
-	return pd.DataFrame({'dailyVal': calc_mean}, index=[date, sitenum])
+	return pd.DataFrame({'dailyVal': calc_max}, index=[date, sitenum])
 
 
 def reindex_by_date(df):
@@ -195,6 +195,7 @@ def main():
 	end_year = '2016'
 	county = '113'
 	root_dir = str('48/' + county + '/' + start_year + '-'+ end_year + '/')
+	calc_max = ['44201']
 
 	# iterate over files inside folder
 	for filename in os.listdir(root_dir):
@@ -219,7 +220,10 @@ def main():
 		# --------- substitute de values from columns datetime and site, becomes date and site
 		df = clean_datetime_site(df)
 		# --------- calculates the mean for each day
-		df = calc_daily_mean(df)
+		if parameter in calc_max:
+			df = calc_daily_max(df)
+		else:
+			df = calc_daily_mean(df)
 		# --------- separates the site column into new features
 		df = separate_site(df, parameter)
 		# --------- reindex the date and fills with the full range. 
