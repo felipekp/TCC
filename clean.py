@@ -177,7 +177,7 @@ def write_new_csv(df, filename, county):
 	"""
 	global start_year, end_year
 	logging.info('Saving file into new folder')
-	newpath = '48/' + county + '/clean-'+ start_year + '-'+ end_year
+	newpath = '48/' + county + '/max-clean-'+ start_year + '-'+ end_year
 	if not os.path.exists(newpath):
 		os.makedirs(newpath)
 

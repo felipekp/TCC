@@ -35,6 +35,12 @@ def TensorForm(data, look_back):
     
     return threeD
 
+def remove_other_site_cols(df, site):
+    for col in df.columns:
+        # print col.split('_')[1]
+        if col.split('_')[1] != site:
+            del df[col]
+
 # fix random seed for reproducibility
 np.random.seed(7)
 
@@ -42,9 +48,16 @@ np.random.seed(7)
 # ***
 # 1) load dataset
 # ***
-data_file_name = 'brian_dataset.csv'
-df = read_csv(data_file_name, engine='python', skipfooter=3)
+start_year = '2000'
+end_year = '2016'
+site = '0069'
 
+data_file_name = 'merged/max-merged_' + start_year + '-' + end_year + '.csv'
+df = read_csv(data_file_name, engine='python', skipfooter=3)
+df = df.set_index(df.columns[0])
+df.index.rename('id', inplace=True)
+
+remove_other_site_cols(df, site)
 
 a = list(df)
 
@@ -187,17 +200,17 @@ testY = scalerY.inverse_transform(testY)
 # ***
 print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
 trainScore = mean_absolute_error(trainY, trainPredict)
-print('Train Score: %.2f MAE' % (trainScore))
+print('Train Score: %.5f MAE' % (trainScore))
 testScore = mean_absolute_error(testY, testPredict)
-print('Test Score: %.2f MAE' % (testScore))
+print('Test Score: %.5f MAE' % (testScore))
 
 # calculate root mean squared error. 
 # weights "larger" errors more by squaring the values when calculating
 print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
 trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
-print('Train Score: %.2f RMSE' % (trainScore))
+print('Train Score: %.5f RMSE' % (trainScore))
 testScore = math.sqrt(mean_squared_error(testY, testPredict))
-print('Test Score: %.2f RMSE' % (testScore))
+print('Test Score: %.5f RMSE' % (testScore))
 
 
 # make timestamp for unique filname

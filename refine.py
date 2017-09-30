@@ -129,7 +129,7 @@ def write_new_csv(df, filename, county):
     """
     global start_year, end_year
     logging.info('Saving file into new folder')
-    newpath = '48/' + county + '/refine-' + start_year + '-' + end_year
+    newpath = '48/' + county + '/mean-refine-' + start_year + '-' + end_year
     if not os.path.exists(newpath):
         os.makedirs(newpath)
 
@@ -145,7 +145,7 @@ def main():
     start_year = '2000'
     end_year = '2016'
     county = '113'
-    root_dir = str('48/' + county + '/clean-' +
+    root_dir = str('48/' + county + '/mean-clean-' +
                    start_year + '-' + end_year + '/')
     # parameters that will not go throught outlier removal
     not_remove_outlier = ['68105']
@@ -158,8 +158,7 @@ def main():
         df = df.set_index(['date'])
 
         if df.empty:
-				logger.warning(
-                'DataFrame with file: %s is empty. Passing', complete_path)
+            logger.warning('DataFrame with file: %s is empty. Passing', complete_path)
             continue
 
         parameter = filename.split('.')[0]  # sets the parameter

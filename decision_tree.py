@@ -66,7 +66,7 @@ def main():
     end_year = '2016'
     site = '0069'
 
-    my_file = open('merged/merged_' + start_year + '-' + end_year + '.csv')
+    my_file = open('merged/mean-merged_' + start_year + '-' + end_year + '.csv')
     df = pd.read_csv(my_file, skipfooter=1, engine='python')
     df = df.set_index(df.columns[0])
     df.index.rename('id', inplace=True)
@@ -123,7 +123,7 @@ def main():
 
     # print dataplot1
     # exit()
-    lab_enc = preprocessing.LabelEncoder()
+    # lab_enc = preprocessing.LabelEncoder()
     # encoded_dataset1 = lab_enc.fit_transform(dataset1)
     # encoded_dataplot1 = lab_enc.fit_transform(dataplot1.ravel())
     # encoded_dataplot1 = lab_enc.fit_transform(newdataset)
