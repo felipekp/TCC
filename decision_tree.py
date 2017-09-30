@@ -87,6 +87,7 @@ def main():
     except ValueError:
         target_col = 23   # choses 44201 as target column
 
+    # ----- reshaping the data
     dataset1 = df.fillna(0).values
     dataplot1 = dataset1[0:, target_col]  # extracts the target_col
     dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data
@@ -94,49 +95,18 @@ def main():
     dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
 
+    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
     newdataset = np.where(df[df.columns[23]] >= 0.07, 1, 0).astype('int')
 
-    # print '---------------'
-    # print newdataset
-    # print '-------'
-    # print dataset1
-
-    # exit()
-
-    # scalerX = MinMaxScaler(feature_range=(0, 1))
-    # scalerY = MinMaxScaler(feature_range=(0, 1))
-    # dataset = scalerX.fit_transform(dataset1)
-    # dataplot = scalerY.fit_transform(dataplot1)
-
-    # dataplot = dataplot[:len(dataset)]
-    # dataset = dataset[:len(dataplot)]
-
-    # print len(dataplot)
-    # print len(dataset)
-
-    # for item in X:
-    #   print item
-
-    # print len(dataset1)
-
-    # exit()
-
-    # print dataplot1
-    # exit()
-    # lab_enc = preprocessing.LabelEncoder()
-    # encoded_dataset1 = lab_enc.fit_transform(dataset1)
-    # encoded_dataplot1 = lab_enc.fit_transform(dataplot1.ravel())
-    # encoded_dataplot1 = lab_enc.fit_transform(newdataset)
-    # print(utils.multiclass.type_of_target(encoded_dataplot1))
-
+    # ----- creates and trains the tree classifier
     model = tree.DecisionTreeClassifier()
     model.fit(dataset1, newdataset)
 
+    # ------ exporting the tree
     dot_data = StringIO()
     tree.export_graphviz(model, out_file=dot_data)
     graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-    graph.write_pdf("newnew.pdf")
-    # --------- create tree
+    graph.write_pdf("dec_tree.pdf")
 
     logger.info('DONE:Decision Tree Code')
 
