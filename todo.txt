@@ -1,3 +1,10 @@
 general todos:
 
 REMOVE UNUSED IMPORTS IN FILES
+
+check: 
+
+https://machinelearningmastery.com/feature-selection-time-series-forecasting-python/
+
+https://machinelearningmastery.com/automate-machine-learning-workflows-pipelines-python-scikit-learn/
+
