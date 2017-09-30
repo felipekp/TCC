@@ -1,5 +1,5 @@
 """
-source code: https://machinelearningmastery.com/multivariate-time-series-forecasting-lstms-keras/
+adapted from: https://machinelearningmastery.com/multivariate-time-series-forecasting-lstms-keras/
 """
 from pandas import read_csv
 from matplotlib import pyplot
@@ -15,10 +15,14 @@ values = dataset.values
 # specify columns to plot
 groups = [num for num in range(len(dataset.columns))]
 i = 1
+slices = []
 # plot each column
-pyplot.figure()
+pyplot.figure(i%10)
 for group in groups:
-    pyplot.subplot(len(groups), 1, i)
+    if i%10 == 0:
+        pyplot.show()
+        pyplot.figure()
+    pyplot.subplot(11, 1, (i%10)+1)
     pyplot.plot(values[:, group])
     pyplot.title(dataset.columns[group], y=0.5, loc='right')
     i += 1
