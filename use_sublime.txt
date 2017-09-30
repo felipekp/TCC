@@ -1,0 +1,13 @@
+1. GOTO: CTRL + P
+    # for within file
+    @ for symbols
+    : for a line number
+
+2. CTRL + SHIFT + P
+    open control package to download new packages.
+    enable or disable plugins by searching them.
+    sorting
+    change syntax
+    indentation
+
+3. GOTO DEFINITION: press f12 or just use mouse when selecting or on statement
