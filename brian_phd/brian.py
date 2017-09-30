@@ -1,4 +1,3 @@
-'''
 LSTM RNN for predicting timeseries
 
 
