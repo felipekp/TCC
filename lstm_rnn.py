@@ -1,6 +1,7 @@
 '''
 LSTM RNN for predicting timeseries
-
+Original code by Brian
+Modified by Felipe Ukan
 
 '''
 import numpy as np
@@ -64,26 +65,21 @@ a = list(df)
 for i in range (len(a)):
     print i, a[i]
 
-last_col = np.shape(df)[1] - 1
-
 # pick column to predict
 try:
-    target_col = int(raw_input("Select the column number to predict (default = " + a[last_col] + "): "))
+    target_col = int(raw_input("Select the column number to predict (default = " + a[23] + "): "))
 except ValueError:
-    target_col = last_col   #choose last column as default
+    target_col = 23   #choose last column as default
 
 # choose look-ahead to predict   
 try:
-    lead_time =  int(raw_input("How many hours ahead to predict (default = 24)?: "))
+    lead_time =  int(raw_input("How many days ahead to predict (default = 2)?: "))
 except ValueError:
-    lead_time = 24
-    
-# #convert to floating numpy arrays
-# dataset1 = df.fillna(0).values
-# dataset1 = dataset1.astype('float32')
-# dataplot1 = dataset1[lead_time:,target_col]  #shift training data
-# dataplot1 = dataplot1.reshape(-1,1)
+    lead_time = 2
 
+# ***
+# 2) Creating and separating target dataset (as dataplot1) and training (as dataset1), pay attention that target_col must be removed from the training dataset!
+# ***
 dataset1 = df.fillna(0).values
 dataplot1 = dataset1[lead_time:, target_col]  # extracts the target_col
 dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data
@@ -115,7 +111,7 @@ train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 
 # prepare output arrays
 # ***
-# 2) dataplot[train_size:len(dataset)] changed because it should be dataplot len
+# 3) dataplot[train_size:len(dataset)] changed because it should be dataplot len
 # ***
 trainY, testY = dataplot[0:train_size], dataplot[train_size:len(dataplot)]
 
@@ -144,7 +140,7 @@ testX = TensorForm(testX1, look_back)
 # input_nodes = trainX.shape[2]
 
 # ***
-# 3) number of neuros / input_nodes increased for the LSTM layer
+# 4) number of neuros / input_nodes increased for the LSTM layer
 # ***
 input_nodes = 50
 
@@ -169,13 +165,13 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='nadam')
 
 # ***
-# 4) Increased the batch_size to 72. This improves training performance by more than 50 times
+# 5) Increased the batch_size to 72. This improves training performance by more than 50 times
 # and loses no accuracy (batch_size does not modify the final result, only how memory is handled)
 # ***
 history = model.fit(trainX, trainY, epochs=n_epochs, batch_size=72, validation_data=(testX, testY), shuffle=False)
 
 # ***
-# 5) test loss and training loss graph. It can help understand the optimal epochs size and if the model
+# 6) test loss and training loss graph. It can help understand the optimal epochs size and if the model
 # is overfitting or underfitting.
 # ***
 plt.plot(history.history['loss'], label='train')
@@ -194,7 +190,7 @@ testPredict = scalerY.inverse_transform(testPredict)
 testY = scalerY.inverse_transform(testY)
 
 # ***
-# 6) calculate mean absolute error. Different than root mean squared error this one
+# 7) calculate mean absolute error. Different than root mean squared error this one
 # is not so "sensitive" to bigger erros (does not square) and tells "how big of an error"
 # we can expect from the forecast on average"
 # ***
@@ -213,23 +209,26 @@ testScore = math.sqrt(mean_squared_error(testY, testPredict))
 print('Test Score: %.5f RMSE' % (testScore))
 
 
+# ***
+# 8) commented part of code that saves as xlsx (excel)
+# ***
 # make timestamp for unique filname
-stamp = str(time.clock())  #add timestamp for unique name
-stamp = stamp[0:2] 
+# stamp = str(time.clock())  #add timestamp for unique name
+# stamp = stamp[0:2] 
 
 # generate filename and remove extra periods
-filename = 'FinErr_lstm_'+ str(n_epochs) + str(lead_time) + '_' + stamp + '.xlsx'    #example output file
-if filename.count('.') == 2:
-    filename = filename.replace(".", "",1)
+# filename = 'FinErr_lstm_'+ str(n_epochs) + str(lead_time) + '_' + stamp + '.xlsx'    #example output file
+# if filename.count('.') == 2:
+#     filename = filename.replace(".", "",1)
 
 #write results to file    
-writer = ExcelWriter(filename)
-pd.DataFrame(trainPredict).to_excel(writer,'Train-predict') #save prediction output
-pd.DataFrame(trainY).to_excel(writer,'obs-train') #save observed output
-pd.DataFrame(testPredict).to_excel(writer,'Test-predict') #save output training data
-pd.DataFrame(testY).to_excel(writer,'obs_test') 
-writer.save()
-print'File saved in ', filename
+# writer = ExcelWriter(filename)
+# pd.DataFrame(trainPredict).to_excel(writer,'Train-predict') #save prediction output
+# pd.DataFrame(trainY).to_excel(writer,'obs-train') #save observed output
+# pd.DataFrame(testPredict).to_excel(writer,'Test-predict') #save output training data
+# pd.DataFrame(testY).to_excel(writer,'obs_test') 
+# writer.save()
+# print'File saved in ', filename
 
 
 # plot baseline and predictions
