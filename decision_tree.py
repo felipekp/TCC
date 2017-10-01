@@ -56,10 +56,7 @@ def remove_other_site_cols(df, site):
         if col.split('_')[1] != site:
             del df[col]
 
-    # print df.head()
 
-
-@timeit
 def main():
     logging.info('Started MAIN')
     start_year = '2000'
@@ -74,19 +71,8 @@ def main():
     logger.info('DO:Decision Tree Code')
     # --------- remove columns that do not contain _0069
     remove_other_site_cols(df, site)
-    # --------- preprocess data
-    a = list(df)
-
-    for i in range(len(a)):
-        print i, a[i]
-
     # pick column to predict
-    try:
-        target_col = int(
-            raw_input("Select the column number to predict (default = 23): "))
-    except ValueError:
-        target_col = 23   # choses 44201 as target column
-
+    target_col = 23   # choses 44201 as target column
     # ----- reshaping the data
     dataset1 = df.fillna(0).values
     dataplot1 = dataset1[0:, target_col]  # extracts the target_col
@@ -94,14 +80,11 @@ def main():
     # deletes target_column data
     dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
-
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
     newdataset = np.where(df[df.columns[23]] >= 0.07, 1, 0).astype('int')
-
     # ----- creates and trains the tree classifier
     model = tree.DecisionTreeClassifier()
     model.fit(dataset1, newdataset)
-
     # ------ exporting the tree
     dot_data = StringIO()
     tree.export_graphviz(model, out_file=dot_data)
@@ -109,7 +92,6 @@ def main():
     graph.write_pdf("dec_tree.pdf")
 
     logger.info('DONE:Decision Tree Code')
-
     logging.info('Finished MAIN')
 
 
