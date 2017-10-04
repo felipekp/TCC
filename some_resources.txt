@@ -1,3 +1,6 @@
 download.sh:
 https://gist.github.com/Alexander-Ignatyev/6478289
 
+https://seaborn.pydata.org/
+
+https://cloud.google.com/bigquery/public-data/epa

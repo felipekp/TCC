@@ -12,7 +12,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(funcName)20s() %(levelname)-8s %(message)s',
                     datefmt='%d-%m %H:%M:%S',
-                    filename='clean.log',
+                    filename='logs/clean.log',
                     filemode='w')
 logger = logging.getLogger(__name__)
 
