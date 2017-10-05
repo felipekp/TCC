@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import pydot
 import pydotplus
+import os
 from matplotlib import pyplot
 
 from sklearn.decomposition import PCA
@@ -61,19 +62,23 @@ def decision_tree(dataset1, target_dataset):
     model = tree.DecisionTreeClassifier()
     model.fit(dataset1, target_dataset)
     # ------ exporting the tree
+    print '--------- Result: Decision Tree'
     dot_data = StringIO()
     tree.export_graphviz(model, out_file=dot_data)
     graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
     graph.write_pdf("out/dec_tree.pdf")
+
 
 def feature_importance(dataset1, target_dataset):
     logger.info('Feature importance')
     # ------ feature extraction
     model = ExtraTreesClassifier()
     model.fit(dataset1, target_dataset)
-    
+
     # ------ printing results
+    print '--------- Result: Feature Importance'
     print(model.feature_importances_)
+
 
 def grad_boosting_classifier(dataset1, target_dataset):
     logger.info('Gradient boosting classifier')
@@ -82,68 +87,98 @@ def grad_boosting_classifier(dataset1, target_dataset):
     model.fit(dataset1, target_dataset)
 
     # ------ feature importance
+    print '--------- Result: Gradient boosting classifier'
     print(model.feature_importances_)
 
     # ------ plot
-    pyplot.bar(range(len(model.feature_importances_)), model.feature_importances_)
+    pyplot.bar(range(len(model.feature_importances_)),
+               model.feature_importances_)
     pyplot.show()
+
 
 def pca(dataset1, target_dataset):
     logger.info('PCA')
     # ------ feature extraction
-    pca = PCA(n_components=25) # 25 principal components
-    fit = pca.fit(dataset1)
+    # TODO: create a while loop that evaluates the best number of components by checking if sum_fitpca.explanined... is greater than 0.999?
+    fit_pca = PCA(n_components=7, whiten=True).fit(dataset1)  # 7 principal components
     # ------ printing results
-    print("Variance: %s") % fit.explained_variance_ratio_
-    print(fit.components_)
+    dataset_pca = fit_pca.transform(dataset1)
+    print '--------- Result: PCA'
+    print("Variance preserved: %s") % sum(fit_pca.explained_variance_ratio_)
+    # print(fit_pca.components_) # prints the eigen vectors, each pca is a vector
+    # ------ saves resulting dataset to a file
+    write_new_csv(pd.DataFrame(dataset_pca), 'pca.csv')
+
 
 def recursive_feature_elim(dataset1, target_dataset):
     logger.info('Recursive feature elimination')
     # ------ feature extraction
     model = LogisticRegression()
-    rfe = RFE(model, 25) # selects 25 features
+    rfe = RFE(model, 25)  # selects 25 features
     fit = rfe.fit(dataset1, target_dataset)
 
     # ------ printing results
+    print '--------- Result: Recursive feature elimination'
     print("Selected Features: %s") % fit.support_
     print("Feature Ranking: %s") % fit.ranking_
 
-extr_feat_algs = {   
-        0 : decision_tree,
-        1 : feature_importance,
-        2 : grad_boosting_classifier,
-        3 : pca,
-        4 : recursive_feature_elim,
-    }
+
+def write_new_csv(df, filename):
+    """
+        Saves the dataframe inside a new file in a new path (a folder with 'clean-' as prefix)
+        :param df: dataframe with the modified data
+        :param filename: filename from file being read (file name will stay the same)
+        :param county: county number
+        :return:
+    """
+    global start_year, end_year
+    logging.info('Saving file into new folder')
+    newpath = 'out/'
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+
+    df.to_csv(os.path.join(newpath, filename))
+
+
+extr_feat_algs = {
+    0: decision_tree,
+    1: feature_importance,
+    2: grad_boosting_classifier,
+    3: pca,
+    4: recursive_feature_elim,
+}
+
 
 def main():
     logging.info('Started MAIN')
     start_year = '2000'
     end_year = '2016'
     site = '0069'
-    algs_to_use = [0, 1, 2, 3, 4]
+    algs_to_use = [3]
 
     my_file = open('merged/max-merged_' + start_year + '-' + end_year + '.csv')
+    # my_file = open('brian_phd/brian_dataset.csv')
     df = pd.read_csv(my_file, skipfooter=1, engine='python')
     df = df.set_index(df.columns[0])
     df.index.rename('id', inplace=True)
 
     logger.info('DO:Feature extraction')
-    
+
     # --------- remove columns that do not contain _0069
     remove_other_site_cols(df, site)
-    
+
     # pick column to predict
     target_col = 23   # choses 44201 as target column
-    
+
     # ----- reshaping the data
     dataset1 = df.fillna(0).values
-    dataset1 = np.delete(dataset1, target_col, axis=1) # deletes target_column data
+    # deletes target_column data
+    dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
-    
+
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
     target_dataset = np.where(df[df.columns[23]] >= 0.07, 1, 0).astype('int')
-    
+
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
         # TODO: try and except for items inside algs_to_use
