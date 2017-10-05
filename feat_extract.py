@@ -57,7 +57,7 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 
-def decision_tree(dataset1, target_dataset):
+def decision_tree(dataset1, target_dataset, data_plot):
     logger.info('Decision Tree Classifier')
     model = tree.DecisionTreeClassifier()
     model.fit(dataset1, target_dataset)
@@ -69,7 +69,7 @@ def decision_tree(dataset1, target_dataset):
     graph.write_pdf("out/dec_tree.pdf")
 
 
-def feature_importance(dataset1, target_dataset):
+def feature_importance(dataset1, target_dataset, data_plot):
     logger.info('Feature importance')
     # ------ feature extraction
     model = ExtraTreesClassifier()
@@ -80,7 +80,7 @@ def feature_importance(dataset1, target_dataset):
     print(model.feature_importances_)
 
 
-def grad_boosting_classifier(dataset1, target_dataset):
+def grad_boosting_classifier(dataset1, target_dataset, data_plot):
     logger.info('Gradient boosting classifier')
     # ------ creates and trains the classifier
     model = XGBClassifier()
@@ -96,7 +96,7 @@ def grad_boosting_classifier(dataset1, target_dataset):
     pyplot.show()
 
 
-def pca(dataset1, target_dataset):
+def pca(dataset1, target_dataset, data_plot):
     logger.info('PCA')
     # ------ feature extraction
     # TODO: create a while loop that evaluates the best number of components by checking if sum_fitpca.explanined... is greater than 0.999?
@@ -107,10 +107,13 @@ def pca(dataset1, target_dataset):
     print("Variance preserved: %s") % sum(fit_pca.explained_variance_ratio_)
     # print(fit_pca.components_) # prints the eigen vectors, each pca is a vector
     # ------ saves resulting dataset to a file
-    write_new_csv(pd.DataFrame(dataset_pca), 'pca.csv')
+    df = pd.DataFrame(dataset_pca)
+    # df['excess_ozone'] = target_dataset
+    df['readings_ozone'] = data_plot
+    write_new_csv(df, 'pca.csv')
 
 
-def recursive_feature_elim(dataset1, target_dataset):
+def recursive_feature_elim(dataset1, target_dataset, data_plot):
     logger.info('Recursive feature elimination')
     # ------ feature extraction
     model = LogisticRegression()
@@ -175,6 +178,7 @@ def main():
     # deletes target_column data
     dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
+    data_plot = df[df.columns[23]]
 
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
     target_dataset = np.where(df[df.columns[23]] >= 0.07, 1, 0).astype('int')
@@ -182,7 +186,7 @@ def main():
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
         # TODO: try and except for items inside algs_to_use
-        extr_feat_algs[alg](dataset1, target_dataset)
+        extr_feat_algs[alg](dataset1, target_dataset, data_plot)
 
     logger.info('DONE:Feature extraction')
     logging.info('Finished MAIN')
