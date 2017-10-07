@@ -2,10 +2,11 @@
 import graphviz
 import matplotlib as plt
 import numpy as np
+import os
 import pandas as pd
 import pydot
 import pydotplus
-import os
+
 from matplotlib import pyplot
 
 from sklearn.decomposition import PCA
@@ -19,6 +20,8 @@ from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression
 
 from xgboost import XGBClassifier
+
+from sklearn.preprocessing import MinMaxScaler
 
 # np.set_printoptions(threshold=np.nan)
 pd.set_option('display.max_rows', 200000)
@@ -57,7 +60,7 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 
-def decision_tree(dataset1, target_dataset, data_plot):
+def decision_tree(dataset1, target_dataset, dataplot):
     logger.info('Decision Tree Classifier')
     model = tree.DecisionTreeClassifier()
     model.fit(dataset1, target_dataset)
@@ -69,7 +72,7 @@ def decision_tree(dataset1, target_dataset, data_plot):
     graph.write_pdf("out/dec_tree.pdf")
 
 
-def feature_importance(dataset1, target_dataset, data_plot):
+def feature_importance(dataset1, target_dataset, dataplot):
     logger.info('Feature importance')
     # ------ feature extraction
     model = ExtraTreesClassifier()
@@ -80,7 +83,7 @@ def feature_importance(dataset1, target_dataset, data_plot):
     print(model.feature_importances_)
 
 
-def grad_boosting_classifier(dataset1, target_dataset, data_plot):
+def grad_boosting_classifier(dataset1, target_dataset, dataplot):
     logger.info('Gradient boosting classifier')
     # ------ creates and trains the classifier
     model = XGBClassifier()
@@ -96,11 +99,11 @@ def grad_boosting_classifier(dataset1, target_dataset, data_plot):
     pyplot.show()
 
 
-def pca(dataset1, target_dataset, data_plot):
+def pca(dataset1, target_dataset, dataplot):
     logger.info('PCA')
     # ------ feature extraction
-    # TODO: create a while loop that evaluates the best number of components by checking if sum_fitpca.explanined... is greater than 0.999?
-    fit_pca = PCA(n_components=7, whiten=True).fit(dataset1)  # 7 principal components
+    # TODO: create a while loop that evaluates the 'best' number of components by checking if sum_fitpca.explanined... is greater than 0.999?
+    fit_pca = PCA(n_components=25, whiten=True).fit(dataset1)  # 7 principal components
     # ------ printing results
     dataset_pca = fit_pca.transform(dataset1)
     print '--------- Result: PCA'
@@ -109,11 +112,11 @@ def pca(dataset1, target_dataset, data_plot):
     # ------ saves resulting dataset to a file
     df = pd.DataFrame(dataset_pca)
     # df['excess_ozone'] = target_dataset
-    df['readings_ozone'] = data_plot
+    df['readings_ozone'] = dataplot
     write_new_csv(df, 'pca.csv')
 
 
-def recursive_feature_elim(dataset1, target_dataset, data_plot):
+def recursive_feature_elim(dataset1, target_dataset, dataplot):
     logger.info('Recursive feature elimination')
     # ------ feature extraction
     model = LogisticRegression()
@@ -178,7 +181,15 @@ def main():
     # deletes target_column data
     dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
-    data_plot = df[df.columns[23]]
+    dataplot1 = df[df.columns[23]]
+    dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data for minmax scaler
+
+    scalerX = MinMaxScaler(feature_range=(0, 1))
+    scalerY = MinMaxScaler(feature_range=(0, 1))
+    
+    dataset = scalerX.fit_transform(dataset1)
+    dataplot = scalerY.fit_transform(dataplot1)
+    
 
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
     target_dataset = np.where(df[df.columns[23]] >= 0.07, 1, 0).astype('int')
@@ -186,7 +197,7 @@ def main():
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
         # TODO: try and except for items inside algs_to_use
-        extr_feat_algs[alg](dataset1, target_dataset, data_plot)
+        extr_feat_algs[alg](dataset, target_dataset, dataplot1)
 
     logger.info('DONE:Feature extraction')
     logging.info('Finished MAIN')

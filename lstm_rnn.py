@@ -53,12 +53,13 @@ start_year = '2000'
 end_year = '2016'
 site = '0069'
 
-data_file_name = 'merged/max-merged_' + start_year + '-' + end_year + '.csv'
+# data_file_name = 'merged/max-merged_' + start_year + '-' + end_year + '.csv'
+data_file_name = 'out/pca.csv'
 df = read_csv(data_file_name, engine='python', skipfooter=3)
 df = df.set_index(df.columns[0])
 df.index.rename('id', inplace=True)
 
-remove_other_site_cols(df, site)
+# remove_other_site_cols(df, site)
 
 a = list(df)
 
@@ -67,9 +68,9 @@ for i in range (len(a)):
 
 # pick column to predict
 try:
-    target_col = int(raw_input("Select the column number to predict (default = " + a[23] + "): "))
+    target_col = int(raw_input("Select the column number to predict (default = " + a[len(a)-1] + "): "))
 except ValueError:
-    target_col = 23   #choose last column as default
+    target_col = len(a)-1   #choose last column as default
 
 # choose look-ahead to predict   
 try:
@@ -88,10 +89,10 @@ dataset1 = np.delete(dataset1, target_col, axis=1) # removes target_col from tra
 dataset1 = dataset1.astype('float32')
 
 # normalize the dataset
-try:
-    process = raw_input("Does the data need to be pre-preprocessed Y/N? (default = y) ")
-except ValueError:
-    process = 'y'
+# try:
+#     process = raw_input("Does the data need to be pre-preprocessed Y/N? (default = y) ")
+# except ValueError:
+process = 'y'
     
 if process == 'Y' or 'y':
     scalerX = MinMaxScaler(feature_range=(0, 1))
@@ -132,9 +133,9 @@ except ValueError:
     
 # prepare input Tensors
 try:
-    look_back = int(raw_input("Number of recurrent (look-back) units? (Default = 8)? "))
+    look_back = int(raw_input("Number of recurrent (look-back) units? (Default = 1)? "))
 except ValueError:
-    look_back = 8
+    look_back = 1
 trainX = TensorForm(trainX1, look_back)
 testX = TensorForm(testX1, look_back)
 # input_nodes = trainX.shape[2]
@@ -152,6 +153,7 @@ if len(testX) < len(testY):
     testY = np.asmatrix(testY[:len(testX)])
 
 model = Sequential()
+
 # ***
 # 3) Actual change on the LSTM layer
 # ***
