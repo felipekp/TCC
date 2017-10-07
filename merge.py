@@ -25,10 +25,12 @@ def main():
 
     # pre-process data to use minMaxscaller
     scaler = MinMaxScaler()
-    df = pd.DataFrame(scaler.fit_transform(df))
+    new_df = df
+    for column in df:
+        new_df[column] = scaler.fit_transform(df[column].values.reshape(-1, 1))
 
     # print df
-    df.to_csv('merged/scaller-max-merged_' + start_year + '-' + end_year + '.csv')
+    new_df.to_csv('merged/scaller-max-merged_' + start_year + '-' + end_year + '.csv')
 
 
 if __name__ == "__main__":
