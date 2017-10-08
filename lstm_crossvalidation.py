@@ -113,71 +113,82 @@ splits = TimeSeriesSplit(n_splits=3)
 # for train_index, test_index in splits.split(dataset)
 
 
-train_size = int(len(dataset) * 0.8)
-test_size = len(dataset) - train_size
-train, test = dataset[0:train_size], dataset[train_size:len(dataset)]
+# train_size = int(len(dataset) * 0.8)
+# test_size = len(dataset) - train_size
+# train, test = dataset[0:train_size], dataset[train_size:len(dataset)]
 
-# prepare output arrays
-# ***
-# 3) dataplot[train_size:len(dataset)] changed because it should be dataplot len
-# ***
-trainY, testY = dataplot[0:train_size], dataplot[train_size:len(dataplot)]
 
-n,p = np.shape(trainY)
-if n < p:
-    trainY = trainY.T
-    testY = testY.T
+# trainY, testY = dataplot[0:train_size], dataplot[train_size:len(dataplot)]
+
+plt.figure(1)
+index = 1
+for train_index, test_index in splits.split(dataplot):
+    # print("TRAIN:", train_index, "TEST:", test_index)
+    train, test = dataset[train_index], dataset[test_index]
+    trainY, testY = dataplot[train_index], dataplot[test_index]
+    # plt.subplot(310 + index)
+    # plt.plot(y_train)
+    # plt.plot([None for i in y_train] + [x for x in y_test])
+    # index += 1
+
+# plt.show()
+
+# exit()
+# n,p = np.shape(trainY)
+# if n < p:
+#     trainY = trainY.T
+#     testY = testY.T
 
 # resize input sets
-trainX1 = train[:len(trainY),]
-testX1 = test[:len(testY),]
+# trainX1 = train[:len(trainY),]
+# testX1 = test[:len(testY),]
   
 # get number of epochs
-try:
-    n_epochs = int(raw_input("Number of epochs? (Default = 10)? "))
-except ValueError:
-    n_epochs = 10
+    try:
+        n_epochs = int(raw_input("Number of epochs? (Default = 10)? "))
+    except ValueError:
+        n_epochs = 10
     
-# prepare input Tensors
-try:
-    look_back = int(raw_input("Number of recurrent (look-back) units? (Default = 1)? "))
-except ValueError:
-    look_back = 1
-trainX = TensorForm(trainX1, look_back)
-testX = TensorForm(testX1, look_back)
+    # prepare input Tensors
+    try:
+        look_back = int(raw_input("Number of recurrent (look-back) units? (Default = 1)? "))
+    except ValueError:
+        look_back = 1
+    trainX = TensorForm(train, look_back)
+    testX = TensorForm(test, look_back)
 # input_nodes = trainX.shape[2]
 
-# ***
-# 4) number of neuros / input_nodes increased for the LSTM layer
-# ***
-input_nodes = 50
+    # ***
+    # 4) number of neuros / input_nodes increased for the LSTM layer
+    # ***
+    input_nodes = 50
 
-# trim target arrays to match input lengths
-if len(trainX) < len(trainY):
-    trainY = np.asmatrix(trainY[:len(trainX)])
-    
-if len(testX) < len(testY):
-    testY = np.asmatrix(testY[:len(testX)])
+    # trim target arrays to match input lengths
+    if len(trainX) < len(trainY):
+        trainY = np.asmatrix(trainY[:len(trainX)])
+        
+    if len(testX) < len(testY):
+        testY = np.asmatrix(testY[:len(testX)])
 
-model = Sequential()
+    model = Sequential()
 
-# ***
-# 3) Actual change on the LSTM layer
-# ***
-model.add(LSTM(input_nodes, activation='sigmoid', recurrent_activation='tanh', 
-                input_shape=(trainX.shape[1], trainX.shape[2])))
+    # ***
+    # 3) Actual change on the LSTM layer
+    # ***
+    model.add(LSTM(input_nodes, activation='sigmoid', recurrent_activation='tanh', 
+                    input_shape=(trainX.shape[1], trainX.shape[2])))
 
-# 1 neuron on the output layer
-model.add(Dense(1))
+    # 1 neuron on the output layer
+    model.add(Dense(1))
 
-# compiles the model
-model.compile(loss='mean_squared_error', optimizer='nadam')
+    # compiles the model
+    model.compile(loss='mean_squared_error', optimizer='nadam')
 
-# ***
-# 5) Increased the batch_size to 72. This improves training performance by more than 50 times
-# and loses no accuracy (batch_size does not modify the final result, only how memory is handled)
-# ***
-history = model.fit(trainX, trainY, epochs=n_epochs, batch_size=72, validation_data=(testX, testY), shuffle=False)
+    # ***
+    # 5) Increased the batch_size to 72. This improves training performance by more than 50 times
+    # and loses no accuracy (batch_size does not modify the final result, only how memory is handled)
+    # ***
+    history = model.fit(trainX, trainY, epochs=n_epochs, batch_size=72, validation_data=(testX, testY), shuffle=False)
 
 # ***
 # 6) test loss and training loss graph. It can help understand the optimal epochs size and if the model
@@ -188,34 +199,34 @@ history = model.fit(trainX, trainY, epochs=n_epochs, batch_size=72, validation_d
 # plt.legend()
 # plt.show()
 
-# make predictions
-trainPredict = model.predict(trainX)
-testPredict = model.predict(testX)
+    # make predictions
+    trainPredict = model.predict(trainX)
+    testPredict = model.predict(testX)
 
-# invert predictions
-trainPredict = scalerY.inverse_transform(trainPredict)
-trainY = scalerY.inverse_transform(trainY)
-testPredict = scalerY.inverse_transform(testPredict)
-testY = scalerY.inverse_transform(testY)
+    # invert predictions
+    trainPredict = scalerY.inverse_transform(trainPredict)
+    trainY = scalerY.inverse_transform(trainY)
+    testPredict = scalerY.inverse_transform(testPredict)
+    testY = scalerY.inverse_transform(testY)
 
-# ***
-# 7) calculate mean absolute error. Different than root mean squared error this one
-# is not so "sensitive" to bigger erros (does not square) and tells "how big of an error"
-# we can expect from the forecast on average"
-# ***
-print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
-trainScore = mean_absolute_error(trainY, trainPredict)
-print('Train Score: %.5f MAE' % (trainScore))
-testScore = mean_absolute_error(testY, testPredict)
-print('Test Score: %.5f MAE' % (testScore))
+    # ***
+    # 7) calculate mean absolute error. Different than root mean squared error this one
+    # is not so "sensitive" to bigger erros (does not square) and tells "how big of an error"
+    # we can expect from the forecast on average"
+    # ***
+    print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
+    trainScore = mean_absolute_error(trainY, trainPredict)
+    print('Train Score: %.5f MAE' % (trainScore))
+    testScore = mean_absolute_error(testY, testPredict)
+    print('Test Score: %.5f MAE' % (testScore))
 
-# calculate root mean squared error. 
-# weights "larger" errors more by squaring the values when calculating
-print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
-trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
-print('Train Score: %.5f RMSE' % (trainScore))
-testScore = math.sqrt(mean_squared_error(testY, testPredict))
-print('Test Score: %.5f RMSE' % (testScore))
+    # calculate root mean squared error. 
+    # weights "larger" errors more by squaring the values when calculating
+    print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
+    trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
+    print('Train Score: %.5f RMSE' % (trainScore))
+    testScore = math.sqrt(mean_squared_error(testY, testPredict))
+    print('Test Score: %.5f RMSE' % (testScore))
 
 
 # ***
@@ -240,8 +251,8 @@ print('Test Score: %.5f RMSE' % (testScore))
 # print'File saved in ', filename
 
 
-# plot baseline and predictions
-plt.close('all')
-plt.plot(testY)
-plt.plot(testPredict)
-plt.show()
+    # plot baseline and predictions
+    plt.close('all')
+    plt.plot(testY)
+    plt.plot(testPredict)
+    plt.show()

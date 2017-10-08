@@ -102,10 +102,11 @@ def grad_boosting_classifier(dataset1, target_dataset, dataplot):
 def pca(dataset1, target_dataset, dataplot):
     logger.info('PCA')
     # ------ feature extraction
+    n_components = 25
     # TODO: create a while loop that evaluates the 'best' number of components by checking if sum_fitpca.explanined... is greater than 0.999?
-    fit_pca = PCA(n_components=25, whiten=True).fit(dataset1)  # 7 principal components
+    fit_pca = PCA(n_components=n_components, whiten=True).fit(dataset1)  # 7 principal components
     # ------ printing results
-    dataset_pca = fit_pca.transform(dataset1)
+    dataset_pca = fit_pca.fit_transform(dataset1)
     print '--------- Result: PCA'
     print("Variance preserved: %s") % sum(fit_pca.explained_variance_ratio_)
     # print(fit_pca.components_) # prints the eigen vectors, each pca is a vector
@@ -114,6 +115,25 @@ def pca(dataset1, target_dataset, dataplot):
     # df['excess_ozone'] = target_dataset
     df['readings_ozone'] = dataplot
     write_new_csv(df, 'pca.csv')
+
+    # ------ calculates cumulative variance
+    # temp = []
+    # temp.append(fit_pca.explained_variance_ratio_[0])
+    # i = 0
+    # for item in fit_pca.explained_variance_ratio_[1:]:
+    #     temp.append(temp[i]+item)
+    #     i += 1
+    # pyplot.ylabel('% of cumulative variance')
+    # pyplot.xlabel('principal components')
+    # pyplot.plot(range(len(fit_pca.explained_variance_ratio_)),temp, 'r')
+    # pyplot.show()
+
+    # ----- plots the variance ratio
+    pyplot.ylabel('% of variance')
+    pyplot.xlabel('principal components')
+    pyplot.bar(range(len(fit_pca.explained_variance_ratio_)),fit_pca.explained_variance_ratio_)
+    pyplot.show()
+
 
 
 def recursive_feature_elim(dataset1, target_dataset, dataplot):
