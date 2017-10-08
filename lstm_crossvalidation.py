@@ -47,10 +47,7 @@ def remove_other_site_cols(df, site):
 # fix random seed for reproducibility
 np.random.seed(7)
 
-# 
-# ***
-# 1) load dataset
-# ***
+# load dataset
 start_year = '2000'
 end_year = '2016'
 site = '0069'
@@ -80,9 +77,7 @@ try:
 except ValueError:
     lead_time = 2
 
-# ***
-# 2) Creating and separating target dataset (as dataplot1) and training (as dataset1), pay attention that target_col must be removed from the training dataset!
-# ***
+# pre process data
 dataset1 = df.fillna(0).values
 dataplot1 = dataset1[lead_time:, target_col]  # extracts the target_col
 dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data
@@ -90,60 +85,24 @@ dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data
 dataset1 = np.delete(dataset1, target_col, axis=1) # removes target_col from training dataset
 dataset1 = dataset1.astype('float32')
 
-# normalize the dataset
-# try:
-#     process = raw_input("Does the data need to be pre-preprocessed Y/N? (default = y) ")
-# except ValueError:
-# process = 'y'
-    
-# if process == 'Y' or 'y':
+
 scalerX = MinMaxScaler(feature_range=(0, 1))
 scalerY = MinMaxScaler(feature_range=(0, 1))
 
 dataset = scalerX.fit_transform(dataset1)
 dataplot = scalerY.fit_transform(dataplot1)
     
-#     print'\nData processed using MinMaxScaler'
-# else:
-#     print'\nData not processed'
     
 # split into train and test sets
 splits = TimeSeriesSplit(n_splits=3)
-
-# for train_index, test_index in splits.split(dataset)
-
-
-# train_size = int(len(dataset) * 0.8)
-# test_size = len(dataset) - train_size
-# train, test = dataset[0:train_size], dataset[train_size:len(dataset)]
-
-
-# trainY, testY = dataplot[0:train_size], dataplot[train_size:len(dataplot)]
-
 plt.figure(1)
 index = 1
 for train_index, test_index in splits.split(dataplot):
-    # print("TRAIN:", train_index, "TEST:", test_index)
+    
     train, test = dataset[train_index], dataset[test_index]
     trainY, testY = dataplot[train_index], dataplot[test_index]
-    # plt.subplot(310 + index)
-    # plt.plot(y_train)
-    # plt.plot([None for i in y_train] + [x for x in y_test])
-    # index += 1
 
-# plt.show()
-
-# exit()
-# n,p = np.shape(trainY)
-# if n < p:
-#     trainY = trainY.T
-#     testY = testY.T
-
-# resize input sets
-# trainX1 = train[:len(trainY),]
-# testX1 = test[:len(testY),]
-  
-# get number of epochs
+    # get number of epochs
     try:
         n_epochs = int(raw_input("Number of epochs? (Default = 10)? "))
     except ValueError:
@@ -156,11 +115,7 @@ for train_index, test_index in splits.split(dataplot):
         look_back = 1
     trainX = TensorForm(train, look_back)
     testX = TensorForm(test, look_back)
-# input_nodes = trainX.shape[2]
 
-    # ***
-    # 4) number of neuros / input_nodes increased for the LSTM layer
-    # ***
     input_nodes = 50
 
     # trim target arrays to match input lengths
@@ -172,11 +127,7 @@ for train_index, test_index in splits.split(dataplot):
 
     model = Sequential()
 
-    # ***
-    # 3) Actual change on the LSTM layer
-    # ***
-    model.add(LSTM(input_nodes, activation='sigmoid', recurrent_activation='tanh', 
-                    input_shape=(trainX.shape[1], trainX.shape[2])))
+    model.add(LSTM(input_nodes, activation='sigmoid', recurrent_activation='tanh', input_shape=(trainX.shape[1], trainX.shape[2])))
 
     # 1 neuron on the output layer
     model.add(Dense(1))
@@ -184,20 +135,7 @@ for train_index, test_index in splits.split(dataplot):
     # compiles the model
     model.compile(loss='mean_squared_error', optimizer='nadam')
 
-    # ***
-    # 5) Increased the batch_size to 72. This improves training performance by more than 50 times
-    # and loses no accuracy (batch_size does not modify the final result, only how memory is handled)
-    # ***
     history = model.fit(trainX, trainY, epochs=n_epochs, batch_size=72, validation_data=(testX, testY), shuffle=False)
-
-# ***
-# 6) test loss and training loss graph. It can help understand the optimal epochs size and if the model
-# is overfitting or underfitting.
-# ***
-# plt.plot(history.history['loss'], label='train')
-# plt.plot(history.history['val_loss'], label='test')
-# plt.legend()
-# plt.show()
 
     # make predictions
     trainPredict = model.predict(trainX)
@@ -209,47 +147,19 @@ for train_index, test_index in splits.split(dataplot):
     testPredict = scalerY.inverse_transform(testPredict)
     testY = scalerY.inverse_transform(testY)
 
-    # ***
-    # 7) calculate mean absolute error. Different than root mean squared error this one
-    # is not so "sensitive" to bigger erros (does not square) and tells "how big of an error"
-    # we can expect from the forecast on average"
-    # ***
+    # calculates mean absolute error. 
     print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
     trainScore = mean_absolute_error(trainY, trainPredict)
     print('Train Score: %.5f MAE' % (trainScore))
     testScore = mean_absolute_error(testY, testPredict)
     print('Test Score: %.5f MAE' % (testScore))
 
-    # calculate root mean squared error. 
-    # weights "larger" errors more by squaring the values when calculating
+    # calculates root mean squared error. 
     print'Prediction horizon = '+ str(lead_time),'Look back = ' + str(look_back)
     trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
     print('Train Score: %.5f RMSE' % (trainScore))
     testScore = math.sqrt(mean_squared_error(testY, testPredict))
     print('Test Score: %.5f RMSE' % (testScore))
-
-
-# ***
-# 8) commented part of code that saves as xlsx (excel)
-# ***
-# make timestamp for unique filname
-# stamp = str(time.clock())  #add timestamp for unique name
-# stamp = stamp[0:2] 
-
-# generate filename and remove extra periods
-# filename = 'FinErr_lstm_'+ str(n_epochs) + str(lead_time) + '_' + stamp + '.xlsx'    #example output file
-# if filename.count('.') == 2:
-#     filename = filename.replace(".", "",1)
-
-#write results to file    
-# writer = ExcelWriter(filename)
-# pd.DataFrame(trainPredict).to_excel(writer,'Train-predict') #save prediction output
-# pd.DataFrame(trainY).to_excel(writer,'obs-train') #save observed output
-# pd.DataFrame(testPredict).to_excel(writer,'Test-predict') #save output training data
-# pd.DataFrame(testY).to_excel(writer,'obs_test') 
-# writer.save()
-# print'File saved in ', filename
-
 
     # plot baseline and predictions
     plt.close('all')
