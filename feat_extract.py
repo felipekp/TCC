@@ -60,10 +60,10 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 
-def decision_tree(dataset1, target_dataset, dataplot):
+def decision_tree(dataset, target_dataset, dataplot1):
     logger.info('Decision Tree Classifier')
     model = tree.DecisionTreeClassifier()
-    model.fit(dataset1, target_dataset)
+    model.fit(dataset, target_dataset)
     # ------ exporting the tree
     print '--------- Result: Decision Tree'
     dot_data = StringIO()
@@ -72,22 +72,22 @@ def decision_tree(dataset1, target_dataset, dataplot):
     graph.write_pdf("out/dec_tree.pdf")
 
 
-def feature_importance(dataset1, target_dataset, dataplot):
+def feature_importance(dataset, target_dataset, dataplot1):
     logger.info('Feature importance')
     # ------ feature extraction
     model = ExtraTreesClassifier()
-    model.fit(dataset1, target_dataset)
+    model.fit(dataset, target_dataset)
 
     # ------ printing results
     print '--------- Result: Feature Importance'
     print(model.feature_importances_)
 
 
-def grad_boosting_classifier(dataset1, target_dataset, dataplot):
+def grad_boosting_classifier(dataset, target_dataset, dataplot1):
     logger.info('Gradient boosting classifier')
     # ------ creates and trains the classifier
     model = XGBClassifier()
-    model.fit(dataset1, target_dataset)
+    model.fit(dataset, target_dataset)
 
     # ------ feature importance
     print '--------- Result: Gradient boosting classifier'
@@ -99,21 +99,21 @@ def grad_boosting_classifier(dataset1, target_dataset, dataplot):
     pyplot.show()
 
 
-def pca(dataset1, target_dataset, dataplot):
+def pca(dataset, target_dataset, dataplot1):
     logger.info('PCA')
     # ------ feature extraction
     n_components = 25
     # TODO: create a while loop that evaluates the 'best' number of components by checking if sum_fitpca.explanined... is greater than 0.999?
     fit_pca = PCA(n_components=n_components, whiten=True).fit(dataset1)  # 7 principal components
     # ------ printing results
-    dataset_pca = fit_pca.fit_transform(dataset1)
+    dataset_pca = fit_pca.fit_transform(dataset)
     print '--------- Result: PCA'
     print("Variance preserved: %s") % sum(fit_pca.explained_variance_ratio_)
     # print(fit_pca.components_) # prints the eigen vectors, each pca is a vector
     # ------ saves resulting dataset to a file
     df = pd.DataFrame(dataset_pca)
     # df['excess_ozone'] = target_dataset
-    df['readings_ozone'] = dataplot
+    df['readings_ozone'] = dataplot1
     write_new_csv(df, 'pca.csv')
 
     # ------ calculates cumulative variance
@@ -136,12 +136,12 @@ def pca(dataset1, target_dataset, dataplot):
 
 
 
-def recursive_feature_elim(dataset1, target_dataset, dataplot):
-    logger.info('Recursive feature elimination')
+def recursive_feature_elim(dataset, target_dataset, dataplot1):
+    logger.info('Recursive Feature Elimination with Logistic Regression')
     # ------ feature extraction
     model = LogisticRegression()
-    rfe = RFE(model, 25)  # selects 25 features
-    fit = rfe.fit(dataset1, target_dataset)
+    rfe = RFE(model, 27)  # selects 27 features
+    fit = rfe.fit(dataset, target_dataset)
 
     # ------ printing results
     print '--------- Result: Recursive feature elimination'
@@ -180,7 +180,7 @@ def main():
     start_year = '2000'
     end_year = '2016'
     site = '0069'
-    algs_to_use = [3]
+    algs_to_use = [4]
 
     my_file = open('merged/max-merged_' + start_year + '-' + end_year + '.csv')
     # my_file = open('brian_phd/brian_dataset.csv')
@@ -202,7 +202,12 @@ def main():
     dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
     dataplot1 = df[df.columns[23]]
-    dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data for minmax scaler
+    dataplot1 = dataplot1.values.reshape(-1, 1)  # reshapes data for minmax scaler
+
+    a = list(df)
+
+    for i in range (len(a)):
+        print i, a[i]
 
     scalerX = MinMaxScaler(feature_range=(0, 1))
     scalerY = MinMaxScaler(feature_range=(0, 1))
