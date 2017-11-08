@@ -102,6 +102,7 @@ def workaround_interpolate(df):
         :param df: pandas dataframe with date and other values from parameters
         :return: modified dataframe with all columns that were interpolated (only complete data gets returned here)
     """
+    logger.info('Workaround interpolate')
     for col in df.columns:
         df[col], delete_col = calc_dispersion_missing(df[col])
         if delete_col:

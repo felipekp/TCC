@@ -1,0 +1,17 @@
+{
+    "model": {
+        "optimiser_function": "nadam", 
+        "testtraining_loss_graph": true, 
+        "batch_size": 512, 
+        "epochs": 10, 
+        "input_nodes": 50, 
+        "loss_function": "mse", 
+        "look_back": 8
+    }, 
+    "data": {
+        "target_col": 25, 
+        "lead_time": 2, 
+        "train_test_split": 0.8, 
+        "filename": "out/pca.csv"
+    }
+}

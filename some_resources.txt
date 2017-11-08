@@ -4,3 +4,40 @@ https://gist.github.com/Alexander-Ignatyev/6478289
 https://seaborn.pydata.org/
 
 https://cloud.google.com/bigquery/public-data/epa
+
+
+general todos:
+
+REMOVE UNUSED IMPORTS IN FILES
+
+check: 
+
+https://machinelearningmastery.com/feature-selection-time-series-forecasting-python/
+
+https://machinelearningmastery.com/automate-machine-learning-workflows-pipelines-python-scikit-learn/
+
+https://machinelearningmastery.com/feature-importance-and-feature-selection-with-xgboost-in-python/
+
+
+https://machinelearningmastery.com/make-predictions-long-short-term-memory-models-keras/
+
+https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/
+
+https://machinelearningmastery.com/time-series-forecasting-long-short-term-memory-network-python/
+
+
+cross-validation for time series python
+
+http://scikit-learn.org/stable/modules/classes.html#module-sklearn.feature_selection
+
+https://blogs.sas.com/content/forecasting/2016/03/18/rob-hyndman-measuring-forecast-accuracy/
+
+
+http://forecastingprinciples.com/files/standardshort.pdf
+
+
+https://www.kaggle.com/c/web-traffic-time-series-forecasting/data
+
+https://www.otexts.org/fpp/2/5
+
+https://machinelearningmastery.com/machine-learning-performance-improvement-cheat-sheet/

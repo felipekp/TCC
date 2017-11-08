@@ -16,10 +16,10 @@ from sklearn.externals.six import StringIO
 
 from sklearn.ensemble import ExtraTreesClassifier
 
-from sklearn.feature_selection import RFE
+from sklearn.feature_selection import RFE, SelectKBest, f_regression
 from sklearn.linear_model import LogisticRegression
 
-from xgboost import XGBClassifier
+from xgboost import XGBClassifier, plot_importance
 
 from sklearn.preprocessing import MinMaxScaler
 
@@ -66,10 +66,11 @@ def decision_tree(dataset, target_dataset, dataplot1):
     model.fit(dataset, target_dataset)
     # ------ exporting the tree
     print '--------- Result: Decision Tree'
-    dot_data = StringIO()
-    tree.export_graphviz(model, out_file=dot_data)
-    graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-    graph.write_pdf("out/dec_tree.pdf")
+    print len(model.feature_importances_)
+    # dot_data = StringIO()
+    # tree.export_graphviz(model, out_file=dot_data)
+    # graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
+    # graph.write_pdf("out/dec_tree.pdf")
 
 
 def feature_importance(dataset, target_dataset, dataplot1):
@@ -94,8 +95,9 @@ def grad_boosting_classifier(dataset, target_dataset, dataplot1):
     print(model.feature_importances_)
 
     # ------ plot
-    pyplot.bar(range(len(model.feature_importances_)),
-               model.feature_importances_)
+    # pyplot.bar(range(len(model.feature_importances_)),
+    #            model.feature_importances_)
+    plot_importance(model, grid=False)
     pyplot.show()
 
 
@@ -135,7 +137,6 @@ def pca(dataset, target_dataset, dataplot1):
     pyplot.show()
 
 
-
 def recursive_feature_elim(dataset, target_dataset, dataplot1):
     logger.info('Recursive Feature Elimination with Logistic Regression')
     # ------ feature extraction
@@ -148,6 +149,17 @@ def recursive_feature_elim(dataset, target_dataset, dataplot1):
     print("Selected Features: %s") % fit.support_
     print("Feature Ranking: %s") % fit.ranking_
 
+
+def univariate_selection(dataset, target_dataset, dataplot1):
+    test = SelectKBest(score_func=f_regression, k=25)
+    fit = test.fit(dataset, target_dataset)
+
+    # ------ scores
+    np.set_printoptions(precision=3)
+    print(fit.scores_)
+    features = fit.transform(dataset)
+    # summarize selected features
+    # print(features[0:5,:])
 
 def write_new_csv(df, filename):
     """
@@ -172,6 +184,7 @@ extr_feat_algs = {
     2: grad_boosting_classifier,
     3: pca,
     4: recursive_feature_elim,
+    5: univariate_selection,
 }
 
 
@@ -180,9 +193,10 @@ def main():
     start_year = '2000'
     end_year = '2016'
     site = '0069'
-    algs_to_use = [4]
+    algs_to_use = [0, 2, 3]
 
-    my_file = open('merged/max-merged_' + start_year + '-' + end_year + '.csv')
+    # my_file = open('merged/max-merged_' + start_year + '-' + end_year + '.csv')
+    my_file = open('datasets/kuwait.csv')
     # my_file = open('brian_phd/brian_dataset.csv')
     df = pd.read_csv(my_file, skipfooter=1, engine='python')
     df = df.set_index(df.columns[0])
@@ -191,10 +205,10 @@ def main():
     logger.info('DO:Feature extraction')
 
     # --------- remove columns that do not contain _0069
-    remove_other_site_cols(df, site)
+    # remove_other_site_cols(df, site)
 
     # pick column to predict
-    target_col = 23   # choses 44201 as target column
+    target_col = 23   # choses 44201 as target column TODO: CHANGE IT FOR THE KUWAIT DATASET
 
     # ----- reshaping the data
     dataset1 = df.fillna(0).values
