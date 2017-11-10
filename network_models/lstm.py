@@ -53,7 +53,7 @@ def lstm_create(epochs, input_nodes, look_back, lead_time, target_col_num=False,
     df.index.rename('id', inplace=True)
 
     # try:
-    if type(target_col_num) == int: # verify if it is an integer number
+    if type(target_col_num) == int: # verify if it is an integer
         target_col = target_col_num
     # except:
     else:

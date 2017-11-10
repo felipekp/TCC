@@ -2,7 +2,7 @@
 Function to generate parameters and call LSTM model function
 use lstm.py
 '''
-from lstm import lstm_create
+from network_models.lstm import lstm_create
 import multiprocessing
 from functools import partial
 
@@ -36,7 +36,7 @@ for epochs in create_epoch():
                 # complexity x^4
             print epochs, input_nodes, look_back
             func = partial(lstm_create, epochs, input_nodes, look_back)
-            results = pool.map(func, create_leadtime())
+            pool.map(func, create_leadtime())
                 # lstm_create(epochs, input_nodes, look_back, lead_time, filename=filename)
 
 pool.close() 
