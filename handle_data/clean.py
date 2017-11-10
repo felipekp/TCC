@@ -4,36 +4,17 @@ import matplotlib as plt
 import numpy as np
 import os
 import pandas as pd
+import utils.utils as utils
 
 # TODO: functions with calc_daily mean and stuff.. are all almost the same.. generalize.
 # TODO: need to remove outliers before calculating mean.
 
-
 pd.set_option('display.max_rows', 200000) # so pandas prints more rows
 
-# --- logging
+# --- logging - always cleans the log when importing and executing this file
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(funcName)20s() %(levelname)-8s %(message)s',
-                    datefmt='%d-%m %H:%M:%S',
-                    filename='logs/clean.log',
-                    filemode='w')
-logger = logging.getLogger(__name__)
-
-# --- measuring time
-import time                                                
-def timeit(method):
-
-    def timed(*args, **kw):
-        ts = time.time()
-        result = method(*args, **kw)
-        te = time.time()
-
-        print '%r %2.2f sec' % \
-              (method.__name__, te-ts)
-        return result
-
-    return timed
+utils.setup_logger('logger_clean', r'logs/clean.log')
+logger = logging.getLogger('logger_clean')
 
 # --- global variables
 # global variables were used because of .apply() function used inside calc_stats, otherwise I wouldve used these two as normal parameters. They receive value inside 'main()'
@@ -50,7 +31,7 @@ def clean_datetime_site(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: a modified dataframe with columns: date, site and value
 	"""
-	logging.info('Creating new DataFrame with site, date and repeating the value')
+	logger.info('Creating new DataFrame with site, date and repeating the value')
 
 	new_df = df.groupby(['site', 'datetime'])
 	date = list()
@@ -77,7 +58,7 @@ def clean_datetime_site_8haverage(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: a modified dataframe with columns: date, site and value
 	"""
-	logging.info('Creating new DataFrame with site, date and repeating the value')
+	logger.info('Creating new DataFrame with site, date and repeating the value')
 
 	new_df = df.groupby(['site', 'datetime'])
 	date = list()
@@ -112,7 +93,7 @@ def calc_daily_mean(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: pandas dataframe reindexed with date and sitenum and daily mean in the value column
 	"""
-	logging.info('Calculating daily MEAN and index by date and site')
+	logger.info('Calculating daily MEAN and index by date and site')
 
 	new_df = df.groupby(['site', 'date'])
 	calc_mean = list()
@@ -134,7 +115,7 @@ def calc_daily_max(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: pandas dataframe reindexed with date and sitenum and daily max in the value column
 	"""
-	logging.info('Calculating daily MAX and index by date and sitenum')
+	logger.info('Calculating daily MAX and index by date and sitenum')
 
 	new_df = df.groupby(['site', 'date'])
 	calc_max = list()
@@ -157,7 +138,7 @@ def calc_8h_average(df):
 		:param df: a pandas dataframe with columns: datetime, site and value
 		:return: pandas dataframe reindexed with date and sitenum and daily max in the value column
 	"""
-	logging.info('Calculating 8h average and index by date and sitenum')
+	logger.info('Calculating 8h average and index by date and sitenum')
 
 	new_df = df.groupby(['site', 'date'])
 	calc_8haverage = list()
@@ -182,7 +163,7 @@ def reindex_by_8h(df):
 		:return: a pandas dataframe with columns: datetime, site and value. However, it reindex the data by date and fills missing data (because the date didnt exist) for other columns with NaN value
 	"""
 	global start_year, end_year
-	logging.info('Reindexing by 8 hour daily (00 - 08 - 16 for each day)')
+	logger.info('Reindexing by 8 hour daily (00 - 08 - 16 for each day)')
 
 	# print pd.to_datetime(pd.date_range(start_year + '-01-01', end_year + '-12-31', freq='8H'))
 
@@ -202,7 +183,7 @@ def reindex_by_day(df):
 		:return: a pandas dataframe with columns: datetime, site and value. However, it reindex the data by date and fills missing data (because the date didnt exist) for other columns with NaN value
 	"""
 	global start_year, end_year
-	logging.info('Reindexing by full date range')
+	logger.info('Reindexing by full date range')
 
 	dates = pd.to_datetime(pd.date_range(start_year + '-01-01', end_year + '-12-31', freq='D').date) # keeps only the date part
 	df = df.reindex(dates)
@@ -216,7 +197,7 @@ def separate_site(df, parameter):
 		:param df: a pandas dataframe with columns: datetime, site and value indexed by [sitenum, date].
 		:return: new dataframe with date column and one column for each site named: parameter_sitenumber (size varies since depends on the number of sites).
 	"""
-	logging.info('Separating the sites into new columns')
+	logger.info('Separating the sites into new columns')
 	
 	# 'unstacks' the site values from the site column and creates the new columns
 	new_df = df.unstack(level=1)
@@ -255,7 +236,7 @@ def calc_stats_8h(df, parameter):
 		:param df: dataframe with columns of data
 		:param parameter: number
 	"""
-	logging.info('Calculating statistcs about the columns')
+	logger.info('Calculating statistcs about the columns')
 	missing = df.isnull().sum().to_frame('missing').apply(calc_missing_8h, axis=1)
 
 	print 'Number of stations for parameter: ' + str(parameter) + ' is: ' + str(len(df.columns))
@@ -268,7 +249,7 @@ def calc_stats_daily(df, parameter):
 		:param df: dataframe with columns of data
 		:param parameter: number
 	"""
-	logging.info('Calculating statistcs about the columns')
+	logger.info('Calculating statistcs about the columns')
 	missing = df.isnull().sum().to_frame('missing').apply(calc_missing, axis=1)
 
 	print 'Number of stations for parameter: ' + str(parameter) + ' is: ' + str(len(df.columns))
@@ -276,30 +257,15 @@ def calc_stats_daily(df, parameter):
 	print missing
 
 
-def write_new_csv(df, prefix, filename, county):
-	"""
-		Saves the dataframe inside a new file in a new path (a folder with 'clean-' as prefix)
-		:param df: dataframe with the modified data
-		:param filename: filename from file being read (file name will stay the same)
-		:param county: county number
-	"""
-	global start_year, end_year
-	logging.info('Saving file into new folder')
-	newpath = '48/' + county + '/' + prefix + start_year + '-'+ end_year
-	if not os.path.exists(newpath):
-		os.makedirs(newpath)
-
-	df.to_csv(os.path.join(newpath, filename))
-
 def remove_other_site_cols(df, site):
 	for col in df.columns:
 		if col.split('_')[1] != site:
 			del df[col]
 
 # --- START clean
-@timeit
+@utils.timeit
 def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069'):
-	logging.info('Started MAIN')
+	logger.info('Started MAIN')
 	# temp_parameter = '42401'
 	# selecting folder:
 	global start_year, end_year
@@ -341,21 +307,20 @@ def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069'):
 		remove_other_site_cols(df, site)
 		# --------- calculate statistics about the data
 		calc_stats_8h(df, parameter)
-		
-		# --------- writes file to new folder with prefix: 'clean-'
-		# write_new_csv(df, '8haverage-clean-', filename, county)
+		# --------- writes file to new folder with prefix
+		utils.write_new_csv(df, '8haverage-clean-', filename, county, state, start_year, end_year)
 		
 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)
 
 
-	logging.info('Finished MAIN')
+	logger.info('Finished MAIN')
 
 
 # --- START clean
-@timeit
+@utils.timeit
 def clean_data_daily(p_start_year, p_end_year, county, state='48', method='mean'):
 	# method can be 'max' or 'mean'
-	logging.info('Started MAIN')
+	logger.info('Started MAIN')
 	# temp_parameter = '42401'
 	# selecting folder:
 	global start_year, end_year
@@ -403,7 +368,7 @@ def clean_data_daily(p_start_year, p_end_year, county, state='48', method='mean'
 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)
 
 
-	logging.info('Finished MAIN')
+	logger.info('Finished MAIN')
 # if __name__ == "__main__":
 #     main()
 

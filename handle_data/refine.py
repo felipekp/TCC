@@ -4,34 +4,14 @@ import matplotlib as plt
 import numpy as np
 import os
 import pandas as pd
+import utils.utils as utils
 
 pd.set_option('display.max_rows', 200000)
 
-# --- logging
+# --- logging - always cleans the log when importing and executing this file
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(funcName)20s() %(levelname)-8s %(message)s',
-                    datefmt='%d-%m %H:%M:%S',
-                    filename='logs/refine.log',
-                    filemode='w')
-logger = logging.getLogger(__name__)
-
-# --- measuring time
-import time
-
-
-def timeit(method):
-
-    def timed(*args, **kw):
-        ts = time.time()
-        result = method(*args, **kw)
-        te = time.time()
-
-        print '%r %2.2f sec' % \
-              (method.__name__, te - ts)
-        return result
-
-    return timed
+utils.setup_logger('logger_refine', r'logs/refine.log')
+logger = logging.getLogger('logger_refine')
 
 # --- global variables
 global start_year
@@ -45,7 +25,7 @@ def handle_outliers(df):
         There are no silver bullets for this issue...
         Removes negative values from readings that should not have negative values
     """
-    logging.warning('Removing outliers (negative values and putting 0)')
+    logger.warning('Removing outliers (negative values and putting 0)')
 
     df = df.clip_lower(0)
 
@@ -54,7 +34,7 @@ def handle_outliers(df):
 
 def calc_dispersion_missing(df):
     """
-        Calculates dispersion of missing data and interpolates for small and medium gaps (small 0 to 30 days, medium 30 to 365 days, large 365+ days). Also sets True to a flag if it was not possible to fill missing values with small and medium methods (large gaps not being handled).
+        Calculates dispersion of missing data and interpolates for small and medium gaps (small 0 to 10 gaps, medium 10 to 365 gaps, large 365+ days). Also sets True to a flag if it was not possible to fill missing values with small and medium methods.
         :param df: pandas dataframe with date and other values from parameters
         :return: tuple with: modified dataframe or not and a flag saying if the given column/dataframe should be deleted or not (True deletes the column because there is not enough data for interpolate and False means the column contains data for all days)
     """
@@ -65,18 +45,18 @@ def calc_dispersion_missing(df):
     if new_df.max().astype(int) > 365:
         # print new_df.max()
         logger.critical(
-            'LARGE. Cannot interpolate because max size is over 365')
+            'LARGE. Cannot interpolate because max size is over 365 (bigger gap is over 365 days)')
         return df, True
 
     logger.warning(
-        'SMALL. Maximum size is under one year. So, we can interpolate some parts using a 30 days limit for linear')
-    df = df.interpolate(limit_direction='both', limit=30)
+        'SMALL. Maximum size is under one year. So, we can interpolate some parts using a 10 gaps (days or 8h average, depends on the dataset) limit for linear method')
+    df = df.interpolate(limit_direction='both', limit=10)
 
     logger.warning(
-        'MEDIUM. Using mean from previous and next year to fill this gap')
+        'MEDIUM. Using mean from previous and next year to fill this gap, if possible')
     # size of window to look for values (2 means 2 years ahead and 2 years
     # behind)
-    years = 2
+    years = 7
     # for year gap (takes values from next and previous year) (if it was 30,
     # would use values from previous and next month)
     gap = 365
@@ -120,34 +100,15 @@ def handle_interpolate(df):
     return workaround_interpolate(df)
 
 
-def write_new_csv(df, filename, county):
-    """
-        Saves the dataframe inside a new file in a new path (a folder with 'clean-' as prefix)
-        :param df: dataframe with the modified data
-        :param filename: filename from file being read (file name will stay the same)
-        :param county: county number
-        :return:
-    """
-    global start_year, end_year
-    logging.info('Saving file into new folder')
-    newpath = '48/' + county + '/mean-refine-' + start_year + '-' + end_year
-    if not os.path.exists(newpath):
-        os.makedirs(newpath)
-
-    df.to_csv(os.path.join(newpath, filename))
-
-
-@timeit
-def main():
+@utils.timeit
+def refine_data(p_start_year, p_end_year, county, prefix='8haverage-clean-', state='48', site='0069'):
     logging.info('Started MAIN')
     # temp_parameter = '43205'
     # to select folder:
     global start_year, end_year
-    start_year = '2000'
-    end_year = '2016'
-    county = '113'
-    root_dir = str('48/' + county + '/mean-clean-' +
-                   start_year + '-' + end_year + '/')
+    start_year = p_start_year
+    end_year = p_end_year
+    root_dir = str(state + '/' + county+ '/' + prefix + start_year + '-' + end_year + '/')
     # parameters that will not go throught outlier removal
     not_remove_outlier = ['68105']
 
@@ -174,8 +135,12 @@ def main():
             df = handle_outliers(df)
         # --------- handling interpolate:
         df = handle_interpolate(df)
+
         # --------- writes file to new folder with prefix: 'refine-'
-        write_new_csv(df, filename, county)
+        if len(df.columns) >= 1:
+            utils.write_new_csv(df, '8haverage-refine-', filename, county, state, start_year, end_year)
+        else:
+            logger.warning('Nothing to write for parameter: %s, not possible to interpolate (the file would be empty)', parameter)
 
         logger.info('DONE:DataFrame in file: %s was modified', complete_path)
 
