@@ -264,7 +264,9 @@ def remove_other_site_cols(df, site):
 
 # --- START clean
 @utils.timeit
-def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069'):
+def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069', clean_output_path):
+	"""
+	"""
 	logger.info('Started MAIN')
 	# temp_parameter = '42401'
 	# selecting folder:
@@ -308,7 +310,7 @@ def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069'):
 		# --------- calculate statistics about the data
 		calc_stats_8h(df, parameter)
 		# --------- writes file to new folder with prefix
-		utils.write_new_csv(df, '8haverage-clean-', filename, county, state, start_year, end_year)
+		utils.write_new_csv(df, clean_output_path, filename, county, state, start_year, end_year)
 		
 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)
 
@@ -316,59 +318,53 @@ def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069'):
 	logger.info('Finished MAIN')
 
 
-# --- START clean
-@utils.timeit
-def clean_data_daily(p_start_year, p_end_year, county, state='48', method='mean'):
-	# method can be 'max' or 'mean'
-	logger.info('Started MAIN')
-	# temp_parameter = '42401'
-	# selecting folder:
-	global start_year, end_year
-	start_year = p_start_year
-	end_year = p_end_year
-	root_dir = str(state +'/' + county + '/' + start_year + '-'+ end_year + '/')
-	# calc_max = ['44201']
+# # --- START clean
+# @utils.timeit
+# def clean_data_daily(p_start_year, p_end_year, county, state='48', method='mean'):
+# 	# method can be 'max' or 'mean'
+# 	logger.info('Started MAIN')
+# 	# temp_parameter = '42401'
+# 	# selecting folder:
+# 	global start_year, end_year
+# 	start_year = p_start_year
+# 	end_year = p_end_year
+# 	root_dir = str(state +'/' + county + '/' + start_year + '-'+ end_year + '/')
+# 	# calc_max = ['44201']
 
-	# iterate over files inside folder
-	for filename in os.listdir(root_dir):
-		complete_path = os.path.join(root_dir, filename)
+# 	# iterate over files inside folder
+# 	for filename in os.listdir(root_dir):
+# 		complete_path = os.path.join(root_dir, filename)
 
-		df = pd.read_csv(complete_path, skipfooter=1, engine='python')
+# 		df = pd.read_csv(complete_path, skipfooter=1, engine='python')
 
-		if df.empty:
-			logger.warning('DataFrame with file: %s is empty. Continue to the next param', complete_path)
-			continue
+# 		if df.empty:
+# 			logger.warning('DataFrame with file: %s is empty. Continue to the next param', complete_path)
+# 			continue
 
-		parameter = filename.split('.')[0] # sets the parameter
+# 		parameter = filename.split('.')[0] # sets the parameter
 
-		# if parameter != temp_parameter: #### TEMPORARY FOR TESTING
-		# 	logger.warning('Using temp_parameter: %s . Continue to the next param', temp_parameter)
-		# 	continue ### TEMPORARY FOR TESTING
+# 		# if parameter != temp_parameter: #### TEMPORARY FOR TESTING
+# 		# 	logger.warning('Using temp_parameter: %s . Continue to the next param', temp_parameter)
+# 		# 	continue ### TEMPORARY FOR TESTING
 
-		logger.info('DO:DataFrame in file: %s will be modified', complete_path)
+# 		logger.info('DO:DataFrame in file: %s will be modified', complete_path)
 
-		# --------- drop columns
-		df = df[['site','value','datetime']] # only keeps the relevant columns
-		# --------- substitute de values from columns datetime and site, becomes date and site
-		df = clean_datetime_site(df)
-		# --------- calculates the mean for each day
-		if method == 'max':
-			df = calc_daily_max(df)
-		else:
-			df = calc_daily_mean(df)
-		# --------- separates the site column into new features
-		df = separate_site(df, parameter)
-		# --------- reindex the date and fills with the full range. 
-		df = reindex_by_day(df)
-		# --------- calculate statistics about the data
-		calc_stats(df, parameter)
-		# --------- writes file to new folder with prefix: 'clean-'
-		write_new_csv(df, filename, county)
+# 		# --------- drop columns
+# 		df = df[['site','value','datetime']] # only keeps the relevant columns
+# 		# --------- substitute de values from columns datetime and site, becomes date and site
+# 		df = clean_datetime_site(df)
+# 		# --------- calculates the mean for each day
+# 		if method == 'max':
+# 			df = calc_daily_max(df)
+# 		else:
+# 			df = calc_daily_mean(df)
+# 		# --------- separates the site column into new features
+# 		df = separate_site(df, parameter)
+# 		# --------- reindex the date and fills with the full range. 
+# 		df = reindex_by_day(df)
+# 		# --------- calculate statistics about the data
+# 		calc_stats(df, parameter)
+# 		# --------- writes file to new folder with prefix: 'clean-'
+# 		write_new_csv(df, filename, county)
 		
-		logger.info('DONE:DataFrame in file: %s was modified', complete_path)
-
-
-	logger.info('Finished MAIN')
-# if __name__ == "__main__":
-#     main()
-
+# 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)

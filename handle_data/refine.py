@@ -101,14 +101,16 @@ def handle_interpolate(df):
 
 
 @utils.timeit
-def refine_data(p_start_year, p_end_year, county, prefix='8haverage-clean-', state='48', site='0069'):
+def refine_data(p_start_year, p_end_year, county, refine_input_path='8haverage-clean-', refine_output_path='8haverage-refine-', state='48', site='0069'):
+    """
+    """
     logging.info('Started MAIN')
     # temp_parameter = '43205'
     # to select folder:
     global start_year, end_year
     start_year = p_start_year
     end_year = p_end_year
-    root_dir = str(state + '/' + county+ '/' + prefix + start_year + '-' + end_year + '/')
+    root_dir = str(state + '/' + county+ '/' + refine_input_path + start_year + '-' + end_year + '/')
     # parameters that will not go throught outlier removal
     not_remove_outlier = ['68105']
 
@@ -136,9 +138,9 @@ def refine_data(p_start_year, p_end_year, county, prefix='8haverage-clean-', sta
         # --------- handling interpolate:
         df = handle_interpolate(df)
 
-        # --------- writes file to new folder with prefix: 'refine-'
+        # --------- writes file to new folder
         if len(df.columns) >= 1:
-            utils.write_new_csv(df, '8haverage-refine-', filename, county, state, start_year, end_year)
+            utils.write_new_csv(df, refine_output_path, filename, county, state, start_year, end_year)
         else:
             logger.warning('Nothing to write for parameter: %s, not possible to interpolate (the file would be empty)', parameter)
 
