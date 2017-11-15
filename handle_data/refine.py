@@ -1,3 +1,6 @@
+"""
+    This file constains methods to interpolate and handle with some outliers.
+"""
 # --- general imports
 import datetime as DT
 import matplotlib as plt
@@ -22,7 +25,7 @@ global end_year
 
 def handle_outliers(df):
     """
-        There are no silver bullets for this issue...
+        There are no silver bullets for this issue... TODO: maybe outliers should be handled before calculating the averages*
         Removes negative values from readings that should not have negative values
     """
     logger.warning('Removing outliers (negative values and putting 0)')
@@ -101,7 +104,7 @@ def handle_interpolate(df):
 
 
 @utils.timeit
-def refine_data(p_start_year, p_end_year, county, refine_input_path='8haverage-clean-', refine_output_path='8haverage-refine-', state='48', site='0069'):
+def refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state='48', site='0069'):
     """
     """
     logging.info('Started MAIN')

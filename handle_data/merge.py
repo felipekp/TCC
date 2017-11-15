@@ -1,3 +1,7 @@
+"""
+    This file contains a method to merge all files from a folder into a single file maintaining only one index.
+"""
+
 # --- general imports
 import os
 import pandas as pd
@@ -13,7 +17,7 @@ global end_year
 # --- Start CODE
 
 @utils.timeit
-def merge_data(p_start_year, p_end_year, county, merge_input_path='8haverage-refine-', merge_output_path='datasets/scaller-8haverage-merged_', state='48', site='0069'):
+def merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state='48', site='0069'):
     # to select folder:
     global start_year, end_year
     start_year = p_start_year
@@ -24,14 +28,8 @@ def merge_data(p_start_year, p_end_year, county, merge_input_path='8haverage-ref
     df = pd.concat((pd.read_csv(os.path.join(root_dir, f)) for f in os.listdir(
         root_dir)), axis=1, join='outer').set_index('date').reset_index(drop=True)
 
-    # pre-process data to use minMaxscaller
-    scaler = MinMaxScaler()
-    new_df = df
-    for column in df:
-        new_df[column] = scaler.fit_transform(df[column].values.reshape(-1, 1))
-
     # print df
-    new_df.to_csv(merge_output_path + start_year + '-' + end_year + '.csv')
+    df.to_csv(merge_output_path + start_year + '-' + end_year + '.csv')
 
 
 # if __name__ == "__main__":

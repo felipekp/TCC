@@ -264,7 +264,7 @@ def remove_other_site_cols(df, site):
 
 # --- START clean
 @utils.timeit
-def clean_data_8h(p_start_year, p_end_year, county, state='48', site='0069', clean_output_path):
+def clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state='48', site='0069'):
 	"""
 	"""
 	logger.info('Started MAIN')

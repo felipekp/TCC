@@ -12,8 +12,7 @@ import pandas as pd
 import math
 from pandas import ExcelWriter
 from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
+from keras.layers import Dense, LSTM, Dropout
 from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
@@ -44,9 +43,11 @@ def remove_other_site_cols(df, site):
         if col.split('_')[1] != site:
             del df[col]
 
-def lstm_create(epochs, input_nodes, look_back, lead_time, target_col_num=False, filename='datasets/max-merged_2000-2016.csv', optimizer='nadam', testtrainlossgraph=True, batch_size=512, loss_function='mse', train_split=0.8):
+def lstm_create(epochs, input_nodes, look_back, lead_time, target_col_num=False, filename='datasets/kuwait.csv', optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+    # 8haverage-merged_2000-2016
     # fix random seed for reproducibility
     np.random.seed(7)
+    # target_col_num = 6
 
     df = read_csv(filename, engine='python', skipfooter=3)
     df = df.set_index(df.columns[0])
@@ -109,19 +110,29 @@ def lstm_create(epochs, input_nodes, look_back, lead_time, target_col_num=False,
     # ***
     # 3) Actual change on the LSTM layer
     # ***
-    model.add(LSTM(input_nodes, activation='sigmoid', recurrent_activation='tanh', input_shape=(trainX.shape[1], trainX.shape[2])))
+    model.add(LSTM(input_nodes, return_sequences=True, activation='sigmoid', recurrent_activation='tanh', input_shape=(trainX.shape[1], trainX.shape[2])))
+
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(trainX.shape[2], activation='sigmoid', recurrent_activation='tanh', return_sequences=False))
+
+    model.add(Dropout(0.2))
 
     # 1 neuron on the output layer
-    model.add(Dense(1))
+    model.add(Dense(1, activation='sigmoid'))
 
     # compiles the model
-    model.compile(loss='mean_squared_error', optimizer='nadam')
+    model.compile(loss=loss_function, optimizer=optimizer)
 
     # ***
     # 5) Increased the batch_size to 72. This improves training performance by more than 50 times
     # and loses no accuracy (batch_size does not modify the final result, only how memory is handled)
     # ***
-    history = model.fit(trainX, trainY, epochs=epochs, batch_size=72,validation_data=(testX, testY), shuffle=False)
+    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size)
+
+    loss = model.evaluate(testX, testY)
+
+    print 'Loss (MSE):', loss
 
     # ***
     # 6) test loss and training loss graph. It can help understand the optimal epochs size and if the model
@@ -165,4 +176,5 @@ def lstm_create(epochs, input_nodes, look_back, lead_time, target_col_num=False,
     plt.close('all')
     plt.plot(testY)
     plt.plot(testPredict)
+    # plt.savefig('images_lstm_out/' + str(testScore) + '-' + str(epochs) + '-' + str(input_nodes) + '-' + str(look_back) + '-' + str(lead_time) + '-' + '_lstm.png')
     plt.show()
