@@ -3,6 +3,7 @@ Function to generate parameters and call LSTM model function
 use lstm.py
 '''
 from network_models.lstm import lstm_create
+from network_models.mlp import mlp_create
 import multiprocessing
 from functools import partial
 import json
@@ -18,6 +19,12 @@ def create_lookback():
 
 def create_leadtime():
     return [x for x in range(1,41,10)]
+
+def create_optimizers():
+    return ['sgd', 'rmsprop', 'adagrad', 'adadelta', 'adam', 'adamax', 'nadam']
+
+def create_activationfunctions():
+    return ['softmax', 'elu', 'selu', 'softplux', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear']
 
 # target_col_num = 25 # manually set might try to make it the last by default, need the size first, so just inside the function
 # # filename = 'datasets/kuwait.csv'
@@ -36,7 +43,7 @@ def create_leadtime():
 #             # for lead_time in create_leadtime():
 #                 # complexity x^4
 #             print epochs, input_nodes, look_back
-#             func = partial(lstm_create, epochs, input_nodes, look_back)
+#             func = partial(lstm_create, epochs, input_nodes, look_back)  TODO: REMOVE LEADTIME
 #             pool.map(func, create_leadtime())
 #                 # lstm_create(epochs, input_nodes, look_back, lead_time, filename=filename)
 
@@ -46,7 +53,10 @@ configs = json.loads(open('config_lstm.json').read())
 epochs = configs['model']['epochs']
 inputnodes = configs['model']['input_nodes']
 lookback = configs['model']['look_back']
-leadtime = configs['data']['lead_time']
+# leadtime = configs['data']['lead_time']
+filename = 'datasets/8haverage-prepared_44201_0069-3_2000-2016.csv'
 
 # epochs, inputnodes, lookback, leadtime
-lstm_create(epochs, inputnodes, lookback, leadtime)
+lstm_create(20, inputnodes, 17, filename=filename)
+# for optimizer in create_optimizers():
+# mlp_create(100, inputnodes, filename=filename, optimizer='nadam')

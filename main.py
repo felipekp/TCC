@@ -14,6 +14,9 @@ def main():
     county='113'
     state='48'
     site='0069'
+    predict_var = '44201_0069'
+    timesteps = '20'
+
     clean_output_path = '8haverage-clean-'
 
     refine_input_path = '8haverage-clean-'
@@ -32,7 +35,7 @@ def main():
 
     # merge.merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state, site)
 
-    preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, state, site)
+    preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, predict_var, timesteps, state, site)
 
 
 

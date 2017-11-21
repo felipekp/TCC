@@ -2,7 +2,7 @@
     "data": {
         "filename": "out/pca.csv",
         "target_col": 25,
-        "lead_time": 2,
+        "lead_time": 0,
         "train_test_split": 0.8
     },
     "model": {
