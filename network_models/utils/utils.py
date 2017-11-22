@@ -1,5 +1,7 @@
 import numpy as np
 from pandas import read_csv
+from keras.models import Sequential
+from keras.layers import Dense, LSTM, Dropout, Flatten
 
 def remove_other_site_cols(df, site):
     for col in df.columns:
@@ -33,19 +35,30 @@ def create_3d_lookback_array(data, look_back):
 
     return threeD
 
-def select_column(len_list, target_col_num):
-    target_col = len_list-1
-    # try:
-    if type(target_col_num) == int and int(target_col_num) <= len_list-1: # verify if it is a valid number
-        target_col = target_col_num
-    else:
-        print 'Last column selected as default.'
-    # except:
-    #     print 'Handling: use (int) number for target_col_num. Last column selected as default.'
+# def select_column(len_list, target_col_num):
+#     target_col = len_list-1
+#     # try:
+#     if type(target_col_num) == int and int(target_col_num) <= len_list-1: # verify if it is a valid number
+#         target_col = target_col_num
+#     else:
+#         print 'Last column selected as default.'
+#     # except:
+#     #     print 'Handling: use (int) number for target_col_num. Last column selected as default.'
 
-    return target_col
+#     return target_col
 
-def create_XY_arrays(df, target_col):
+def create_XY_arrays(df, look_back, timesteps_ahead, predict_var):
+    """
+        timesteps_ahead + look_back = actual timesteps the target should be moved from the first element
+        int = look_back and timesteps_ahead
+    """
+    
+    # creates new shifted column, select column 
+    df[predict_var + '_t+' + str(timesteps_ahead)] = df[predict_var].shift((timesteps_ahead + look_back)*-1)
+    df.dropna(inplace=True)
+
+    target_col = len(list(df))-1 # target column is the last one create
+
     dataset1 = df.fillna(0).values
     dataplot1 = dataset1[:, target_col]  # extracts the target_col
     dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data
@@ -98,4 +111,49 @@ def read_csvdata(filename):
     df = df.set_index(df.columns[0])
     df.index.rename('id', inplace=True)
 
+    print 'dataset used:', filename
+
     return df
+
+def createnet_lstm1(input_nodes, trainX):
+    model = Sequential()
+
+    model.add(LSTM(input_nodes, return_sequences=True, activation='tanh', recurrent_activation='tanh', input_shape=(trainX.shape[1], trainX.shape[2])))
+
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(trainX.shape[2], activation='tanh', recurrent_activation='tanh', return_sequences=False))
+
+    # 1 neuron on the output layer
+    model.add(Dense(1, activation='linear'))
+
+    return model
+
+def createnet_mlp1(input_nodes, trainX):
+    model = Sequential()
+
+    model.add(Dense(input_nodes, input_shape=(trainX.shape[1], trainX.shape[2]), activation='linear'))
+
+    model.add(Dropout(0.2))
+
+    model.add(Dense(20, activation='tanh'))
+
+    model.add(Dropout(0.2))
+
+    model.add(Dense(20, activation='tanh'))
+
+    model.add(Dropout(0.2))
+
+    model.add(Dense(50, activation='tanh'))
+
+    model.add(Dropout(0.2))
+
+    model.add(Dense(20, activation='tanh'))
+
+    # model.add(Dropout(0.2))
+
+    model.add(Flatten())
+
+    model.add(Dense(1, activation='linear'))
+
+    return model
