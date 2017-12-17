@@ -52,15 +52,13 @@ def create_activationfunctions():
 configs = json.loads(open('config_lstm.json').read())
 epochs = configs['model']['epochs']
 inputnodes = configs['model']['input_nodes']
-# lookback = configs['model']['look_back']
-look_back = 8
-# leadtime = configs['data']['lead_time']
+look_back = 0
 filename = 'datasets/8haverage-merged_2000-2016.csv'
 # filename = 'datasets/8haverage-merged_2000-2016.csv'
-timesteps_ahead = 6
+timesteps_ahead = 3
 predict_var = '44201_0069'
 # epochs, inputnodes, lookback, leadtime
-# lstm_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename)
+lstm_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename)
 # for optimizer in create_optimizers():
 # mlp_create(100, inputnodes, filename=filename, optimizer='nadam')
-mlp_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename)
+# mlp_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename, batch_size=72)

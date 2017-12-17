@@ -1,7 +1,12 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
 from pandas import read_csv
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout, Flatten
+
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+import math
 
 def remove_other_site_cols(df, site):
     for col in df.columns:
@@ -35,17 +40,6 @@ def create_3d_lookback_array(data, look_back):
 
     return threeD
 
-# def select_column(len_list, target_col_num):
-#     target_col = len_list-1
-#     # try:
-#     if type(target_col_num) == int and int(target_col_num) <= len_list-1: # verify if it is a valid number
-#         target_col = target_col_num
-#     else:
-#         print 'Last column selected as default.'
-#     # except:
-#     #     print 'Handling: use (int) number for target_col_num. Last column selected as default.'
-
-#     return target_col
 
 def create_XY_arrays(df, look_back, timesteps_ahead, predict_var):
     """
@@ -89,13 +83,6 @@ def prepare_XY_arrays(axisX, axisY, train_split, look_back):
     # prepare input Tensors
     trainX = create_3d_lookback_array(trainX1, look_back)
     testX = create_3d_lookback_array(testX1, look_back)
-    # prepare final data for training
-    # trainX = trainX1.reshape((trainX1.shape[0], 1, trainX1.shape[1]))
-    # testX = testX1.reshape((testX1.shape[0], 1, testX1.shape[1]))
-
-    # TESTING!!!
-    # print trainX.shape
-    # exit()
 
     # trims target arrays to match input lengths
     if len(trainX) < len(trainY):
@@ -157,3 +144,37 @@ def createnet_mlp1(input_nodes, trainX):
     model.add(Dense(1, activation='linear'))
 
     return model
+
+
+def create_testtrainingloss_graph(history, loss):
+    print ''
+    print 'Loss (MSE):', loss
+    plt.plot(history.history['val_loss'], label='train')
+    plt.plot(history.history['loss'], label='validation')
+    plt.legend()
+    plt.show()
+
+
+def create_realpredict_graph(testY, testPredict):
+    # plot baseline and predictions
+    plt.close('all')
+    plt.plot(testY, label='real_data')
+    plt.plot(testPredict, label='prediction')
+    plt.legend()
+    # plt.savefig('images_lstm_out/' + str(testScore) + '-' + str(epochs) + '-' + str(input_nodes) + '-' + str(look_back) + '-' + str(lead_time) + '-' + '_lstm.png')
+    plt.show()
+
+def calculate_MAE(trainY, trainPredict, testY, testPredict):
+    # calculates MAE
+    trainScore = mean_absolute_error(trainY, trainPredict)
+    print('Train Score: %.5f MAE' % (trainScore))
+    testScore = mean_absolute_error(testY, testPredict)
+    print('Test Score: %.5f MAE' % (testScore))
+
+
+def calculate_RMSE(trainY, trainPredict, testY, testPredict):
+    # calculates RMSE
+    trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
+    print('Train Score: %.5f RMSE' % (trainScore))
+    testScore = math.sqrt(mean_squared_error(testY, testPredict))
+    print('Test Score: %.5f RMSE' % (testScore))
