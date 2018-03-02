@@ -2,6 +2,7 @@ from handle_data import clean
 from handle_data import refine
 from handle_data import merge
 from handle_data import preparation
+from handle_data import feat_extract
 
 def main():
     """
@@ -15,18 +16,23 @@ def main():
     state='48'
     site='0069'
     predict_var = '44201_0069'
-    timesteps = '20'
+    timesteps = '3'
 
-    clean_output_path = '8haverage-clean-'
 
-    refine_input_path = '8haverage-clean-'
-    refine_output_path = '8haverage-refine-'
+    # clean_output_path = '8hmax-clean-'
 
-    merge_input_path = '8haverage-refine-'
-    merge_output_path = 'datasets/8haverage-merged_'
+    # refine_input_path = '8hmax-clean-'
+    # refine_output_path = '8hmax-refine-'
 
-    prepare_input_path = 'datasets/8haverage-merged_'
-    prepare_output_path = 'datasets/8haverage-prepared_'
+    # merge_input_path = '8hmax-refine-'
+    # merge_output_path = 'datasets/8hmax-merged_'
+
+    # prepare_input_path = 'datasets/8hmax-merged_'
+    # prepare_output_path = 'datasets/8hmax-prepared_'
+
+    algs_to_use = [3]
+    extracted_input_path = 'datasets/8hmax-prepared_44201_0069-' + timesteps + '_'
+    extracted_output_path = 'datasets/8hmax-extracted'
 
 
     # clean.clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state, site)
@@ -35,7 +41,9 @@ def main():
 
     # merge.merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state, site)
 
-    preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, predict_var, timesteps, state, site)
+    # preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, predict_var, timesteps, state, site)
+
+    feat_extract.extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, state, site)
 
 
 

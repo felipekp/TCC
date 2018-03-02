@@ -6,6 +6,7 @@ import os
 import pandas as pd
 import pydot
 import pydotplus
+import utils.utils as utils
 
 from matplotlib import pyplot
 
@@ -26,17 +27,18 @@ from sklearn.preprocessing import MinMaxScaler
 # np.set_printoptions(threshold=np.nan)
 pd.set_option('display.max_rows', 200000)
 
-# --- logging
+
+# --- logging - always cleans the log when importing and executing this file
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(funcName)20s() %(levelname)-8s %(message)s',
-                    datefmt='%d-%m %H:%M:%S',
-                    filename='logs/feat_extract.log',
-                    filemode='w')
-logger = logging.getLogger(__name__)
+utils.setup_logger('logger_feat_extract', r'logs/feat_extract.log')
+logger = logging.getLogger('logger_feat_extract')
 
 # --- measuring time
 import time
+
+# --- global variables
+global start_year
+global end_year
 
 
 def timeit(method):
@@ -103,10 +105,11 @@ def grad_boosting_classifier(dataset, target_dataset, dataplot1):
 
 def pca(dataset, target_dataset, dataplot1):
     logger.info('PCA')
+    global start_year, end_year, filename
     # ------ feature extraction
-    n_components = 25
+    n_components = 10
     # TODO: create a while loop that evaluates the 'best' number of components by checking if sum_fitpca.explanined... is greater than 0.999?
-    fit_pca = PCA(n_components=n_components, whiten=True).fit(dataset1)  # 7 principal components
+    fit_pca = PCA(n_components=n_components, whiten=True).fit(dataset)
     # ------ printing results
     dataset_pca = fit_pca.fit_transform(dataset)
     print '--------- Result: PCA'
@@ -119,22 +122,26 @@ def pca(dataset, target_dataset, dataplot1):
     write_new_csv(df, 'pca.csv')
 
     # ------ calculates cumulative variance
-    # temp = []
-    # temp.append(fit_pca.explained_variance_ratio_[0])
-    # i = 0
-    # for item in fit_pca.explained_variance_ratio_[1:]:
-    #     temp.append(temp[i]+item)
-    #     i += 1
-    # pyplot.ylabel('% of cumulative variance')
-    # pyplot.xlabel('principal components')
-    # pyplot.plot(range(len(fit_pca.explained_variance_ratio_)),temp, 'r')
-    # pyplot.show()
+    temp = []
+    temp.append(fit_pca.explained_variance_ratio_[0])
+    i = 0
+    for item in fit_pca.explained_variance_ratio_[1:]:
+        temp.append(temp[i]+item)
+        i += 1
+    pyplot.ylabel('% of cumulative variance')
+    pyplot.xlabel('principal components')
+    pyplot.plot(range(len(fit_pca.explained_variance_ratio_)),temp, 'r')
+    pyplot.show()
 
     # ----- plots the variance ratio
     pyplot.ylabel('% of variance')
     pyplot.xlabel('principal components')
     pyplot.bar(range(len(fit_pca.explained_variance_ratio_)),fit_pca.explained_variance_ratio_)
     pyplot.show()
+
+
+
+    # utils.write_new_csv(df, extracted_output_path, filename, county, state, start_year, end_year) TODO: finish this method
 
 
 def recursive_feature_elim(dataset, target_dataset, dataplot1):
@@ -188,17 +195,15 @@ extr_feat_algs = {
 }
 
 
-def main():
+def extract_features(p_start_year, p_end_year, algs_to_use, county,extracted_input_path, extracted_output_path, state='48', site='0069'):
     logging.info('Started MAIN')
-    start_year = '2000'
-    end_year = '2016'
-    site = '0069'
-    algs_to_use = [0, 2, 3]
+    global start_year, end_year
+    start_year = p_start_year
+    end_year = p_end_year
 
-    # my_file = open('merged/max-merged_' + start_year + '-' + end_year + '.csv')
-    my_file = open('datasets/kuwait.csv')
+    filename = str(extracted_input_path + start_year + '-' + end_year + '.csv')
     # my_file = open('brian_phd/brian_dataset.csv')
-    df = pd.read_csv(my_file, skipfooter=1, engine='python')
+    df = pd.read_csv(filename, engine='python')
     df = df.set_index(df.columns[0])
     df.index.rename('id', inplace=True)
 
@@ -208,39 +213,33 @@ def main():
     # remove_other_site_cols(df, site)
 
     # pick column to predict
-    target_col = 23   # choses 44201 as target column TODO: CHANGE IT FOR THE KUWAIT DATASET
+    target_col = len(df.columns)-1   # selects last column as target
 
     # ----- reshaping the data
     dataset1 = df.fillna(0).values
     # deletes target_column data
     dataset1 = np.delete(dataset1, target_col, axis=1)
     dataset1 = dataset1.astype('float32')
-    dataplot1 = df[df.columns[23]]
+    dataplot1 = df[df.columns[target_col]]
     dataplot1 = dataplot1.values.reshape(-1, 1)  # reshapes data for minmax scaler
 
-    a = list(df)
-
-    for i in range (len(a)):
-        print i, a[i]
-
+    # MUST re-scale for PCA and Dec tree
     scalerX = MinMaxScaler(feature_range=(0, 1))
     scalerY = MinMaxScaler(feature_range=(0, 1))
-    
+
     dataset = scalerX.fit_transform(dataset1)
     dataplot = scalerY.fit_transform(dataplot1)
-    
 
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
-    target_dataset = np.where(df[df.columns[23]] >= 0.07, 1, 0).astype('int')
+    target_dataset = np.where(df[df.columns[target_col]] >= 0.07, 1, 0).astype('int')
+    target_dataset = target_dataset.reshape(-1,1)
 
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
         # TODO: try and except for items inside algs_to_use
-        extr_feat_algs[alg](dataset, target_dataset, dataplot1)
+        extr_feat_algs[alg](dataset, target_dataset, dataplot)
 
     logger.info('DONE:Feature extraction')
     logging.info('Finished MAIN')
 
 
-if __name__ == "__main__":
-    main()

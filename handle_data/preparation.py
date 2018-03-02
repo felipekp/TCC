@@ -12,6 +12,7 @@ from pandas import read_csv
 import matplotlib as plt
 import numpy as np
 import pandas as pd
+import utils.utils as utils
 
 # def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 #     """
@@ -46,7 +47,7 @@ import pandas as pd
 #         agg.dropna(inplace=True)
 #     return agg
 
-
+@utils.timeit
 def prepare(p_start_year, p_end_year, county, prepare_input_path, p_prepare_output_path, predict_var, p_timesteps='1', state='48', site='0069'):
     # to select file:
     start_year = p_start_year
