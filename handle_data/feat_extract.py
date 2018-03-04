@@ -1,4 +1,6 @@
 # --- general imports
+from collections import OrderedDict
+
 import graphviz
 import matplotlib as plt
 import numpy as np
@@ -62,13 +64,33 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 
-def decision_tree(dataset, target_bin_dataset, target_dataset):
+def decision_tree(dataset, target_bin_dataset, target_dataset, col_names, extracted_output_path):
     logger.info('Decision Tree Classifier')
     model = tree.DecisionTreeClassifier()
     model.fit(dataset, target_bin_dataset)
     # ------ exporting the tree
     print '--------- Result: Decision Tree'
-    print len(model.feature_importances_)
+    print model.feature_importances_
+
+    score_and_cols = zip([float(x) for x in model.feature_importances_], col_names[:len(col_names)-1])
+    ten_most_important_features = sorted(score_and_cols, key=lambda t: t[0], reverse=True)[:10]
+
+    # print(dataset.reshape(-1, 19))
+    #
+    # exit()
+
+    df = pd.DataFrame(dataset.reshape(-1, len(col_names)), columns=col_names)
+
+    print(df.shape)
+    new_df = pd.DataFrame()
+    for item in ten_most_important_features:
+        new_df[item[1]] = df.pop(item[1])
+    # exit()
+
+    new_df['readings_ozone'] = target_dataset
+    new_df.to_csv(extracted_output_path + 'decTree_' + start_year + '-' + end_year + '.csv')
+
+    # following code just creates the decision tree in a pdf file.
     # dot_data = StringIO()
     # tree.export_graphviz(model, out_file=dot_data)
     # graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
@@ -103,7 +125,7 @@ def decision_tree(dataset, target_bin_dataset, target_dataset):
 #     pyplot.show()
 
 
-def pca(dataset, target_bin_dataset, target_dataset, extracted_output_path):
+def pca(dataset, target_bin_dataset, target_dataset, col_names, extracted_output_path):
     #change to dataset, target_bin_dataset, target_dataset
     logger.info('PCA')
     global start_year, end_year
@@ -229,14 +251,14 @@ def extract_features(p_start_year, p_end_year, algs_to_use, county,extracted_inp
     # target_dataset = scalerY.fit_transform(dataplot1)
     target_dataset = dataplot1
 
-    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
+    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0. This is actually only used inside Decision Tree for now.
     target_bin_dataset = np.where(df[df.columns[target_col]] >= 0.07, 1, 0).astype('int')
     target_bin_dataset = target_bin_dataset.reshape(-1,1)
 
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
         # TODO: try and except for items inside algs_to_use
-        extr_feat_algs[alg](dataset, target_bin_dataset, target_dataset, extracted_output_path)
+        extr_feat_algs[alg](dataset, target_bin_dataset, target_dataset, df.columns[:len(df.columns)-1], extracted_output_path)
 
     logger.info('DONE:Feature extraction')
     logging.info('Finished MAIN')

@@ -16,7 +16,7 @@ def main():
     state='48'
     site='0069'
     predict_var = '44201_0069'
-    timesteps = '1'
+    timesteps = '3'
 
 
     # clean_output_path = '8hmax-clean-'
@@ -30,7 +30,7 @@ def main():
     # prepare_input_path = 'datasets/8hmax-merged_'
     # prepare_output_path = 'datasets/8hmax-prepared_'
 
-    algs_to_use = [3]
+    algs_to_use = [0]
     extracted_input_path = 'datasets/8hmax-prepared_' + predict_var + '-' + timesteps + '_'
     extracted_output_path = 'datasets/8hmax-extracted_' + predict_var + '-' + timesteps + '_'
 
