@@ -16,7 +16,7 @@ def main():
     state='48'
     site='0069'
     predict_var = '44201_0069'
-    timesteps = '3'
+    timesteps = '1'
 
 
     # clean_output_path = '8hmax-clean-'
@@ -31,8 +31,8 @@ def main():
     # prepare_output_path = 'datasets/8hmax-prepared_'
 
     algs_to_use = [3]
-    extracted_input_path = 'datasets/8hmax-prepared_44201_0069-' + timesteps + '_'
-    extracted_output_path = 'datasets/8hmax-extracted'
+    extracted_input_path = 'datasets/8hmax-prepared_' + predict_var + '-' + timesteps + '_'
+    extracted_output_path = 'datasets/8hmax-extracted_' + predict_var + '-' + timesteps + '_'
 
 
     # clean.clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state, site)

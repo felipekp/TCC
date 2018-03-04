@@ -151,6 +151,6 @@ def refine_data(p_start_year, p_end_year, county, refine_input_path, refine_outp
 
     logging.info('Finished MAIN')
 
-
-if __name__ == "__main__":
-    main()
+#
+# if __name__ == "__main__":
+#     main()

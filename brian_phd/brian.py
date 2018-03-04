@@ -157,7 +157,7 @@ filename = 'NEWFinErr_lstm_'+ str(n_epochs) + str(lead_time) + '_' + stamp + '.c
 if filename.count('.') == 2:
     filename = filename.replace(".", "",1)
 
-# START: write results to csv file (TODO: verify if itś writing exactly what it was writing)
+# START: write results to csv file
 df_trainPredict = pd.DataFrame(trainPredict, columns=['trainPredict']) #save prediction output
 df_obsTrain = pd.DataFrame(trainY, columns=['obsTrain']) #save observed output
 df_testPredict = pd.DataFrame(testPredict, columns=['testPredict']) #save output training data

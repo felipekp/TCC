@@ -62,10 +62,10 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 
-def decision_tree(dataset, target_dataset, dataplot1):
+def decision_tree(dataset, target_bin_dataset, target_dataset):
     logger.info('Decision Tree Classifier')
     model = tree.DecisionTreeClassifier()
-    model.fit(dataset, target_dataset)
+    model.fit(dataset, target_bin_dataset)
     # ------ exporting the tree
     print '--------- Result: Decision Tree'
     print len(model.feature_importances_)
@@ -75,51 +75,52 @@ def decision_tree(dataset, target_dataset, dataplot1):
     # graph.write_pdf("out/dec_tree.pdf")
 
 
-def feature_importance(dataset, target_dataset, dataplot1):
-    logger.info('Feature importance')
-    # ------ feature extraction
-    model = ExtraTreesClassifier()
-    model.fit(dataset, target_dataset)
-
-    # ------ printing results
-    print '--------- Result: Feature Importance'
-    print(model.feature_importances_)
-
-
-def grad_boosting_classifier(dataset, target_dataset, dataplot1):
-    logger.info('Gradient boosting classifier')
-    # ------ creates and trains the classifier
-    model = XGBClassifier()
-    model.fit(dataset, target_dataset)
-
-    # ------ feature importance
-    print '--------- Result: Gradient boosting classifier'
-    print(model.feature_importances_)
-
-    # ------ plot
-    # pyplot.bar(range(len(model.feature_importances_)),
-    #            model.feature_importances_)
-    plot_importance(model, grid=False)
-    pyplot.show()
+# def feature_importance(dataset, target_dataset, dataplot1):
+#     logger.info('Feature importance')
+#     # ------ feature extraction
+#     model = ExtraTreesClassifier()
+#     model.fit(dataset, target_dataset)
+#
+#     # ------ printing results
+#     print '--------- Result: Feature Importance'
+#     print(model.feature_importances_)
 
 
-def pca(dataset, target_dataset, dataplot1):
+# def grad_boosting_classifier(dataset, target_dataset, dataplot1):
+#     logger.info('Gradient boosting classifier')
+#     # ------ creates and trains the classifier
+#     model = XGBClassifier()
+#     model.fit(dataset, target_dataset)
+#
+#     # ------ feature importance
+#     print '--------- Result: Gradient boosting classifier'
+#     print(model.feature_importances_)
+#
+#     # ------ plot
+#     # pyplot.bar(range(len(model.feature_importances_)),
+#     #            model.feature_importances_)
+#     plot_importance(model, grid=False)
+#     pyplot.show()
+
+
+def pca(dataset, target_bin_dataset, target_dataset, extracted_output_path):
+    #change to dataset, target_bin_dataset, target_dataset
     logger.info('PCA')
-    global start_year, end_year, filename
+    global start_year, end_year
     # ------ feature extraction
     n_components = 10
-    # TODO: create a while loop that evaluates the 'best' number of components by checking if sum_fitpca.explanined... is greater than 0.999?
-    fit_pca = PCA(n_components=n_components, whiten=True).fit(dataset)
-    # ------ printing results
+    fit_pca = PCA(n_components=n_components, whiten=True)
     dataset_pca = fit_pca.fit_transform(dataset)
+    # ------ printing results
     print '--------- Result: PCA'
     print("Variance preserved: %s") % sum(fit_pca.explained_variance_ratio_)
     # print(fit_pca.components_) # prints the eigen vectors, each pca is a vector
     # ------ saves resulting dataset to a file
-    df = pd.DataFrame(dataset_pca)
-    # df['excess_ozone'] = target_dataset
-    df['readings_ozone'] = dataplot1
-    write_new_csv(df, 'pca.csv')
+    df = pd.DataFrame(data= dataset_pca, columns= ['principal_comp_' + str(x) for x in range(10)])
+    # df['excess_ozone?'] = target_bin_dataset
+    df['readings_ozone'] = target_dataset
+
+    df.to_csv(extracted_output_path + 'pca_' +start_year + '-' + end_year + '.csv')
 
     # ------ calculates cumulative variance
     temp = []
@@ -140,58 +141,54 @@ def pca(dataset, target_dataset, dataplot1):
     pyplot.show()
 
 
+# def recursive_feature_elim(dataset, target_dataset, dataplot1):
+#     logger.info('Recursive Feature Elimination with Logistic Regression')
+#     # ------ feature extraction
+#     model = LogisticRegression()
+#     rfe = RFE(model, 27)  # selects 27 features
+#     fit = rfe.fit(dataset, target_dataset)
+#
+#     # ------ printing results
+#     print '--------- Result: Recursive feature elimination'
+#     print("Selected Features: %s") % fit.support_
+#     print("Feature Ranking: %s") % fit.ranking_
 
-    # utils.write_new_csv(df, extracted_output_path, filename, county, state, start_year, end_year) TODO: finish this method
-
-
-def recursive_feature_elim(dataset, target_dataset, dataplot1):
-    logger.info('Recursive Feature Elimination with Logistic Regression')
-    # ------ feature extraction
-    model = LogisticRegression()
-    rfe = RFE(model, 27)  # selects 27 features
-    fit = rfe.fit(dataset, target_dataset)
-
-    # ------ printing results
-    print '--------- Result: Recursive feature elimination'
-    print("Selected Features: %s") % fit.support_
-    print("Feature Ranking: %s") % fit.ranking_
-
-
-def univariate_selection(dataset, target_dataset, dataplot1):
-    test = SelectKBest(score_func=f_regression, k=25)
-    fit = test.fit(dataset, target_dataset)
-
-    # ------ scores
-    np.set_printoptions(precision=3)
-    print(fit.scores_)
-    features = fit.transform(dataset)
-    # summarize selected features
-    # print(features[0:5,:])
-
-def write_new_csv(df, filename):
-    """
-        Saves the dataframe inside a new file in a new path (a folder with 'clean-' as prefix)
-        :param df: dataframe with the modified data
-        :param filename: filename from file being read (file name will stay the same)
-        :param county: county number
-        :return:
-    """
-    global start_year, end_year
-    logging.info('Saving file into new folder')
-    newpath = 'out/'
-    if not os.path.exists(newpath):
-        os.makedirs(newpath)
-
-    df.to_csv(os.path.join(newpath, filename))
+#
+# def univariate_selection(dataset, target_dataset, dataplot1):
+#     test = SelectKBest(score_func=f_regression, k=25)
+#     fit = test.fit(dataset, target_dataset)
+#
+#     # ------ scores
+#     np.set_printoptions(precision=3)
+#     print(fit.scores_)
+#     features = fit.transform(dataset)
+#     # summarize selected features
+#     # print(features[0:5,:])
+#
+# def write_new_csv(df, filename):
+#     """
+#         Saves the dataframe inside a new file in a new path (a folder with 'clean-' as prefix)
+#         :param df: dataframe with the modified data
+#         :param filename: filename from file being read (file name will stay the same)
+#         :param county: county number
+#         :return:
+#     """
+#     global start_year, end_year
+#     logging.info('Saving file into new folder')
+#     newpath = 'out/'
+#     if not os.path.exists(newpath):
+#         os.makedirs(newpath)
+#
+#     df.to_csv(os.path.join(newpath, filename))
 
 
 extr_feat_algs = {
     0: decision_tree,
-    1: feature_importance,
-    2: grad_boosting_classifier,
+    # 1: feature_importance,
+    # 2: grad_boosting_classifier,
     3: pca,
-    4: recursive_feature_elim,
-    5: univariate_selection,
+    # 4: recursive_feature_elim,
+    # 5: univariate_selection,
 }
 
 
@@ -214,6 +211,7 @@ def extract_features(p_start_year, p_end_year, algs_to_use, county,extracted_inp
 
     # pick column to predict
     target_col = len(df.columns)-1   # selects last column as target
+    print 'total parameters/columns:', len(df.columns)-1
 
     # ----- reshaping the data
     dataset1 = df.fillna(0).values
@@ -225,19 +223,20 @@ def extract_features(p_start_year, p_end_year, algs_to_use, county,extracted_inp
 
     # MUST re-scale for PCA and Dec tree
     scalerX = MinMaxScaler(feature_range=(0, 1))
-    scalerY = MinMaxScaler(feature_range=(0, 1))
+    # scalerY = MinMaxScaler(feature_range=(0, 1))
 
     dataset = scalerX.fit_transform(dataset1)
-    dataplot = scalerY.fit_transform(dataplot1)
+    # target_dataset = scalerY.fit_transform(dataplot1)
+    target_dataset = dataplot1
 
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0
-    target_dataset = np.where(df[df.columns[target_col]] >= 0.07, 1, 0).astype('int')
-    target_dataset = target_dataset.reshape(-1,1)
+    target_bin_dataset = np.where(df[df.columns[target_col]] >= 0.07, 1, 0).astype('int')
+    target_bin_dataset = target_bin_dataset.reshape(-1,1)
 
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
         # TODO: try and except for items inside algs_to_use
-        extr_feat_algs[alg](dataset, target_dataset, dataplot)
+        extr_feat_algs[alg](dataset, target_bin_dataset, target_dataset, extracted_output_path)
 
     logger.info('DONE:Feature extraction')
     logging.info('Finished MAIN')
