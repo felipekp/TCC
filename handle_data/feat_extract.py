@@ -64,30 +64,33 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 
-def decision_tree(dataset, target_bin_dataset, target_dataset, col_names, extracted_output_path):
+def decision_tree(dataset, default_target, target_dataset, timesteps, col_names, extracted_output_path):
     logger.info('Decision Tree Classifier')
+
+    temp_target_dataset = pd.DataFrame(target_dataset)
+    target_bin_dataset = np.where(temp_target_dataset.values >= 0.07, 1, 0).astype('int')
+    target_bin_dataset = target_bin_dataset.reshape(-1, 1)
+
     model = tree.DecisionTreeClassifier()
     model.fit(dataset, target_bin_dataset)
     # ------ exporting the tree
     print '--------- Result: Decision Tree'
-    print model.feature_importances_
+    # print model.feature_importances_
 
     score_and_cols = zip([float(x) for x in model.feature_importances_], col_names[:len(col_names)-1])
     ten_most_important_features = sorted(score_and_cols, key=lambda t: t[0], reverse=True)[:10]
+    # df = pd.DataFrame(dataset.reshape(-1, len(col_names)), columns=col_names)
+    df = pd.DataFrame(data=dataset, columns=col_names)
 
-    # print(dataset.reshape(-1, 19))
-    #
-    # exit()
-
-    df = pd.DataFrame(dataset.reshape(-1, len(col_names)), columns=col_names)
-
-    print(df.shape)
     new_df = pd.DataFrame()
     for item in ten_most_important_features:
         new_df[item[1]] = df.pop(item[1])
-    # exit()
 
-    new_df['readings_ozone'] = target_dataset
+    print('The ten most important features are:')
+    print(ten_most_important_features)
+
+    new_df['target_t+' + timesteps] = target_dataset
+    new_df['target_t+0'] = default_target
     new_df.to_csv(extracted_output_path + 'decTree_' + start_year + '-' + end_year + '.csv')
 
     # following code just creates the decision tree in a pdf file.
@@ -125,7 +128,7 @@ def decision_tree(dataset, target_bin_dataset, target_dataset, col_names, extrac
 #     pyplot.show()
 
 
-def pca(dataset, target_bin_dataset, target_dataset, col_names, extracted_output_path):
+def pca(dataset, default_target, target_dataset, timesteps, col_names, extracted_output_path):
     #change to dataset, target_bin_dataset, target_dataset
     logger.info('PCA')
     global start_year, end_year
@@ -140,7 +143,9 @@ def pca(dataset, target_bin_dataset, target_dataset, col_names, extracted_output
     # ------ saves resulting dataset to a file
     df = pd.DataFrame(data= dataset_pca, columns= ['principal_comp_' + str(x) for x in range(10)])
     # df['excess_ozone?'] = target_bin_dataset
-    df['readings_ozone'] = target_dataset
+
+    df['target_t+' + timesteps] = target_dataset
+    df['target_t+0'] = default_target
 
     df.to_csv(extracted_output_path + 'pca_' +start_year + '-' + end_year + '.csv')
 
@@ -214,7 +219,7 @@ extr_feat_algs = {
 }
 
 
-def extract_features(p_start_year, p_end_year, algs_to_use, county,extracted_input_path, extracted_output_path, state='48', site='0069'):
+def extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, predict_var, timesteps, state='48', site='0069'):
     logging.info('Started MAIN')
     global start_year, end_year
     start_year = p_start_year
@@ -232,33 +237,29 @@ def extract_features(p_start_year, p_end_year, algs_to_use, county,extracted_inp
     # remove_other_site_cols(df, site)
 
     # pick column to predict
-    target_col = len(df.columns)-1   # selects last column as target
-    print 'total parameters/columns:', len(df.columns)-1
+    target_col = predict_var + '_t+' + timesteps   # selects last column as target
+    default_col = predict_var + '_t+0'
+    target_dataset = pd.DataFrame(df.pop(target_col))
+    default_target = pd.DataFrame(df.pop(default_col))
+    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0. This is actually only used inside Decision Tree for now.
+
+    print 'Total parameters/columns:', len(df.columns)-1
+    print 'The target parameter is:', target_col
+    print 'The default column is (target_col not shifted):', default_col
 
     # ----- reshaping the data
-    dataset1 = df.fillna(0).values
-    # deletes target_column data
-    dataset1 = np.delete(dataset1, target_col, axis=1)
-    dataset1 = dataset1.astype('float32')
-    dataplot1 = df[df.columns[target_col]]
-    dataplot1 = dataplot1.values.reshape(-1, 1)  # reshapes data for minmax scaler
+    dataset = df.fillna(0).values
+    dataset = dataset.astype('float32')
+    target_dataset = target_dataset.values.reshape(-1, 1)  # reshapes data for minmax scaler
 
     # MUST re-scale for PCA and Dec tree
     scalerX = MinMaxScaler(feature_range=(0, 1))
-    # scalerY = MinMaxScaler(feature_range=(0, 1))
 
-    dataset = scalerX.fit_transform(dataset1)
-    # target_dataset = scalerY.fit_transform(dataplot1)
-    target_dataset = dataplot1
-
-    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0. This is actually only used inside Decision Tree for now.
-    target_bin_dataset = np.where(df[df.columns[target_col]] >= 0.07, 1, 0).astype('int')
-    target_bin_dataset = target_bin_dataset.reshape(-1,1)
+    dataset = scalerX.fit_transform(dataset)
 
     # ----- creates and trains feature extraction methods
     for alg in algs_to_use:
-        # TODO: try and except for items inside algs_to_use
-        extr_feat_algs[alg](dataset, target_bin_dataset, target_dataset, df.columns[:len(df.columns)-1], extracted_output_path)
+        extr_feat_algs[alg](dataset, default_target, target_dataset, timesteps, df.columns, extracted_output_path)
 
     logger.info('DONE:Feature extraction')
     logging.info('Finished MAIN')

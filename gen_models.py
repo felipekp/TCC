@@ -3,8 +3,8 @@ Function to generate parameters and call LSTM model function
 use lstm.py
 '''
 from models.arima import arima_create
-# from models.lstm import lstm_create
-# from models.mlp import mlp_create
+from models.lstm import lstm_create
+from models.mlp import mlp_create
 import multiprocessing
 from functools import partial
 import json
@@ -53,15 +53,14 @@ def create_activationfunctions():
 configs = json.loads(open('config_lstm.json').read())
 epochs = configs['model']['epochs']
 inputnodes = configs['model']['input_nodes']
-look_back = 0
-filename = 'datasets/8max-merged_2000-2016.csv'
+look_back = 1
+filename = 'datasets/8hmax-extracted_44201_0069-3_decTree_2000-2016.csv'
+
 # filename = 'datasets/8haverage-merged_2000-2016.csv'
-timesteps_ahead = 3
-predict_var = '44201_0069'
+timesteps_ahead = 0 # 0 because the dataset is already shifted
+predict_var = 'readings_ozone'
 # epochs, inputnodes, lookback, leadtime
 # lstm_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename)
 # for optimizer in create_optimizers():
 # mlp_create(100, inputnodes, filename=filename, optimizer='nadam')
-# mlp_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename, batch_size=72)
-
-# arima_create(look_back, predict_var, filename)
+mlp_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename, batch_size=72)

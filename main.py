@@ -43,7 +43,7 @@ def main():
 
     # preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, predict_var, timesteps, state, site)
 
-    feat_extract.extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, state, site)
+    feat_extract.extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, predict_var, timesteps, state, site)
 
 
 
