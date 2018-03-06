@@ -19,21 +19,26 @@ import time
 import utils.utils as utils
 
 
-def mlp_create(epochs, input_nodes, look_back, timesteps_ahead, predict_var, filename='datasets/kuwait.csv', optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+def mlp_create(epochs, input_nodes, look_back, predict_var, filename='datasets/kuwait.csv', optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
     # 8haverage-merged_2000-2016
     # fix random seed for reproducibility
     np.random.seed(7)
 
     df = utils.read_csvdata(filename)
 
-    # separates into axisY = X and axisY = Y
-    axisX, axisY = utils.create_XY_arrays(df, look_back, timesteps_ahead, predict_var)
+    col_to_drop = 'target_t+0'
+    df.drop(col_to_drop, axis=1, inplace=True)
+
+    # separates into axisX = X and axisY = Y
+    axisX, axisY = utils.create_XY_arrays(df, look_back, predict_var)
 
     # normalize the datasets
+    # only if the input dataset is not normalized, example: when using PCA or Dec Tree they have already been normalized on the X (dataset), thus we only normalize Y/target dataset. However, if it is only a "prepared" dataset, no feature extration method used before, then we normalize it
     scalerX = MinMaxScaler(feature_range=(0, 1))
-    scalerY = MinMaxScaler(feature_range=(0, 1))
-
     axisX = scalerX.fit_transform(axisX)
+
+    # assumes that target is never normalized
+    scalerY = MinMaxScaler(feature_range=(0, 1))
     axisY = scalerY.fit_transform(axisY)
 
     # prepare output arrays
@@ -43,7 +48,6 @@ def mlp_create(epochs, input_nodes, look_back, timesteps_ahead, predict_var, fil
     # Network declaration
     # ***
     model = utils.createnet_mlp1(input_nodes, trainX)
-    
 
     # compiles the model
     model.compile(loss=loss_function, optimizer=optimizer)
@@ -71,6 +75,7 @@ def mlp_create(epochs, input_nodes, look_back, timesteps_ahead, predict_var, fil
     testPredict = model.predict(testX)
 
     # invert predictions
+
     trainPredict = scalerY.inverse_transform(trainPredict)
     trainY = scalerY.inverse_transform(trainY)
     testPredict = scalerY.inverse_transform(testPredict)

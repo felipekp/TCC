@@ -53,14 +53,14 @@ def create_activationfunctions():
 configs = json.loads(open('config_lstm.json').read())
 epochs = configs['model']['epochs']
 inputnodes = configs['model']['input_nodes']
-look_back = 1
+look_back = 3
 filename = 'datasets/8hmax-extracted_44201_0069-3_decTree_2000-2016.csv'
 
 # filename = 'datasets/8haverage-merged_2000-2016.csv'
-timesteps_ahead = 0 # 0 because the dataset is already shifted
-predict_var = 'readings_ozone'
+timesteps_ahead = 3 # 3 for 24 hours
+predict_var = 'target_t+3'
 # epochs, inputnodes, lookback, leadtime
 # lstm_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename)
 # for optimizer in create_optimizers():
 # mlp_create(100, inputnodes, filename=filename, optimizer='nadam')
-mlp_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename, batch_size=72)
+mlp_create(20, inputnodes, look_back, predict_var, filename=filename, batch_size=72)
