@@ -13,7 +13,7 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import utils.utils as utils
 
 
-def lstm_create(epochs, input_nodes, look_back, timesteps_ahead, predict_var, filename='datasets/kuwait.csv', optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
     """
 
     Given an csv file with all parameters and a 
@@ -24,14 +24,18 @@ def lstm_create(epochs, input_nodes, look_back, timesteps_ahead, predict_var, fi
     # reads csv file and sets index column
     df = utils.read_csvdata(filename)
 
+    col_to_drop = 'target_t+3'
+    df.drop(col_to_drop, axis=1, inplace=True)
+
     # separates into axisX and axisY the input data
-    axisX, axisY = utils.create_XY_arrays(df, look_back, timesteps_ahead, predict_var)
+    axisX, axisY = utils.create_XY_arrays(df, look_back, predict_var, time_steps)
 
     # normalize the datasets
-    scalerX = MinMaxScaler(feature_range=(0, 1))
-    scalerY = MinMaxScaler(feature_range=(0, 1))
+    if normalize_X:
+        scalerX = MinMaxScaler(feature_range=(0, 1))
+        axisX = scalerX.fit_transform(axisX)
 
-    axisX = scalerX.fit_transform(axisX)
+    scalerY = MinMaxScaler(feature_range=(0, 1))
     axisY = scalerY.fit_transform(axisY)
 
     # prepare output arrays

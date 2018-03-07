@@ -41,15 +41,16 @@ def create_3d_lookback_array(data, look_back):
     return threeD
 
 
-def create_XY_arrays(df, look_back, predict_var):
+def create_XY_arrays(df, look_back, predict_var, time_steps):
     """
         timesteps_ahead + look_back = actual timesteps the target should be moved from the first element
         int = look_back and timesteps_ahead
     """
     
-    # creates new shifted column, select column 
-    # df[predict_var + '_t+' + str(timesteps_ahead)] = df[predict_var].shift((timesteps_ahead + look_back)*-1)
-    # df.dropna(inplace=True)
+    # creates new shifted column, select column
+    # TODO: verify that we are not using current value when giving the look-back parameter (look-back = 3 and the prediciton is 3.. then we might be using the 1,2,3 values, which include the current, for the prediction).
+    df[predict_var + '_t+' + str(time_steps)] = df[predict_var].shift((time_steps + look_back)*-1)
+    df.dropna(inplace=True)
 
     # print(df.head(10))
 
@@ -59,8 +60,8 @@ def create_XY_arrays(df, look_back, predict_var):
     dataplot1 = dataset1[:, target_col]  # extracts the target_col
     dataplot1 = dataplot1.reshape(-1, 1)  # reshapes data
     # deletes target_column data
-    dataset1 = np.delete(dataset1, target_col, axis=1) # removes target_col from training dataset
-    # dataset1.drop(target_col, axis=1, inplace=True)
+    dataset1 = np.delete(dataset1, target_col, axis=1) # removes target_col (created) from training dataset
+    dataset1 = np.delete(dataset1, target_col - 1, axis=1) # removes the original target_col from dataset
     dataset1 = dataset1.astype('float32')
 
     return dataset1, dataplot1

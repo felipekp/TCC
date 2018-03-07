@@ -53,14 +53,18 @@ def create_activationfunctions():
 configs = json.loads(open('config_lstm.json').read())
 epochs = configs['model']['epochs']
 inputnodes = configs['model']['input_nodes']
-look_back = 3
-filename = 'datasets/8hmax-extracted_44201_0069-3_decTree_2000-2016.csv'
-
+look_back = 1
+# filename = 'datasets/8hmax-extracted_44201_0069-3_pca_2000-2016.csv'; normalize_X = False
+filename = 'datasets/8hmax-extracted_44201_0069-3_decTree_2000-2016.csv'; normalize_X = False
+# filename = 'datasets/8hmax-prepared_44201_0069-3_2000-2016.csv'; normalize_X = True
+time_steps = 3
 # filename = 'datasets/8haverage-merged_2000-2016.csv'
-timesteps_ahead = 3 # 3 for 24 hours
-predict_var = 'target_t+3'
+predict_var = 'target_t+0' #
+
+# TODO:implement a report kind of printing system... so I know exactly with which parameters everything is being executed.
+
 # epochs, inputnodes, lookback, leadtime
-# lstm_create(20, inputnodes, look_back, timesteps_ahead, predict_var, filename=filename)
+# lstm_create(20, inputnodes, look_back, predict_var, time_steps, filename=filename, normalize_X=normalize_X)
 # for optimizer in create_optimizers():
 # mlp_create(100, inputnodes, filename=filename, optimizer='nadam')
-mlp_create(20, inputnodes, look_back, predict_var, filename=filename, batch_size=72)
+mlp_create(20, inputnodes, predict_var, time_steps, look_back=0, normalize_X=normalize_X, filename=filename)
