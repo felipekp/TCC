@@ -55,13 +55,13 @@ def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize
 
     # fits the model
     # history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size)
-    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_data=(testX, testY), shuffle=False)
+    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_split=0.2, shuffle=False, verbose=0)
 
     #evaluates the model
-    loss = model.evaluate(testX, testY)
+    loss = model.evaluate(testX, testY, verbose=0)
 
     # test loss and training loss graph. It can help understand the optimal epochs size and if the model is overfitting or underfitting.
-    utils.create_testtrainingloss_graph(history, loss)
+    # utils.create_testtrainingloss_graph(history, loss)
 
     # make predictions
     trainPredict = model.predict(trainX)

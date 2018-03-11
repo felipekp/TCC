@@ -53,7 +53,7 @@ def calc_dispersion_missing(df):
 
     logger.warning(
         'SMALL. Maximum size is under one year. So, we can interpolate some parts using a 10 gaps (days or 8h average, depends on the dataset) limit for linear method')
-    df = df.interpolate(limit_direction='both', limit=10)
+    df = df.interpolate(limit_direction='both', limit=3)
 
     logger.warning(
         'MEDIUM. Using mean from previous and next year to fill this gap, if possible')
@@ -62,7 +62,7 @@ def calc_dispersion_missing(df):
     years = 7
     # for year gap (takes values from next and previous year) (if it was 30,
     # would use values from previous and next month)
-    gap = 365
+    gap = 1095
     df[df.isnull()] = np.nanmean(
         [df.shift(x).values for x in range(-gap * years, gap * (years + 1), gap)], axis=0)
 

@@ -51,7 +51,7 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
 
     # fits the model
     # history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size)
-    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_data=(testX, testY), shuffle=False, verbose=0)
+    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_split=0.2, shuffle=False, verbose=0)
 
     #evaluates the model
     loss = model.evaluate(testX, testY, verbose=0)
@@ -79,6 +79,6 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     utils.calculate_RMSE(trainY, trainPredict, testY, testPredict)
 
     # creates graph with real test data and the predicted data
-    # utils.create_realpredict_graph(testY, testPredict)
+    utils.create_realpredict_graph(testY, testPredict)
     print '-----------------------'
 

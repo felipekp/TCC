@@ -63,8 +63,8 @@ def prepare(p_start_year, p_end_year, county, prepare_input_path, p_prepare_outp
     df.index.rename('id', inplace=True)
 
     # shifting the target parameter forward timesteps times
-    df[predict_var + '_t+' + timesteps] = df[predict_var].shift(int(timesteps)*-1)
-    df[predict_var + '_t+' + '0'] = df[predict_var]
+    df['target_t+' + timesteps] = df[predict_var].shift(int(timesteps)*-1)
+    df['target_t+0'] = df[predict_var]
     df.dropna(inplace=True)
 
     # saves changes to new file

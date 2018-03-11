@@ -237,8 +237,8 @@ def extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_in
     # remove_other_site_cols(df, site)
 
     # pick column to predict
-    target_col = predict_var + '_t+' + timesteps   # selects last column as target
-    default_col = predict_var + '_t+0'
+    target_col = 'target_t+' + timesteps   # selects last column as target
+    default_col = 'target_t+0'
     target_dataset = pd.DataFrame(df.pop(target_col))
     default_target = pd.DataFrame(df.pop(default_col))
     # ----- modifies the target column so when its above standard (0.07) its 1 and else 0. This is actually only used inside Decision Tree for now.
