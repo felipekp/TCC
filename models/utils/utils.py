@@ -125,23 +125,23 @@ def createnet_mlp1(input_nodes, trainX):
 
     model.add(Dense(input_nodes, input_shape=(trainX.shape[1], trainX.shape[2]), activation='linear'))
 
-    model.add(Dropout(0.2))
+    # model.add(Dropout(0.2))
 
-    model.add(Dense(20, activation='tanh'))
-
-    model.add(Dropout(0.2))
-
-    model.add(Dense(20, activation='tanh'))
-
-    model.add(Dropout(0.2))
-
-    model.add(Dense(50, activation='tanh'))
-
-    model.add(Dropout(0.2))
-
-    model.add(Dense(20, activation='tanh'))
+    model.add(Dense(20, activation='linear'))
 
     # model.add(Dropout(0.2))
+
+    model.add(Dense(20, activation='linear'))
+
+    # model.add(Dropout(0.2))
+
+    model.add(Dense(50, activation='linear'))
+
+    # model.add(Dropout(0.2))
+
+    model.add(Dense(20, activation='linear'))
+
+    model.add(Dropout(0.2))
 
     model.add(Flatten())
 

@@ -38,6 +38,8 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     scalerY = MinMaxScaler(feature_range=(0, 1))
     axisY = scalerY.fit_transform(axisY)
 
+
+
     # prepare output arrays
     trainX, testX, trainY, testY = utils.prepare_XY_arrays(axisX, axisY, train_split, look_back)
 
@@ -49,7 +51,7 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
 
     # fits the model
     # history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size)
-    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_data=(testX, testY), shuffle=False)
+    history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_data=(testX, testY), shuffle=False, verbose=0)
 
     #evaluates the model
     loss = model.evaluate(testX, testY)
@@ -66,6 +68,8 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     trainY = scalerY.inverse_transform(trainY)
     testPredict = scalerY.inverse_transform(testPredict)
     testY = scalerY.inverse_transform(testY)
+
+    print('Lookback:', look_back)
 
     # calculates MAE score
     utils.calculate_MAE(trainY, trainPredict, testY, testPredict)
