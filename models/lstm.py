@@ -54,10 +54,10 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, validation_data=(testX, testY), shuffle=False, verbose=0)
 
     #evaluates the model
-    loss = model.evaluate(testX, testY)
+    loss = model.evaluate(testX, testY, verbose=0)
 
     # test loss and training loss graph. It can help understand the optimal epochs size and if the model is overfitting or underfitting.
-    utils.create_testtrainingloss_graph(history, loss)
+    # utils.create_testtrainingloss_graph(history, loss)
 
     # make predictions
     trainPredict = model.predict(trainX)
@@ -69,6 +69,7 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     testPredict = scalerY.inverse_transform(testPredict)
     testY = scalerY.inverse_transform(testY)
 
+    print '-----------------------'
     print('Lookback:', look_back)
 
     # calculates MAE score
@@ -78,5 +79,6 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     utils.calculate_RMSE(trainY, trainPredict, testY, testPredict)
 
     # creates graph with real test data and the predicted data
-    utils.create_realpredict_graph(testY, testPredict)
+    # utils.create_realpredict_graph(testY, testPredict)
+    print '-----------------------'
 
