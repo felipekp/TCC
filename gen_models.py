@@ -64,7 +64,7 @@ predict_var = 'target_t+0' #
 # TODO:implement a report kind of printing system... so I know exactly with which parameters everything is being executed.
 
 # epochs, inputnodes, lookback, leadtime
-# lstm_create(20, inputnodes, look_back, predict_var, time_steps, filename=filename, normalize_X=normalize_X)
+lstm_create(20, inputnodes, look_back, predict_var, time_steps, filename=filename, normalize_X=normalize_X)
 # for optimizer in create_optimizers():
 # mlp_create(100, inputnodes, filename=filename, optimizer='nadam')
 mlp_create(100, inputnodes, predict_var, time_steps, look_back=0, normalize_X=normalize_X, filename=filename)

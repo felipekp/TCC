@@ -57,7 +57,7 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     loss = model.evaluate(testX, testY, verbose=0)
 
     # test loss and training loss graph. It can help understand the optimal epochs size and if the model is overfitting or underfitting.
-    # utils.create_testtrainingloss_graph(history, loss)
+    utils.create_testtrainingloss_graph(history, loss)
 
     # make predictions
     trainPredict = model.predict(trainX)
