@@ -2,14 +2,11 @@
 LSTM RNN for predicting timeseries
 Original code by Brian
 Modified by Felipe Ukan
+Creates LSTM neural network.
 
 '''
 import numpy as np
-import matplotlib.pyplot as plt
-
-import pandas as pd
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 import utils.utils as utils
 
 

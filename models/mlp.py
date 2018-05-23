@@ -1,28 +1,17 @@
 '''
-LSTM RNN for predicting timeseries
-Original code by Brian
-Modified by Felipe Ukan
+Creates the MLP network
 
 '''
 import numpy as np
-import matplotlib.pyplot as plt
-from pandas import read_csv
-
-import pandas as pd
-import math
-from pandas import ExcelWriter
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import TimeSeriesSplit
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-import time
+from sklearn.preprocessing import MinMaxScaler
 import utils.utils as utils
 
 
-def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize_X, look_back=0, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
     # 8haverage-merged_2000-2016
     # fix random seed for reproducibility
     np.random.seed(7)
+    look_back = 0 # defaulted to 0 because MLP with look-back doesnt make sense.
 
     df = utils.read_csvdata(filename)
 
