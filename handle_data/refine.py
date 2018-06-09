@@ -44,7 +44,7 @@ def calc_dispersion_missing(df):
     new_df = df.isnull().astype(int).groupby(
         df.notnull().astype(int).cumsum()).sum()
 
-    # maximum consecutive days without readings
+    # maximum consecutive days/gaps without readings
     if new_df.max().astype(int) > 365:
         # print new_df.max()
         logger.critical(
@@ -104,7 +104,7 @@ def handle_interpolate(df):
 
 
 @utils.timeit
-def refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state='48', site='0069'):
+def refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state='48'):
     """
     """
     logging.info('Started MAIN')

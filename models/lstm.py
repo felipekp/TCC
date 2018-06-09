@@ -9,8 +9,8 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import utils.utils as utils
 
-
-def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+@utils.timeit
+def lstm_create(epochs, look_back, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
     """
 
     Given an csv file with all parameters and a 
@@ -27,6 +27,11 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     # separates into axisX and axisY the input data
     axisX, axisY = utils.create_XY_arrays(df, look_back, predict_var, time_steps)
 
+    #saves the minimum and maximum values to normalize the results
+    min_value = min(axisY)
+    max_value = max(axisY)
+
+
     # normalize the datasets
     if normalize_X:
         scalerX = MinMaxScaler(feature_range=(0, 1))
@@ -41,7 +46,7 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
     trainX, testX, trainY, testY = utils.prepare_XY_arrays(axisX, axisY, train_split, look_back)
 
     # Network declaration
-    model = utils.createnet_lstm1(input_nodes, trainX)
+    model = utils.createnet_lstm1(trainX)
 
     # compiles the model
     model.compile(loss=loss_function, optimizer=optimizer)
@@ -74,6 +79,8 @@ def lstm_create(epochs, input_nodes, look_back, predict_var, time_steps, filenam
 
     # calculates RMSE
     utils.calculate_RMSE(trainY, trainPredict, testY, testPredict)
+    # calculates NRMSE
+    utils.calculate_NRMSE(trainY, trainPredict, testY, testPredict, min_value, max_value)
 
     # creates graph with real test data and the predicted data
     utils.create_realpredict_graph(testY, testPredict)

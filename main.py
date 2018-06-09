@@ -11,11 +11,11 @@ def main():
 
     Hardcoded are the parameters necessary and can be modified depending on the folder structure.
     """
-    p_start_year='2000'
-    p_end_year='2016'
+    p_start_year='1990'
+    p_end_year='2017'
     county='113'
     state='48'
-    site='0069'
+    site=False # either False or a vector with the number of the site, like: ['0069']
     predict_var = '44201_0069' # name of column that we want to predict
     timesteps = '3' # number of steps ahead to look
 
@@ -26,25 +26,24 @@ def main():
     refine_output_path = '8hmax-refine-'
 
     merge_input_path = refine_output_path # var with path for process that imputes data
-    merge_output_path = 'datasets/8hmax-merged_'
+    merge_output_path = 'datasets/multi_sites_8hmax-merged_'
 
     prepare_input_path = merge_output_path # var for process that shifts data in time
-    prepare_output_path = 'datasets/8hmax-prepared_' # final path before any extraction feature method
+    prepare_output_path = 'datasets/multi_sites_8hmax-prepared_' # final path before any extraction feature method
 
     algs_to_use = [3] # where 0: decision_tree, 3: pca. Inside a dict declared inside feat_extract.
     extracted_input_path = prepare_output_path + predict_var + '-' + timesteps + '_'
-    extracted_output_path = 'datasets/8hmax-extracted_' + predict_var + '-' + timesteps + '_' # final path with the extracted features
+    extracted_output_path = 'datasets/multi_sites_8hmax-extracted_' + predict_var + '-' + timesteps + '_' # final path with the extracted features
 
+    # clean.clean_data_8h(p_start_year, p_end_year, county, clean_output_path, site, state)
 
-    clean.clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state, site)
-
-    refine.refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state, site)
-
-    merge.merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state, site)
-
-    preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, predict_var, timesteps, state, site)
-
-    feat_extract.extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, predict_var, timesteps, state, site)
+    refine.refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state)
+    #
+    # merge.merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state)
+    #
+    # preparation.prepare(p_start_year, p_end_year, county, prepare_input_path, prepare_output_path, predict_var, timesteps)
+    #
+    # feat_extract.extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, predict_var, timesteps)
 
 
 if __name__ == "__main__":

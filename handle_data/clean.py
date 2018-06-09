@@ -232,15 +232,15 @@ def separate_site(df, parameter):
     return new_df
 
 
-def calc_missing_daily(row):
-    """
-        Calculates the percentage of missing values
-        :param row: one row with the sum of all null values
-    """
-    global start_year, end_year
-
-    num_days = ((float(end_year) - float(start_year)) + 1) * 365
-    return (float(row)/num_days)*100
+# def calc_missing_daily(row):
+#     """
+#         Calculates the percentage of missing values
+#         :param row: one row with the sum of all null values
+#     """
+#     global start_year, end_year
+#
+#     num_days = ((float(end_year) - float(start_year)) + 1) * 365
+#     return (float(row)/num_days)*100
 
 def calc_missing_8h(row):
     """
@@ -266,18 +266,18 @@ def calc_stats_8h(df, parameter):
     print 'PARAM_SITE  PERCENTAGEMISSING'
     print missing
 
-def calc_stats_daily(df, parameter):
-    """
-        Calculates and prints the percentage of missing values in each column
-        :param df: dataframe with columns of data
-        :param parameter: number
-    """
-    logger.info('Calculating statistcs about the columns')
-    missing = df.isnull().sum().to_frame('missing').apply(calc_missing, axis=1)
-
-    print 'Number of stations for parameter: ' + str(parameter) + ' is: ' + str(len(df.columns))
-    print 'PARAM_SITE  PERCENTAGEMISSING'
-    print missing
+# def calc_stats_daily(df, parameter):
+#     """
+#         Calculates and prints the percentage of missing values in each column
+#         :param df: dataframe with columns of data
+#         :param parameter: number
+#     """
+#     logger.info('Calculating statistcs about the columns')
+#     missing = df.isnull().sum().to_frame('missing').apply(calc_missing_daily, axis=1)
+#
+#     print 'Number of stations for parameter: ' + str(parameter) + ' is: ' + str(len(df.columns))
+#     print 'PARAM_SITE  PERCENTAGEMISSING'
+#     print missing
 
 
 def remove_other_site_cols(df, site):
@@ -287,7 +287,7 @@ def remove_other_site_cols(df, site):
 
 # --- START clean
 @utils.timeit
-def clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state='48', site='0069'):
+def clean_data_8h(p_start_year, p_end_year, county, clean_output_path, site, state='48'):
     """
     """
     logger.info('Started MAIN')
@@ -330,7 +330,8 @@ def clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state='48
         # df = reindex_by_date(df)
         df = reindex_by_8h(df)
         # --------- deletes columns form other sites TODO: this should be optional. For now every other column besides the one with 0069 is being deleted. Cannot delete before and save computational time because data is mixed in the dataframe.
-        remove_other_site_cols(df, site)
+        if site:
+            remove_other_site_cols(df, site)
         # --------- calculate statistics about the data
         calc_stats_8h(df, parameter)
         # --------- writes file to new folder with prefix
@@ -340,55 +341,3 @@ def clean_data_8h(p_start_year, p_end_year, county, clean_output_path, state='48
 
 
     logger.info('Finished MAIN')
-
-
-# # --- START clean
-# @utils.timeit
-# def clean_data_daily(p_start_year, p_end_year, county, state='48', method='mean'):
-# 	# method can be 'max' or 'mean'
-# 	logger.info('Started MAIN')
-# 	# temp_parameter = '42401'
-# 	# selecting folder:
-# 	global start_year, end_year
-# 	start_year = p_start_year
-# 	end_year = p_end_year
-# 	root_dir = str(state +'/' + county + '/' + start_year + '-'+ end_year + '/')
-# 	# calc_max = ['44201']
-
-# 	# iterate over files inside folder
-# 	for filename in os.listdir(root_dir):
-# 		complete_path = os.path.join(root_dir, filename)
-
-# 		df = pd.read_csv(complete_path, skipfooter=1, engine='python')
-
-# 		if df.empty:
-# 			logger.warning('DataFrame with file: %s is empty. Continue to the next param', complete_path)
-# 			continue
-
-# 		parameter = filename.split('.')[0] # sets the parameter
-
-# 		# if parameter != temp_parameter: #### TEMPORARY FOR TESTING
-# 		# 	logger.warning('Using temp_parameter: %s . Continue to the next param', temp_parameter)
-# 		# 	continue ### TEMPORARY FOR TESTING
-
-# 		logger.info('DO:DataFrame in file: %s will be modified', complete_path)
-
-# 		# --------- drop columns
-# 		df = df[['site','value','datetime']] # only keeps the relevant columns
-# 		# --------- substitute de values from columns datetime and site, becomes date and site
-# 		df = clean_datetime_site(df)
-# 		# --------- calculates the mean for each day
-# 		if method == 'max':
-# 			df = calc_daily_max(df)
-# 		else:
-# 			df = calc_daily_mean(df)
-# 		# --------- separates the site column into new features
-# 		df = separate_site(df, parameter)
-# 		# --------- reindex the date and fills with the full range. 
-# 		df = reindex_by_day(df)
-# 		# --------- calculate statistics about the data
-# 		calc_stats(df, parameter)
-# 		# --------- writes file to new folder with prefix: 'clean-'
-# 		write_new_csv(df, filename, county)
-
-# 		logger.info('DONE:DataFrame in file: %s was modified', complete_path)

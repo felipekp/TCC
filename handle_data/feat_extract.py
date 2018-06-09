@@ -133,7 +133,7 @@ def pca(dataset, default_target, target_dataset, timesteps, col_names, extracted
     logger.info('PCA')
     global start_year, end_year
     # ------ feature extraction
-    n_components = 10
+    n_components = 13
     fit_pca = PCA(n_components=n_components, whiten=True)
     dataset_pca = fit_pca.fit_transform(dataset)
     # ------ printing results
@@ -141,7 +141,7 @@ def pca(dataset, default_target, target_dataset, timesteps, col_names, extracted
     print("Variance preserved: %s") % sum(fit_pca.explained_variance_ratio_)
     # print(fit_pca.components_) # prints the eigen vectors, each pca is a vector
     # ------ saves resulting dataset to a file
-    df = pd.DataFrame(data= dataset_pca, columns= ['principal_comp_' + str(x) for x in range(10)])
+    df = pd.DataFrame(data= dataset_pca, columns= ['principal_comp_' + str(x) for x in range(n_components)])
     # df['excess_ozone?'] = target_bin_dataset
 
     df['target_t+' + timesteps] = target_dataset
@@ -219,7 +219,7 @@ extr_feat_algs = {
 }
 
 
-def extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, predict_var, timesteps, state='48', site='0069'):
+def extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_input_path, extracted_output_path, predict_var, timesteps):
     logging.info('Started MAIN')
     global start_year, end_year
     start_year = p_start_year

@@ -48,7 +48,7 @@ import utils.utils as utils
 #     return agg
 
 @utils.timeit
-def prepare(p_start_year, p_end_year, county, prepare_input_path, p_prepare_output_path, predict_var, p_timesteps='1', state='48', site='0069'):
+def prepare(p_start_year, p_end_year, county, prepare_input_path, p_prepare_output_path, predict_var, p_timesteps='1'):
     # to select file:
     start_year = p_start_year
     end_year = p_end_year

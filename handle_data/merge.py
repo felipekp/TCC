@@ -17,7 +17,7 @@ global end_year
 # --- Start CODE
 
 @utils.timeit
-def merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state='48', site='0069'):
+def merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state='48'):
     # to select folder:
     global start_year, end_year
     start_year = p_start_year

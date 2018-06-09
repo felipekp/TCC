@@ -6,12 +6,12 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import utils.utils as utils
 
-
-def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+@utils.timeit
+def mlp_create(epochs, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
     # 8haverage-merged_2000-2016
     # fix random seed for reproducibility
     np.random.seed(7)
-    look_back = 0 # defaulted to 0 because MLP with look-back doesnt make sense.
+    look_back = 0 # defaulted to 0
 
     df = utils.read_csvdata(filename)
 
@@ -20,6 +20,10 @@ def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize
 
     # separates into axisX = X and axisY = Y
     axisX, axisY = utils.create_XY_arrays(df, look_back, predict_var, time_steps)
+
+    #saves the minimum and maximum values to normalize the results
+    min_value = min(axisY)
+    max_value = max(axisY)
 
     # normalize the datasets
     # only if the input dataset is not normalized, example: when using PCA or Dec Tree they have already been normalized on the X (dataset), thus we only normalize Y/target dataset. However, if it is only a "prepared" dataset, no feature extration method used before, then we normalize it
@@ -37,7 +41,7 @@ def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize
     # ***
     # Network declaration
     # ***
-    model = utils.createnet_mlp1(input_nodes, trainX)
+    model = utils.createnet_mlp1(trainX)
 
     # compiles the model
     model.compile(loss=loss_function, optimizer=optimizer)
@@ -50,7 +54,7 @@ def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize
     loss = model.evaluate(testX, testY, verbose=0)
 
     # test loss and training loss graph. It can help understand the optimal epochs size and if the model is overfitting or underfitting.
-    # utils.create_testtrainingloss_graph(history, loss)
+    utils.create_testtrainingloss_graph(history, loss)
 
     # make predictions
     trainPredict = model.predict(trainX)
@@ -67,6 +71,8 @@ def mlp_create(epochs, input_nodes, predict_var, time_steps, filename, normalize
 
     # calculates RMSE
     utils.calculate_RMSE(trainY, trainPredict, testY, testPredict)
+    # calculates NRMSE
+    utils.calculate_NRMSE(trainY, trainPredict, testY, testPredict, min_value, max_value)
 
     # creates graph with real test data and the predicted data
     utils.create_realpredict_graph(testY, testPredict)

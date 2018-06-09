@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,7 +17,7 @@ def remove_other_site_cols(df, site):
             del df[col]
 
 # convert an array of values into a dataset matrix
-def create_3d_lookback_array(data, look_back):
+def _create_3d_lookback_array(data, look_back):
     '''
         timestep/lookback is now: size given+1 because Im considering itself a different timestep (so, given 2 it will take the two past readings from the current and the current)
         params:
@@ -85,8 +87,8 @@ def prepare_XY_arrays(axisX, axisY, train_split, look_back):
     testX1 = test[:len(testY),]
         
     # prepare input Tensors
-    trainX = create_3d_lookback_array(trainX1, look_back)
-    testX = create_3d_lookback_array(testX1, look_back)
+    trainX = _create_3d_lookback_array(trainX1, look_back)
+    testX = _create_3d_lookback_array(testX1, look_back)
 
     # trims target arrays to match input lengths
     if len(trainX) < len(trainY):
@@ -106,12 +108,14 @@ def read_csvdata(filename):
 
     return df
 
-def createnet_lstm1(input_nodes, trainX):
+def createnet_lstm1(trainX):
     model = Sequential()
 
+    # the input_nodes are actually on the layer after the input layer.
+    input_nodes = 30
     model.add(LSTM(input_nodes, return_sequences=True, activation='tanh', recurrent_activation='tanh', input_shape=(trainX.shape[1], trainX.shape[2])))
 
-    model.add(Dropout(0.2))
+    # model.add(Dropout(0.2))
 
     model.add(LSTM(trainX.shape[2], activation='tanh', recurrent_activation='tanh', return_sequences=False))
 
@@ -120,16 +124,14 @@ def createnet_lstm1(input_nodes, trainX):
 
     return model
 
-def createnet_mlp1(input_nodes, trainX):
+def createnet_mlp1(trainX):
     model = Sequential()
 
+    # the input_nodes are actually on the layer after the input layer.
+    input_nodes = 30
     model.add(Dense(input_nodes, input_shape=(trainX.shape[1], trainX.shape[2]), activation='linear'))
 
-    # model.add(Dropout(0.2))
-
     model.add(Dense(20, activation='linear'))
-
-    # model.add(Dropout(0.2))
 
     model.add(Dense(20, activation='linear'))
 
@@ -137,11 +139,7 @@ def createnet_mlp1(input_nodes, trainX):
 
     model.add(Dense(50, activation='linear'))
 
-    # model.add(Dropout(0.2))
-
     model.add(Dense(20, activation='linear'))
-
-    model.add(Dropout(0.2))
 
     model.add(Flatten())
 
@@ -182,3 +180,29 @@ def calculate_RMSE(trainY, trainPredict, testY, testPredict):
     print('Train Score: %.5f RMSE' % (trainScore))
     testScore = math.sqrt(mean_squared_error(testY, testPredict))
     print('Test Score: %.5f RMSE' % (testScore))
+    return trainScore, testScore
+
+def calculate_NRMSE(trainY, trainPredict, testY, testPredict, min_value, max_value):
+
+    rmse_train, rmse_test = calculate_RMSE(trainY, trainPredict, testY, testPredict)
+    nrmse_train = rmse_train / (max_value - min_value)
+    nrmse_test = rmse_test / (max_value - min_value)
+
+    print('Train Score: %.5f NRMSE' % (nrmse_train))
+    print('Test Score: %.5f NRMSE' % (nrmse_test))
+
+
+def timeit(method):
+    """
+        Decorator that measures time of functions
+    """
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+
+        print '%r %2.2f sec' % \
+              (method.__name__, te-ts)
+        return result
+
+    return timed
