@@ -33,7 +33,7 @@ predict_var = 'target_t+0' # here the target column has not been shifted. It mus
 # Must comment two of the following three:
 # filename = 'datasets/multi_sites_8hmax-extracted_44201_0069-3_pca_2000-2016.csv'; normalize_X = False # PCA dataset
 # filename = 'datasets/multi_sites_8hmax-extracted_44201_0069-3_decTree_2000-2016.csv'; normalize_X = False # Decision Tree dataset
-filename = 'datasets/multi_sites_8hmax-prepared_44201_0069-3_2000-2016.csv'; normalize_X = True # Normal dataset with no extrac feature
+filename = 'datasets/multi_sites_8hmax-prepared_44201_0069-3_2000-2016.csv'; normalize_X = True # Normal dataset with no extract feature
 
 
 # lstm_create(30, look_back, predict_var, time_steps, filename=filename, normalize_X=normalize_X)

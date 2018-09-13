@@ -11,16 +11,16 @@ def main():
 
     Hardcoded are the parameters necessary and can be modified depending on the folder structure.
     """
-    p_start_year='1990'
+    p_start_year='2000'
     p_end_year='2017'
     county='113'
     state='48'
-    site=False # either False or a vector with the number of the site, like: ['0069']
+    site='0069' # either False or a vector with the number of the site, like: ['0069']
     predict_var = '44201_0069' # name of column that we want to predict
     timesteps = '3' # number of steps ahead to look
 
 
-    clean_output_path = '8hmax-clean-' # variable to define the path of the clean output process
+    clean_output_path = 'Dailymax-clean-' # variable to define the path of the clean output process
 
     refine_input_path = clean_output_path # var to define input of the process that re-indexes the data.
     refine_output_path = '8hmax-refine-'
@@ -36,8 +36,9 @@ def main():
     extracted_output_path = 'datasets/multi_sites_8hmax-extracted_' + predict_var + '-' + timesteps + '_' # final path with the extracted features
 
     # clean.clean_data_8h(p_start_year, p_end_year, county, clean_output_path, site, state)
-
-    refine.refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state)
+    clean.clean_data_daily(p_start_year, p_end_year, county, clean_output_path, site, state)
+    #
+    # refine.refine_data(p_start_year, p_end_year, county, refine_input_path, refine_output_path, state)
     #
     # merge.merge_data(p_start_year, p_end_year, county, merge_input_path, merge_output_path, state)
     #

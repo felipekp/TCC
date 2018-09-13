@@ -52,7 +52,7 @@ def create_XY_arrays(df, look_back, predict_var, time_steps):
     # creates new shifted column, select column
     # TODO: verify that we are not using current value when giving the look-back parameter (look-back = 3 and the prediciton is 3.. then we might be using the 1,2,3 values, which include the current, for the prediction).
     df[predict_var + '_t+' + str(time_steps)] = df[predict_var].shift((time_steps + look_back)*-1)
-    df.dropna(inplace=True)
+    df.dropna(inplace=True) # TODO: did I just drop the whole column??
 
     # print(df.head(10))
 
@@ -169,27 +169,38 @@ def create_realpredict_graph(testY, testPredict):
 def calculate_MAE(trainY, trainPredict, testY, testPredict):
     # calculates MAE
     trainScore = mean_absolute_error(trainY, trainPredict)
-    print('Train Score: %.5f MAE' % (trainScore))
     testScore = mean_absolute_error(testY, testPredict)
-    print('Test Score: %.5f MAE' % (testScore))
 
+    print('Train Score: %.5f MAE' % (trainScore))
+    print('Test Score: %.5f MAE' % (testScore))
+    return trainScore, testScore
 
 def calculate_RMSE(trainY, trainPredict, testY, testPredict):
     # calculates RMSE
     trainScore = math.sqrt(mean_squared_error(trainY, trainPredict))
-    print('Train Score: %.5f RMSE' % (trainScore))
     testScore = math.sqrt(mean_squared_error(testY, testPredict))
+
+    print('Train Score: %.5f RMSE' % (trainScore))
     print('Test Score: %.5f RMSE' % (testScore))
     return trainScore, testScore
 
 def calculate_NRMSE(trainY, trainPredict, testY, testPredict, min_value, max_value):
-
-    rmse_train, rmse_test = calculate_RMSE(trainY, trainPredict, testY, testPredict)
+    # TODO:repested function from calculate_RMSE. Remove prints and only leave return values so print happen after returning.
+    rmse_train = math.sqrt(mean_squared_error(trainY, trainPredict))
+    rmse_test = math.sqrt(mean_squared_error(testY, testPredict))
     nrmse_train = rmse_train / (max_value - min_value)
     nrmse_test = rmse_test / (max_value - min_value)
 
     print('Train Score: %.5f NRMSE' % (nrmse_train))
     print('Test Score: %.5f NRMSE' % (nrmse_test))
+
+def plot_metrics(history):
+    plt.plot(history.history['mean_squared_error'], label='mse')
+    plt.plot(history.history['mean_absolute_error'], label='mae')
+    # plt.plot(history.history['mean_absolute_percentage_error'], label='mape')
+    # plt.plot(history.history['cosine_proximity'], label='cosine')
+    plt.legend()
+    plt.show()
 
 
 def timeit(method):

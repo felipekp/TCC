@@ -67,6 +67,7 @@ def remove_other_site_cols(df, site):
 def decision_tree(dataset, default_target, target_dataset, timesteps, col_names, extracted_output_path):
     logger.info('Decision Tree Classifier')
 
+    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0. This is actually only used inside Decision Tree for now.
     temp_target_dataset = pd.DataFrame(target_dataset)
     target_bin_dataset = np.where(temp_target_dataset.values >= 0.07, 1, 0).astype('int')
     target_bin_dataset = target_bin_dataset.reshape(-1, 1)
@@ -241,7 +242,6 @@ def extract_features(p_start_year, p_end_year, algs_to_use, county, extracted_in
     default_col = 'target_t+0'
     target_dataset = pd.DataFrame(df.pop(target_col))
     default_target = pd.DataFrame(df.pop(default_col))
-    # ----- modifies the target column so when its above standard (0.07) its 1 and else 0. This is actually only used inside Decision Tree for now.
 
     print 'Total parameters/columns:', len(df.columns)-1
     print 'The target parameter is:', target_col

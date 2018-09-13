@@ -7,7 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 import utils.utils as utils
 
 @utils.timeit
-def mlp_create(epochs, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', train_split=0.8):
+def mlp_create(epochs, predict_var, time_steps, filename, normalize_X, optimizer='nadam', testtrainlossgraph=False, batch_size=512, loss_function='mse', metrics=['mse', 'mae', 'mape', 'cosine'], train_split=0.8):
     # 8haverage-merged_2000-2016
     # fix random seed for reproducibility
     np.random.seed(7)
@@ -44,7 +44,7 @@ def mlp_create(epochs, predict_var, time_steps, filename, normalize_X, optimizer
     model = utils.createnet_mlp1(trainX)
 
     # compiles the model
-    model.compile(loss=loss_function, optimizer=optimizer)
+    model.compile(loss=loss_function, optimizer=optimizer, metrics=metrics)
 
     # fits the model
     # history = model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size)
@@ -68,7 +68,6 @@ def mlp_create(epochs, predict_var, time_steps, filename, normalize_X, optimizer
 
     # calculates MAE
     utils.calculate_MAE(trainY, trainPredict, testY, testPredict)
-
     # calculates RMSE
     utils.calculate_RMSE(trainY, trainPredict, testY, testPredict)
     # calculates NRMSE
@@ -76,5 +75,8 @@ def mlp_create(epochs, predict_var, time_steps, filename, normalize_X, optimizer
 
     # creates graph with real test data and the predicted data
     utils.create_realpredict_graph(testY, testPredict)
+
+    # creates graph with new metrics
+    utils.plot_metrics(history)
 
 

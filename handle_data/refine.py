@@ -37,7 +37,7 @@ def handle_outliers(df):
 
 def calc_dispersion_missing(df):
     """
-        Calculates dispersion of missing data and interpolates for small and medium gaps (small 0 to 10 gaps, medium 10 to 365 gaps, large 365+ days). Also sets True to a flag if it was not possible to fill missing values with small and medium methods.
+        Calculates dispersion of missing data and interpolates for small and medium gaps. Also sets True to a flag if it was not possible to fill missing values with small and medium methods.
         :param df: pandas dataframe with date and other values from parameters
         :return: tuple with: modified dataframe or not and a flag saying if the given column/dataframe should be deleted or not (True deletes the column because there is not enough data for interpolate and False means the column contains data for all days)
     """
@@ -48,7 +48,7 @@ def calc_dispersion_missing(df):
     if new_df.max().astype(int) > 365:
         # print new_df.max()
         logger.critical(
-            'LARGE. Cannot interpolate because max size is over 365 (bigger gap is over 365 days)')
+            'LARGE. Cannot interpolate because max size is over 365 (bigger gap is over 365)')
         return df, True
 
     logger.warning(
@@ -80,7 +80,7 @@ def calc_dispersion_missing(df):
 
 def workaround_interpolate(df):
     """
-        Loops over all columns and substitutes or deletes it based if the calc_dispersion_missing function was able to interpolate the gaps
+        Loops over all columns and substitutes or deletes it based if the calc_dispersion_missing function was able to interpolate the gaps.
         Based on this: https://stackoverflow.com/questions/32850185/change-value-if-consecutive-number-of-certain-condition-is-achieved-in-pandas
         :param df: pandas dataframe with date and other values from parameters
         :return: modified dataframe with all columns that were interpolated (only complete data gets returned here)
